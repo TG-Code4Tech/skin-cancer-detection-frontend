@@ -1,0 +1,21 @@
+@import url("fonts.css");
+@import url("colors.css");
+
+html {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+body {
+    color: var(--text);
+    background: var(--neutral-100);
+    font-family: "Roboto", ui-sans-serif, -apple-system, system-ui, Helvetica, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    word-spacing: 0.16em;
+}
+
+body.dark-mode {
+    color: var(--text-light);
+    background: var(--dark-neutral-100);
+}
