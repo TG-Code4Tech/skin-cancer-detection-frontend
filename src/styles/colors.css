@@ -1,0 +1,105 @@
+:root {
+    /* brand colors */
+    --brand-100: #e6f2f4;
+    --brand-200: #b0d8dc;
+    --brand-300: #8ac5cb;
+    --brand-400: #54abb4;
+    --brand-500: #339aa5;
+    --brand-600: #00818f;
+    --brand-700: #007582;
+    --brand-800: #005c66;
+    --brand-900: #00474f;
+    --brand-1000: #00363c;
+
+    /* green colors */
+    --green-100: #eefbf6;
+    --green-200: #bcf0dc;
+    --green-300: #8ae5c2;
+    --green-400: #58daa8;
+    --green-500: #2cc98d;
+    --green-600: #21976a;
+    --green-700: #1d865e;
+    --green-800: #166446;
+    --green-900: #0f432f;
+    --green-1000: #0b3223;
+
+    /* red colors */
+    --red-100: #fcedec;
+    --red-200: #f6c6c3;
+    --red-300: #f2aba6;
+    --red-400: #ec847d;
+    --red-500: #e86d64;
+    --red-600: #e2483d;
+    --red-700: #ce4238;
+    --red-800: #a0332b;
+    --red-900: #7c2822;
+    --red-1000: #5f1e1a;
+
+    /* yellow colors */
+    --yellow-100: #fef8eb;
+    --yellow-200: #fde9c4;
+    --yellow-300: #fbda9d;
+    --yellow-400: #f8c462;
+    --yellow-500: #f7b538;
+    --yellow-600: #f5a614;
+    --yellow-700: #d78f09;
+    --yellow-800: #c48208;
+    --yellow-900: #9d6807;
+    --yellow-1000: #624104;
+
+    /* blue colors */
+    --blue-100: #e8f2ff;
+    --blue-200: #b9d6fe;
+    --blue-300: #97c2fe;
+    --blue-400: #68a6fd;
+    --blue-500: #4a95fd;
+    --blue-600: #1d7afc;
+    --blue-700: #1a6fe5;
+    --blue-800: #1557b3;
+    --blue-900: #10438b;
+    --blue-1000: #0c336a;
+
+    /* neutral colors */
+    --neutral-100: #ffffff;
+    --neutral-200: #f4f4f4;
+    --neutral-300: #eaeaea;
+    --neutral-400: #dfdfdf;
+    --neutral-500: #d4d4d4;
+    --neutral-600: #b8b8b8;
+    --neutral-700: #757575;
+    --neutral-800: #616161;
+    --neutral-900: #424242;
+    --neutral-1000: #212121;
+
+    /* neutral colors with alpha channel */
+    --neutral-100-a: rgba(33, 33, 33, 0.03);
+    --neutral-200-a: rgba(33, 33, 33, 0.06);
+    --neutral-300-a: rgba(33, 33, 33, 0.14);
+    --neutral-400-a: rgba(33, 33, 33, 0.31);
+    --neutral-500-a: rgba(33, 33, 33, 0.49);
+
+    /* text */
+    --text: #212121;
+
+    /* text - dark mode */
+    --text-light: #ffffff;
+
+    /* neutral colors - dark mode */
+    --dark-neutral-100: #212121;
+    --dark-neutral-200: #303030;
+    --dark-neutral-300: #424242;
+    --dark-neutral-400: #616161;
+    --dark-neutral-500: #757575;
+    --dark-neutral-600: #9e9e9e;
+    --dark-neutral-700: #d4d4d4;
+    --dark-neutral-800: #dfdfdf;
+    --dark-neutral-900: #eaeaea;
+    --dark-neutral-1000: #f4f4f4;
+
+    /* neutral colors with alpha channel - dark mode */
+    --dark-neutral-100-a: rgba(90, 90, 90, 0.08);
+    --dark-neutral-200-a: rgba(105, 105, 105, 0.12);
+    --dark-neutral-300-a: rgba(125, 125, 125, 0.16);
+    --dark-neutral-400-a: rgba(132, 132, 132, 0.28);
+    --dark-neutral-500-a: rgba(255, 255, 255, 0.15);
+}
