@@ -78,12 +78,6 @@
     --neutral-400-a: rgba(33, 33, 33, 0.31);
     --neutral-500-a: rgba(33, 33, 33, 0.49);
 
-    /* text */
-    --text: #212121;
-
-    /* text - dark mode */
-    --text-light: #ffffff;
-
     /* neutral colors - dark mode */
     --dark-neutral-100: #212121;
     --dark-neutral-200: #303030;

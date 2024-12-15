@@ -1,0 +1,29 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--footer-background);
+    width: 100dvw;
+}
+
+.footerContent {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.footerSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex-grow: 1;
+}
+
+.linkList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

@@ -1,0 +1,87 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+    width: 100dvw;
+}
+
+.topNavigation {
+    width: 100%;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.linkListTop {
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
+    column-gap: 1.5rem;
+    align-items: center;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0.75rem;
+}
+
+.bottomNavigation {
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+.linkListBottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0.75rem;
+}
+
+.linkWithIcon {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.accountListItem span {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .topNavigation {
+        box-shadow: initial;
+    }
+
+    .bottomNavigation {
+        display: block;
+        width: 100%;
+        background-color: var(--navigation-background);
+    }
+
+    .accountListItem span {
+        display: flex;
+    }
+
+    .menuButton {
+        display: none;
+    }
+
+    .linkListTop {
+        column-gap: initial;
+    }
+
+    .linkListTop li:last-child {
+        display: none;
+    }
+
+    .linkListBottom {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        max-width: 1260px;
+        margin: 0 auto;
+        padding: 0.75rem;
+    }
+}

@@ -1,0 +1,23 @@
+.headingSm {
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+    font-weight: 700;
+}
+
+.headingMd {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+}
+
+.headingLg {
+    font-size: 1.75rem;
+    line-height: 2.625rem;
+    font-weight: 700;
+}
+
+.headingXl {
+    font-size: 2rem;
+    line-height: 3rem;
+    font-weight: 700;
+}

@@ -1,0 +1,64 @@
+.sleekLink {
+    color: var(--sleek-link-color);
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.sleekLink:hover {
+    text-decoration: underline;
+}
+
+.sleekLink:active {
+    color: var(--sleek-link-color-active);
+    text-decoration: underline;
+}
+
+.sleekLink:visited {
+    color: var(--sleek-link-color-visited);
+}
+
+.subtleLink {
+    color: var(--subtle-link-color);
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.subtleLink:hover {
+    text-decoration: underline;
+}
+
+.subtleLink:active {
+    color: var(--subtle-link-color-active);
+    text-decoration: underline;
+}
+
+.subtleLink:visited {
+    color: var(--subtle-link-color-visited);
+}
+
+.defaultLink {
+    color: var(--default-link-color);
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit;
+}
+
+.defaultLink:hover {
+    text-decoration: none;
+}
+
+.defaultLink:active {
+    color: var(--default-link-color-active);
+    text-decoration: none;
+}
+
+.defaultLink:visited {
+    color: var(--default-link-color-visited);
+}
+
+.linkWithIcon {
+    display: flex;
+    gap: 0.5rem;
+}
