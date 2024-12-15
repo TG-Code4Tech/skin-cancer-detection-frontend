@@ -1,5 +1,6 @@
 @import url("fonts.css");
 @import url("colors.css");
+@import url("tokens.css");
 
 html {
     font-size: 16px;
@@ -7,15 +8,51 @@ html {
 }
 
 body {
-    color: var(--text);
-    background: var(--neutral-100);
+    margin: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
     font-family: "Roboto", ui-sans-serif, -apple-system, system-ui, Helvetica, sans-serif;
     font-size: 1rem;
     letter-spacing: 0.12em;
     word-spacing: 0.16em;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
 }
 
-body.dark-mode {
-    color: var(--text-light);
-    background: var(--dark-neutral-100);
+main {
+    flex-grow: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: var(--text-color);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+}
+
+a:focus,
+button:focus {
+    outline: 0.1875rem solid var(--outline-color);
+    border-radius: 0.25rem;
 }
