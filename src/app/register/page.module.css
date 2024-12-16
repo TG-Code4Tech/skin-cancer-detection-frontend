@@ -1,0 +1,83 @@
+.container {
+    padding: 2.5rem 1rem;
+    width: 100%;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.inputFields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.labelInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.required {
+    color: var(--required-indicator);
+}
+
+.customDivider {
+    margin-top: 0.75rem !important;
+}
+
+.secondarySection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.passwordPolicies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.passwordPolicy {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.passwordPolicyIndicator {
+    height: 0.9375rem;
+    width: 0.9375rem;
+    border-radius: 50%;
+    background-color: var(--input-color);
+    margin-left: 0.125rem;
+}
+
+.defaultText {
+    color: var(--input-color);
+}
+
+.errorText {
+    color: var(--text-color-error);
+}
+
+.successText {
+    color: var(--text-color-success);
+}
+
+.loginLink {
+    width: fit-content;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 630px;
+    }
+}

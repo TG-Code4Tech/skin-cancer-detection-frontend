@@ -1,0 +1,60 @@
+.container {
+    padding: 2.5rem 1rem;
+    width: 100%;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.inputFields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.labelInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.required {
+    color: var(--required-indicator);
+}
+
+.passwordPolicy {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.errorText {
+    color: var(--text-color-error);
+}
+
+.customDivider {
+    margin-top: 0.75rem !important;
+}
+
+.secondarySection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.registrationLink {
+    width: fit-content;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 630px;
+    }
+}

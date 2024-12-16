@@ -9,8 +9,7 @@ interface RootLayoutProps {
 
 export const metadata: Metadata = {
     title: "Skin Cancer Detection",
-    description:
-        "Skin Cancer Detection ist eine Webanwendung zur Hautkrebsanalyse",
+    description: "Skin Cancer Detection ist eine Webanwendung zur Hautkrebsanalyse",
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -18,7 +17,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <html lang="de">
             <body>
                 <Header />
-                {children}
+                <main>{children}</main>
                 <Footer />
             </body>
         </html>

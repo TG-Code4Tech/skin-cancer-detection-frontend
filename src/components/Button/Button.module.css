@@ -1,0 +1,100 @@
+.button {
+    padding: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.defaultButton {
+    background-color: var(--default-button-background);
+    color: var(--default-button-color);
+}
+
+.defaultButton:hover {
+    background-color: var(--default-button-background-hover);
+}
+
+.defaultButton:active {
+    background-color: var(--default-button-background-active);
+}
+
+.defaultButton:disabled {
+    background-color: var(--default-button-background-disabled);
+    color: var(--default-button-color-disabled);
+}
+
+.primaryButton {
+    background-color: var(--primary-button-background);
+    color: var(--primary-button-color);
+}
+
+.primaryButton:hover {
+    background-color: var(--primary-button-background-hover);
+}
+
+.primaryButton:active {
+    background-color: var(--primary-button-background-active);
+}
+
+.primaryButton:focus {
+    outline: 0.1875rem solid var(--primary-button-focus-outline);
+}
+
+.primaryButton:disabled {
+    background-color: var(--default-button-background-disabled);
+    color: var(--default-button-color-disabled);
+}
+
+.secondaryButton {
+    background-color: var(--secondary-button-background);
+    color: var(--secondary-button-color);
+}
+
+.secondaryButton:hover {
+    background-color: var(--secondary-button-background-hover);
+}
+
+.secondaryButton:active {
+    background-color: var(--secondary-button-background-active);
+}
+
+.secondaryButton:disabled {
+    background-color: var(--default-button-background-disabled);
+    color: var(--default-button-color-disabled);
+}
+
+.warningButton {
+    background-color: var(--warning-button-background);
+    color: var(--warning-button-color);
+}
+
+.warningButton:hover {
+    background-color: var(--warning-button-background-hover);
+}
+
+.warningButton:active {
+    background-color: var(--warning-button-background-active);
+}
+
+.warningButton:disabled {
+    background-color: var(--default-button-background-disabled);
+    color: var(--default-button-color-disabled);
+}
+
+.dangerButton {
+    background-color: var(--danger-button-background);
+    color: var(--danger-button-color);
+}
+
+.dangerButton:hover {
+    background-color: var(--danger-button-background-hover);
+}
+
+.dangerButton:active {
+    background-color: var(--danger-button-background-active);
+}
+
+.dangerButton:disabled {
+    background-color: var(--default-button-background-disabled);
+    color: var(--default-button-color-disabled);
+}
