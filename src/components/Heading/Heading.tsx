@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./Heading.module.css";
 
+type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type HeadingVariant = "sm" | "md" | "lg" | "xl";
+
 const variantStyles = {
     sm: {
         headingStyle: styles.headingSm,
@@ -16,12 +19,9 @@ const variantStyles = {
     },
 };
 
-type headingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-type headingVariant = "sm" | "md" | "lg" | "xl";
-
 interface HeadingProps {
-    as: headingLevel;
-    variant: headingVariant;
+    as: HeadingLevel;
+    variant: HeadingVariant;
     headingText: string;
 }
 

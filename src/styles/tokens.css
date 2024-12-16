@@ -1,5 +1,7 @@
 :root {
     --text-color: var(--neutral-1000);
+    --text-color-error: var(--red-800);
+    --text-color-success: var(--green-800);
     --background-color: var(--neutral-100);
     --background-color-accent: var(--neutral-200);
     --navigation-background: var(--neutral-400);
@@ -15,10 +17,46 @@
     --sleek-link-color-visited: var(--brand-1000);
     --footer-background: var(--neutral-500);
     --border-color: var(--neutral-700);
+    --label-color: var(--neutral-800);
+    --input-color: var(--neutral-800);
+    --required-indicator: var(--red-800);
+    --input-border: var(--neutral-800);
+    --input-background: var(--neutral-100);
+    --default-button-color: var(--neutral-1000);
+    --default-button-background: var(--neutral-200-a);
+    --default-button-background-hover: var(--neutral-300-a);
+    --default-button-background-active: var(--neutral-400-a);
+    --default-button-background-disabled: var(--neutral-100-a);
+    --default-button-color-disabled: var(--neutral-400-a);
+
+    --primary-button-color: var(--neutral-100);
+    --primary-button-background: var(--brand-700);
+    --primary-button-background-hover: var(--brand-800);
+    --primary-button-background-active: var(--brand-900);
+    --primary-button-focus-outline: var(--brand-1000);
+
+    --secondary-button-color: var(--neutral-1000);
+    --secondary-button-background: transparent;
+    --secondary-button-background-hover: var(--neutral-200-a);
+    --secondary-button-background-active: var(--neutral-300-a);
+
+    --warning-button-color: var(--neutral-1000);
+    --warning-button-background: var(--yellow-700);
+    --warning-button-background-hover: var(--yellow-800);
+    --warning-button-background-active: var(--yellow-900);
+
+    --danger-button-color: var(--neutral-100);
+    --danger-button-background: var(--red-700);
+    --danger-button-background-hover: var(--red-800);
+    --danger-button-background-active: var(--red-900);
+
+    --divider-color: var(--neutral-800);
 }
 
 body[dark-mode] {
     --text-color: var(--dark-neutral-1000);
+    --text-color-error: var(--red-400);
+    --text-color-success: var(--green-300);
     --background-color: var(--dark-neutral-100);
     --background-color-accent: var(--dark-neutral-200);
     --navigation-background: var(--dark-neutral-300);
@@ -34,4 +72,38 @@ body[dark-mode] {
     --sleek-link-color-visited: var(--brand-200);
     --footer-background: var(--dark-neutral-200);
     --border-color: var(--dark-neutral-700);
+    --label-color: var(--dark-neutral-800);
+    --input-color: var(--dark-neutral-800);
+    --required-indicator: var(--red-400);
+    --input-border: var(--dark-neutral-800);
+    --input-background: var(--dark-neutral-100);
+    --default-button-color: var(--dark-neutral-1000);
+    --default-button-background: var(--dark-neutral-100-a);
+    --default-button-background-hover: var(--dark-neutral-300-a);
+    --default-button-background-active: var(--dark-neutral-400-a);
+    --default-button-background-disabled: var(--dark-neutral-100-a);
+    --default-button-color-disabled: var(--dark-neutral-400-a);
+
+    --primary-button-color: var(--dark-neutral-100);
+    --primary-button-background: var(--brand-400);
+    --primary-button-background-hover: var(--brand-300);
+    --primary-button-background-active: var(--brand-200);
+    --primary-button-focus-outline: var(--brand-100);
+
+    --secondary-button-color: var(--dark-neutral-100-a);
+    --secondary-button-background: transparent;
+    --secondary-button-background-hover: var(--dark-neutral-100-a);
+    --secondary-button-background-active: var(--dark-neutral-300-a);
+
+    --warning-button-color: var(--dark-neutral-100);
+    --warning-button-background: var(--yellow-400);
+    --warning-button-background-hover: var(--yellow-300);
+    --warning-button-background-active: var(--yellow-200);
+
+    --danger-button-color: var(--dark-neutral-100);
+    --danger-button-background: var(--red-400);
+    --danger-button-background-hover: var(--red-300);
+    --danger-button-background-active: var(--red-200);
+
+    --divider-color: var(--dark-neutral-800);
 }
