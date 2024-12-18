@@ -46,7 +46,6 @@ const Login = () => {
                 const response = await fetch("http://127.0.0.1:5000/login", {
                     method: "POST",
                     body: formData,
-                    credentials: "include",
                 });
 
                 if (response.ok) {
@@ -54,7 +53,7 @@ const Login = () => {
                     console.log("Logged in successfully:", data);
                     const { jwt_access_token } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
-                    router.push("/");
+                    router.push("/account/profile");
                 } else {
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({

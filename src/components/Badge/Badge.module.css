@@ -1,0 +1,19 @@
+.badge {
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.badgeDefault {
+    background-color: var(--badge-color-default);
+    color: var(--text-color);
+}
+
+.badgePrimary {
+    background-color: var(--badge-color-primary);
+    color: var(--text-color-inverted);
+}
+
+.badgeImportant {
+    background-color: var(--badge-color-important);
+    color: var(--text-color-inverted);
+}

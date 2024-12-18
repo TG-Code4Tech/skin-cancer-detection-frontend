@@ -1,0 +1,18 @@
+.linksList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.listItem {
+    padding: 0.625rem 1rem;
+    width: 100%;
+}
+
+.activeListItem {
+    padding: 0.625rem 1rem;
+    background-color: var(--active-list-item-background);
+    border-left: 0.125rem solid var(--border-color-brand);
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
