@@ -1,0 +1,28 @@
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.caption {
+    caption-side: bottom;
+    padding: 0 0.25rem;
+    border-radius: 0.25rem;
+    margin: 1rem auto;
+}
+
+.tableHead {
+    background-color: var(--background-color-level-3);
+}
+
+.tableHeader {
+    padding: 1rem;
+    text-align: left;
+}
+
+.tableRow {
+    border-bottom: 0.0625rem solid var(--border-color-light);
+}
+
+.tableData {
+    padding: 0 1rem;
+}

@@ -9,4 +9,6 @@ export enum IconColor {
     successDarkMode = "#8ae5c2",
     error = "#a0332b",
     errorDarkMode = "#ec847d",
+    warning = "#9d6807",
+    warningDarkMode = "#f8c462",
 }

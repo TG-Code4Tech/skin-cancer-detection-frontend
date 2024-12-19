@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
+    overflow-y: scroll;
 }
 
 main {
@@ -64,6 +65,16 @@ button:focus,
 input:focus {
     outline: 0.1875rem solid var(--outline-color);
     border-radius: 0.25rem;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    margin-bottom: 1rem;
 }
 
 label {

@@ -17,14 +17,16 @@ const variantStyles = {
 
 interface TextProps {
     variant: TextVariant;
-    text: string;
+    text?: string;
+    children?: React.ReactNode;
     classname?: string;
 }
 
-const Text = ({ variant, text, classname = "" }: TextProps) => {
+const Text = ({ variant, text, children, classname = "" }: TextProps) => {
     const { textStyle } = variantStyles[variant];
+    const textContent = text || children;
 
-    return <p className={`${textStyle} ${classname}`}>{text}</p>;
+    return <p className={`${textStyle} ${classname}`}>{textContent}</p>;
 };
 
 export default Text;

@@ -22,25 +22,28 @@ const variantStyles = {
 interface HeadingProps {
     as: HeadingLevel;
     variant: HeadingVariant;
-    headingText: string;
+    headingText?: string;
+    children?: React.ReactNode;
+    classname?: string;
 }
 
-const Heading = ({ as, variant, headingText }: HeadingProps) => {
+const Heading = ({ as, variant, headingText, children, classname = "" }: HeadingProps) => {
     const { headingStyle } = variantStyles[variant];
+    const headingContent = headingText || children;
 
     switch (as) {
         case "h1":
-            return <h1 className={headingStyle}>{headingText}</h1>;
+            return <h1 className={`${headingStyle} ${classname}`}>{headingContent}</h1>;
         case "h2":
-            return <h2 className={headingStyle}>{headingText}</h2>;
+            return <h2 className={`${headingStyle} ${classname}`}>{headingContent}</h2>;
         case "h3":
-            return <h3 className={headingStyle}>{headingText}</h3>;
+            return <h3 className={`${headingStyle} ${classname}`}>{headingContent}</h3>;
         case "h4":
-            return <h4 className={headingStyle}>{headingText}</h4>;
+            return <h4 className={`${headingStyle} ${classname}`}>{headingContent}</h4>;
         case "h5":
-            return <h5 className={headingStyle}>{headingText}</h5>;
+            return <h5 className={`${headingStyle} ${classname}`}>{headingContent}</h5>;
         case "h6":
-            return <h6 className={headingStyle}>{headingText}</h6>;
+            return <h6 className={`${headingStyle} ${classname}`}>{headingContent}</h6>;
         default:
             return null;
     }
