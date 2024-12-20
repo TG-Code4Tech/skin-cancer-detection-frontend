@@ -1,0 +1,62 @@
+.container {
+    padding: 2.5rem 1rem;
+    width: 100%;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.uploadSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.uploadArea {
+    display: flex;
+    gap: 1rem;
+    box-shadow: 0 0 10px var(--neutral-300-a);
+    padding: 0.5rem;
+    align-items: center;
+    border: 0.0625rem var(--neutral-300);
+}
+
+.uploadIcon {
+    margin-top: -0.25rem;
+}
+
+.fileLabel {
+    position: relative;
+    background-color: var(--default-button-background);
+    color: var(--default-button-color);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.fileLabel:hover {
+    background-color: var(--default-button-background-hover);
+}
+
+.fileInput {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    padding: 0;
+}
+
+.fileName {
+    flex-grow: 1;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 630px;
+    }
+}
