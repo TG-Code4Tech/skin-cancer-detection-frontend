@@ -24,13 +24,14 @@ const variantStyles = {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: ButtonVariant;
     buttonText: string;
+    className?: string;
 }
 
-const Button = ({ variant, buttonText, ...props }: ButtonProps) => {
+const Button = ({ variant, buttonText, className = "", ...props }: ButtonProps) => {
     const { buttonStyle } = variantStyles[variant];
 
     return (
-        <button className={`${styles.button} ${buttonStyle}`} {...props}>
+        <button className={`${styles.button} ${buttonStyle} ${className}`} {...props}>
             {buttonText}
         </button>
     );

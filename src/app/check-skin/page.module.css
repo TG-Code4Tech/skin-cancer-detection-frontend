@@ -4,10 +4,10 @@
     justify-self: center;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-.uploadSection {
+.section {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -36,7 +36,8 @@
     border-radius: 0.25rem;
 }
 
-.fileLabel:hover {
+.fileLabel:hover,
+.fileLabel:active {
     background-color: var(--default-button-background-hover);
 }
 
@@ -53,6 +54,28 @@
 
 .fileName {
     flex-grow: 1;
+}
+
+.analysisSection {
+    display: flex;
+    gap: 1rem;
+}
+
+.deleteSkinLesionArea {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border: 0.0625rem solid var(--border-color-light);
+    padding: 1rem;
+}
+
+.fileSize {
+    flex-grow: 1;
+    color: var(--subtle-link-color);
+}
+
+.analyzeButton {
+    width: fit-content;
 }
 
 @media screen and (min-width: 768px) {
