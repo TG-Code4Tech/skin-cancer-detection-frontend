@@ -1,22 +1,29 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import Image from "next/image";
 import Heading from "@/components/Heading/Heading";
 import styles from "./page.module.css";
 import Button from "@/components/Button/Button";
 import Divider from "@/components/Divider/Divider";
-import Link from "@/components/Link/Link";
 import Text from "@/components/Text/Text";
 import Icon from "@/components/Icon/Icon";
 import Badge from "@/components/Badge/Badge";
 import IconButton from "@/components/IconButton/IconButton";
 import { getCookie } from "@/utils/cookie";
+import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
+
+interface AnalysisResult {
+    prediction: string;
+    confidence: number;
+    recommendation?: string;
+}
 
 const CheckSkin = () => {
     const [skinLesionImage, setSkinLesionImage] = useState<File | null>(null);
     const [skinLesionThumbnail, setSkinLesionThumbnail] = useState<string | null>(null);
+    const [showAnalysisResult, setShowAnalysisResult] = useState(false);
+    const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
     const onSkinLesionUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -53,9 +60,6 @@ const CheckSkin = () => {
 
             if (saveResponse.ok) {
                 const data = await saveResponse.json();
-                console.log("Upload-Ergebnis:", data);
-
-                // Bild nach Upload analysieren
                 const imageId = data.image_id;
                 formData.append("image_id", imageId);
 
@@ -69,7 +73,8 @@ const CheckSkin = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Analyseergebnis:", data);
+                    setAnalysisResult(data);
+                    setShowAnalysisResult(true);
                 } else {
                     console.error("Fehler bei der Analyse:", response.statusText);
                 }
@@ -83,37 +88,43 @@ const CheckSkin = () => {
 
     return (
         <div className={styles.container}>
-            <Heading as="h1" variant="md" headingText="Analysieren Sie Ihre Hautläsion" />
+            <Heading
+                as="h1"
+                variant="md"
+                headingText={showAnalysisResult ? "Ihr Analyseergebnis" : "Analysieren Sie Ihre Hautläsion"}
+            />
 
-            <section className={styles.section}>
-                <Heading as="h2" variant="sm" headingText="Hautläsion hochladen" />
-                <div className={styles.uploadArea}>
-                    <Icon name="upload-image" size={24} color="subtle" classname={styles.uploadIcon} />
-                    <Text
-                        variant="md"
-                        text={skinLesionImage ? skinLesionImage.name : "Keine Datei ausgewählt"}
-                        classname={styles.fileName}
-                    />
-
-                    <label htmlFor="upload-skin-lesion" className={styles.fileLabel}>
-                        <span>Datei auswählen</span>
-                        <input
-                            aria-label="Datei auswählen"
-                            type="file"
-                            id="upload-skin-lesion"
-                            accept=".jpg,.jpeg,.png"
-                            className={styles.fileInput}
-                            onChange={onSkinLesionUpload}
+            {!showAnalysisResult && (
+                <section className={styles.section}>
+                    <Heading as="h2" variant="sm" headingText="Hautläsion hochladen" />
+                    <div className={styles.uploadArea}>
+                        <Icon name="upload-image" size={24} color="subtle" classname={styles.uploadIcon} />
+                        <Text
+                            variant="md"
+                            text={skinLesionImage ? skinLesionImage.name : "Keine Datei ausgewählt"}
+                            classname={styles.fileName}
                         />
-                    </label>
-                </div>
-                <Text variant="sm">
-                    Folgende Datentypen sind erlaubt: <Badge variant="default" text=".jpg" />,
-                    <Badge variant="default" text=".jpeg" />,<Badge variant="default" text=".png" />
-                </Text>
-            </section>
 
-            {skinLesionThumbnail && (
+                        <label htmlFor="upload-skin-lesion" className={styles.fileLabel}>
+                            <span>Datei auswählen</span>
+                            <input
+                                aria-label="Datei auswählen"
+                                type="file"
+                                id="upload-skin-lesion"
+                                accept=".jpg,.jpeg,.png"
+                                className={styles.fileInput}
+                                onChange={onSkinLesionUpload}
+                            />
+                        </label>
+                    </div>
+                    <Text variant="sm">
+                        Folgende Datentypen sind erlaubt: <Badge variant="default" text=".jpg" />,
+                        <Badge variant="default" text=".jpeg" />,<Badge variant="default" text=".png" />
+                    </Text>
+                </section>
+            )}
+
+            {!showAnalysisResult && skinLesionThumbnail && (
                 <>
                     <Divider />
 
@@ -155,14 +166,50 @@ const CheckSkin = () => {
                             />
                         </div>
 
-                        <Button
-                            variant="primary"
-                            buttonText="Analyse starten"
-                            className={styles.analyzeButton}
-                            onClick={onAnalyzeSkinLesion}
-                        />
+                        <Button variant="primary" buttonText="Analyse starten" onClick={onAnalyzeSkinLesion} />
                     </section>
                 </>
+            )}
+
+            {showAnalysisResult && analysisResult && (
+                <section className={styles.section}>
+                    <div className={styles.resultItem}>
+                        <Heading as="h2" variant="sm" headingText="Diagnose:" />
+                        <Badge
+                            variant={analysisResult.prediction === "benign" ? "benign" : "malignant"}
+                            text={analysisResult.prediction}
+                            className={styles.badge}
+                        />
+                    </div>
+                    <div className={styles.resultItem}>
+                        <Heading as="h2" variant="sm" headingText="Konfidenzwert:" />
+                        <ProgressCircle
+                            progress={analysisResult.confidence}
+                            aria-label={`Konfidenzwert: ${analysisResult.confidence} Prozent`}
+                        />
+                    </div>
+                    <div className={styles.resultItem}>
+                        <Heading as="h2" variant="sm" headingText="Empfehlung:" />
+                        <Text
+                            variant="md"
+                            text={
+                                analysisResult.recommendation
+                                    ? analysisResult.recommendation
+                                    : "Ihre Hautläsion wurde von dem Modell als unbedenklich eingestuft. Bitte konsultieren Sie dennoch einen Dermatologen, um eine verbindliche Diagnose zu erhalten. Hier können Sie mehr über unser Modell erfahren."
+                            }
+                        />
+                    </div>
+                    <Button
+                        variant="primary"
+                        buttonText="Neue Analyse starten"
+                        onClick={() => {
+                            setSkinLesionImage(null);
+                            setSkinLesionThumbnail(null);
+                            setShowAnalysisResult(false);
+                            setAnalysisResult(null);
+                        }}
+                    />
+                </section>
             )}
         </div>
     );
