@@ -67,6 +67,12 @@
     --badge-color-default: var(--neutral-200-a);
     --badge-color-primary: var(--brand-700);
     --badge-color-important: var(--red-800);
+    --badge-color-benign: var(--green-200);
+    --badge-text-color-benign: var(--green-800);
+    --badge-border-color-benign: var(--green-800);
+    --badge-color-malignant: var(--red-200);
+    --badge-text-color-malignant: var(--red-800);
+    --badge-border-color-malignant: var(--red-800);
 }
 
 body[dark-mode] {
@@ -136,4 +142,10 @@ body[dark-mode] {
     --badge-color-default: var(--dark-neutral-200-a);
     --badge-color-primary: var(--brand-400);
     --badge-color-important: var(--red-300);
+    --badge-color-benign: var(--green-1000);
+    --badge-text-color-benign: var(--green-500);
+    --badge-border-color-benign: var(--green-500);
+    --badge-color-malignant: var(--red-1000);
+    --badge-text-color-malignant: var(--red-400);
+    --badge-border-color-malignant: var(--red-400);
 }

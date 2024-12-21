@@ -17,3 +17,17 @@
     background-color: var(--badge-color-important);
     color: var(--text-color-inverted);
 }
+
+.badgeBenign {
+    background-color: var(--badge-color-benign);
+    color: var(--badge-text-color-benign);
+    border: 0.125rem solid var(--badge-border-color-benign);
+    font-weight: 500;
+}
+
+.badgeMalignant {
+    background-color: var(--badge-color-malignant);
+    color: var(--badge-text-color-malignant);
+    border: 0.125rem solid var(--badge-border-color-malignant);
+    font-weight: 500;
+}

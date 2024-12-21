@@ -74,8 +74,18 @@
     color: var(--subtle-link-color);
 }
 
-.analyzeButton {
-    width: fit-content;
+.resultItem {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    display: flex;
+    width: 104px;
+    justify-content: center;
 }
 
 @media screen and (min-width: 768px) {
