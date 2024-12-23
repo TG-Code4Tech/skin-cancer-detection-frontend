@@ -55,13 +55,13 @@ const Link = ({
             return (
                 <a href={href} className={`${linkStyle} ${styles.linkWithIcon} ${className}`} {...rest}>
                     <Icon name={iconName} size={iconSize} color={iconColor} />
-                    <span>{linkText}</span>
+                    <span className={className}>{linkText}</span>
                 </a>
             );
         case "right":
             return (
                 <a href={href} className={`${linkStyle} ${styles.linkWithIcon} ${className}`} {...rest}>
-                    <span>{linkText}</span>
+                    <span className={className}>{linkText}</span>
                     <Icon name={iconName} size={iconSize} color={iconColor} />
                 </a>
             );
