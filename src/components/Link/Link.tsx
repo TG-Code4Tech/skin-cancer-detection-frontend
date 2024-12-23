@@ -26,6 +26,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     iconColor?: keyof typeof IconColor;
     iconPosition?: IconPosition;
     mode?: LinkMode;
+    className?: string;
 }
 
 const Link = ({
@@ -36,13 +37,14 @@ const Link = ({
     iconColor = "default",
     iconPosition = "left",
     mode = "default",
+    className = "",
     ...rest
 }: LinkProps) => {
     const { linkStyle } = modeStyles[mode] || modeStyles.default;
 
     if (!iconName) {
         return (
-            <a href={href} className={linkStyle} {...rest}>
+            <a href={href} className={`${linkStyle} ${className}`} {...rest}>
                 {linkText}
             </a>
         );
@@ -51,14 +53,14 @@ const Link = ({
     switch (iconPosition) {
         case "left":
             return (
-                <a href={href} className={`${linkStyle} ${styles.linkWithIcon}`} {...rest}>
+                <a href={href} className={`${linkStyle} ${styles.linkWithIcon} ${className}`} {...rest}>
                     <Icon name={iconName} size={iconSize} color={iconColor} />
                     <span>{linkText}</span>
                 </a>
             );
         case "right":
             return (
-                <a href={href} className={`${linkStyle} ${styles.linkWithIcon}`} {...rest}>
+                <a href={href} className={`${linkStyle} ${styles.linkWithIcon} ${className}`} {...rest}>
                     <span>{linkText}</span>
                     <Icon name={iconName} size={iconSize} color={iconColor} />
                 </a>

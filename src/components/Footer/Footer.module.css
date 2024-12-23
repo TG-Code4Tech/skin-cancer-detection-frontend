@@ -7,23 +7,43 @@
 
 .footerContent {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
 }
 
-.footerSection {
+.footerSection,
+.footerSectionGrow {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+.footerSectionGrow {
     flex-grow: 1;
+    min-width: fit-content;
 }
 
 .linkList {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footerLink {
+    color: var(--text-color-inverted) !important;
+}
+
+@media screen and (min-width: 768px) {
+    .footerContent {
+        flex-direction: row;
+    }
+
+    .linkList {
+        flex-direction: row;
+    }
 }
