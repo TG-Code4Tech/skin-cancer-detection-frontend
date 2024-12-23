@@ -95,7 +95,10 @@ const AnalysesTable = ({ caption, tableBodyRows }: AnalysesTableProps) => {
                             {new Date(analysis.analysis_date).toLocaleDateString()}
                         </td>
                         <td key={`diagnosis-${index}`} className={styles.tableData}>
-                            <Badge variant="default" text={analysis.result} />
+                            <Badge
+                                variant={analysis.result === "benign" ? "benign" : "malignant"}
+                                text={analysis.result}
+                            />
                         </td>
                         <td key={`confidence-score-${index}`} className={styles.tableData}>
                             {analysis.confidence_score}

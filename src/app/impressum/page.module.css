@@ -1,0 +1,28 @@
+.container {
+    padding: 2.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.link {
+    display: inline-flex !important;
+    color: var(--default-link-color);
+    text-decoration: underline;
+    width: fit-content;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+
+.link:active {
+    color: var(--default-link-color-active);
+    text-decoration: none;
+}
