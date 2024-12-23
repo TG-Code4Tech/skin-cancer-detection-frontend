@@ -9,15 +9,10 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
-                <section className={styles.footerSection}>
-                    <Logo />
+                <section className={styles.footerSectionGrow}>
+                    <Logo context="footer" />
                 </section>
                 <section className={styles.footerSection}>
-                    <Heading
-                        as="h2"
-                        variant="sm"
-                        headingText="Skin Cancer Detection"
-                    />
                     <nav>
                         <ul className={styles.linkList}>
                             <li>
@@ -26,6 +21,7 @@ const Footer = () => {
                                     linkText="Über Skin Cancer Detection"
                                     mode="sleek"
                                     aria-label="Gehen Sie zu Informationen über Skin Cancer Detection"
+                                    className={styles.footerLink}
                                 />
                             </li>
                             <li>
@@ -34,42 +30,34 @@ const Footer = () => {
                                     linkText="Kontakt"
                                     mode="sleek"
                                     aria-label="Gehen Sie zum Kontaktformular"
+                                    className={styles.footerLink}
                                 />
                             </li>
-                        </ul>
-                    </nav>
-                </section>
-
-                <section className={styles.footerSection}>
-                    <Heading
-                        as="h2"
-                        variant="sm"
-                        headingText="Informationen zur Webanwendung"
-                    />
-                    <nav>
-                        <ul className={styles.linkList}>
                             <li>
                                 <Link
                                     href="/impressum"
                                     linkText="Impressum"
                                     mode="sleek"
                                     aria-label="Gehen Sie zum Impressum"
+                                    className={styles.footerLink}
                                 />
                             </li>
                             <li>
                                 <Link
                                     href="/datenschutz"
-                                    linkText="Datenschutzerklärung"
+                                    linkText="Datenschutz"
                                     mode="sleek"
                                     aria-label="Gehen Sie zur Datenschutzerklärung"
+                                    className={styles.footerLink}
                                 />
                             </li>
                             <li>
                                 <Link
                                     href="/barrierefreiheit"
-                                    linkText="Barrierefreiheitserklärrung"
+                                    linkText="Barrierefreiheit"
                                     mode="sleek"
                                     aria-label="Gehen Sie zur Barrierefreiheitserklärung"
+                                    className={styles.footerLink}
                                 />
                             </li>
                         </ul>

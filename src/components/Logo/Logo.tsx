@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./Logo.module.css";
 
-const Logo = () => {
+type Context = "default" | "footer";
+interface LogoProps {
+    context?: Context;
+}
+
+const Logo = ({ context = "default" }: LogoProps) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
@@ -26,7 +31,11 @@ const Logo = () => {
     return (
         <a href="/" aria-label="Gehen Sie zur Startseite">
             <Image
-                src={isDarkMode ? "/images/logos/scd-logo-dark.svg" : "/images/logos/scd-logo.svg"}
+                src={
+                    !isDarkMode && context === "default"
+                        ? "/images/logos/scd-logo.svg"
+                        : "/images/logos/scd-logo-dark.svg"
+                }
                 alt="Skin Cancer Detection Logo"
                 width={148}
                 height={50}

@@ -18,7 +18,7 @@
     --sleek-link-color: var(--neutral-1000);
     --sleek-link-color-active: var(--neutral-900);
     --sleek-link-color-visited: var(--brand-1000);
-    --footer-background: var(--neutral-500);
+    --footer-background: var(--brand-1000);
 
     --border-color: var(--neutral-700);
     --border-color-light: var(--neutral-600);
@@ -95,7 +95,7 @@ body[dark-mode] {
     --sleek-link-color: var(--dark-neutral-1000);
     --sleek-link-color-active: var(--dark-neutral-900);
     --sleek-link-color-visited: var(--brand-200);
-    --footer-background: var(--dark-neutral-200);
+    --footer-background: var(--brand-100);
     --border-color: var(--dark-neutral-700);
     --border-color-light: var(--dark-neutral-600);
     --label-color: var(--dark-neutral-800);
