@@ -28,6 +28,10 @@ main {
     margin: 0 auto;
 }
 
+main.full-width {
+    max-width: initial;
+}
+
 h1,
 h2,
 h3,
