@@ -62,7 +62,8 @@ button {
 
 a:focus,
 button:focus,
-input:focus {
+input:focus,
+textarea:focus {
     outline: 0.1875rem solid var(--outline-color);
     border-radius: 0.25rem;
 }
@@ -83,7 +84,8 @@ label {
     color: var(--label-color);
 }
 
-input {
+input,
+textarea {
     background-color: var(--input-background);
     border: 0.0625rem solid var(--input-border);
     border-radius: 0.25rem;
