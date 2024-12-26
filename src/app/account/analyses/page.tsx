@@ -12,13 +12,7 @@ import { isAuthenticated } from "@/utils/authentication";
 import { deleteCookie } from "@/utils/cookie";
 import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
-
-interface Analysis {
-    image_id: number;
-    analysis_date: Date;
-    result: string;
-    confidence_score: number;
-}
+import { Analysis } from "@/types/globalTypes";
 
 const Analyses = () => {
     const [userData, setUserData] = useState<Record<string, string>>({});
