@@ -26,7 +26,7 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/kontakt"
+                                    href="/contact"
                                     linkText="Kontakt"
                                     mode="sleek"
                                     aria-label="Gehen Sie zum Kontaktformular"
