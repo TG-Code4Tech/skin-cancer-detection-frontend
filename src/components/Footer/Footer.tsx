@@ -17,7 +17,7 @@ const Footer = () => {
                         <ul className={styles.linkList}>
                             <li>
                                 <Link
-                                    href="/about-skin-cancer-detection"
+                                    href="/about/skin-cancer-detection"
                                     linkText="Über Skin Cancer Detection"
                                     mode="sleek"
                                     aria-label="Gehen Sie zu Informationen über Skin Cancer Detection"
