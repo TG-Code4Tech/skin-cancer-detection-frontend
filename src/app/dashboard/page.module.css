@@ -1,0 +1,44 @@
+.container {
+    padding: 2.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.recentAnalyses {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-height: 350px;
+}
+
+.analysesTable {
+    overflow-y: scroll;
+}
+
+.diagnoses {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex-grow: 1;
+    padding-bottom: 1.5rem;
+}
+
+.quickActions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--background-color-level-3);
+}
+
+.quickActionsHeading {
+    flex-grow: 1;
+}
+
+.quickActionsLinkContainer {
+    display: flex;
+    gap: 2rem;
+}

@@ -1,0 +1,89 @@
+.barChart {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.yAxisValues {
+    height: 100%;
+    display: flex;
+    align-self: flex-end;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 0.625rem;
+    padding: 1rem 0;
+}
+
+.yAxisValue {
+    height: 1.5rem;
+}
+
+.chartContainer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.yAxisLabel {
+    width: fit-content;
+    transform: translateX(-45%);
+}
+
+.chartAndXAxis {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    height: 100%;
+    border-left: 0.0625rem solid var(--neutral-800);
+    border-bottom: 0.0625rem solid var(--neutral-800);
+    margin: 0.625rem 0;
+    padding: 1rem 0;
+}
+
+.bar {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    background-color: var(--brand-600);
+    color: var(--text-color-inverted);
+}
+
+.verticalLinesContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.verticalLine {
+    flex-grow: 1;
+    border-right: 0.0625rem dashed var(--neutral-800);
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.xAxisValues {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    height: 24px;
+    width: 100%;
+    display: flex;
+}
+
+.xAxisValue {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2px;
+}
+
+.xAxisLabel {
+    justify-self: flex-end;
+    align-self: flex-end;
+}
