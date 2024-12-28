@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { IconName, IconSize } from "../../types/globalTypes";
 import { IconColor } from "../../enums/globalEnums";
 import Icon from "../Icon/Icon";
@@ -10,12 +10,14 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     iconColor: keyof typeof IconColor;
 }
 
-const IconButton = ({ iconName, iconSize, iconColor, ...props }: IconButtonProps) => {
-    return (
-        <button className={styles.iconButton} {...props}>
-            <Icon name={iconName} size={iconSize} color={iconColor} />
-        </button>
-    );
-};
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+    ({ iconName, iconSize, iconColor, ...props }: IconButtonProps, ref) => {
+        return (
+            <button className={styles.iconButton} {...props}>
+                <Icon name={iconName} size={iconSize} color={iconColor} />
+            </button>
+        );
+    }
+);
 
 export default IconButton;

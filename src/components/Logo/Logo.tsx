@@ -14,16 +14,16 @@ const Logo = ({ context = "default" }: LogoProps) => {
 
     useEffect(() => {
         const bodyObserver = new MutationObserver(() => {
-            const isDarkModeActive = document.body.hasAttribute("dark-mode");
+            const isDarkModeActive = document.body.hasAttribute("data-dark-mode");
             setIsDarkMode(isDarkModeActive);
         });
 
         bodyObserver.observe(document.body, {
             attributes: true,
-            attributeFilter: ["dark-mode"],
+            attributeFilter: ["data-dark-mode"],
         });
 
-        setIsDarkMode(document.body.hasAttribute("dark-mode"));
+        setIsDarkMode(document.body.hasAttribute("data-dark-mode"));
 
         return () => bodyObserver.disconnect();
     }, []);

@@ -75,7 +75,7 @@
     --badge-border-color-malignant: var(--red-800);
 }
 
-body[dark-mode] {
+body[data-dark-mode] {
     --text-color: var(--dark-neutral-1000);
     --text-color-inverted: var(--dark-neutral-100);
     --text-color-error: var(--red-400);

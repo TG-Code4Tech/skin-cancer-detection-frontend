@@ -106,7 +106,7 @@ const Login = () => {
                         />
                         {errors.firstName && (
                             <span className={styles.errorHint}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.firstName} classname={styles.errorText} />
                             </span>
                         )}
@@ -126,7 +126,7 @@ const Login = () => {
                         />
                         {errors.lastName && (
                             <span className={styles.errorHint}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.lastName} classname={styles.errorText} />
                             </span>
                         )}
@@ -146,7 +146,7 @@ const Login = () => {
                         />
                         {errors.email && (
                             <span className={styles.errorHint}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.email} classname={styles.errorText} />
                             </span>
                         )}
@@ -167,7 +167,7 @@ const Login = () => {
                         </textarea>
                         {errors.matter && (
                             <span className={styles.errorHint}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.matter} classname={styles.errorText} />
                             </span>
                         )}

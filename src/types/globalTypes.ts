@@ -3,7 +3,7 @@ export type IconName =
     | "menu"
     | "close"
     | "check-circle"
-    | "report"
+    | "danger"
     | "warning"
     | "upload-image"
     | "delete"

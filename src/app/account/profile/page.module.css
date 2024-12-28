@@ -36,12 +36,24 @@
     gap: 1rem;
 }
 
-.informationContainer {
+.informationContainer,
+.passwordContainer {
     display: flex;
-    flex-direction: column;
     gap: 1rem;
     padding: 1rem;
     background-color: var(--background-color-level-3);
+}
+
+.userInformation {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+}
+
+.updateDataButton {
+    height: fit-content;
+    justify-self: start;
 }
 
 .fieldsetTheme {
@@ -65,10 +77,68 @@
     flex-direction: column;
 }
 
+.passwordContainer {
+    flex-direction: column;
+}
+
+.passwordInformation {
+    display: flex;
+    justify-content: space-between;
+}
+
 .passwordHint {
     color: var(--yellow-1000);
 }
 
 .deleteAccountButton {
     width: fit-content;
+}
+
+.inputFields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.labelInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.required {
+    color: var(--required-indicator);
+}
+
+.passwordPolicies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.passwordPolicy {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.passwordPolicyIndicator {
+    height: 0.9375rem;
+    width: 0.9375rem;
+    border-radius: 50%;
+    background-color: var(--input-color);
+    margin-left: 0.125rem;
+}
+
+.defaultText {
+    color: var(--input-color);
+}
+
+.errorText {
+    color: var(--text-color-error);
+}
+
+.successText {
+    color: var(--text-color-success);
 }
