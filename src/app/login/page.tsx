@@ -7,8 +7,7 @@ import styles from "./page.module.css";
 import Button from "@/components/Button/Button";
 import Divider from "@/components/Divider/Divider";
 import Link from "@/components/Link/Link";
-import Text from "@/components/Text/Text";
-import Icon from "@/components/Icon/Icon";
+import Notification from "@/components/Notification/Notification";
 
 const Login = () => {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -21,11 +20,11 @@ const Login = () => {
         const inputErrors: any = {};
 
         if (!usernameOrEmail.trim()) {
-            inputErrors.usernameOrEmail = "Bitte einen Bnutzernamen oder eine E-Mail-Adresse angeben.";
+            inputErrors.usernameOrEmail = "Bitte geben Sie Ihren Benutzernamen oder Ihre E-Mail-Adresse an.";
         }
 
         if (!password.trim()) {
-            inputErrors.password = "Bitte ein gültiges Passwort angeben.";
+            inputErrors.password = "Bitte geben Sie ein gültiges Passwort an.";
         }
 
         setErrors(inputErrors);
@@ -50,7 +49,6 @@ const Login = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Logged in successfully:", data);
                     const { jwt_access_token } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
                     router.push("/account/profile");
@@ -58,9 +56,8 @@ const Login = () => {
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({
                         ...prevErrors,
-                        backend: errorData.error,
+                        [errorData.check]: errorData.error,
                     }));
-                    console.error("Login failed:", response.statusText);
                 }
             } catch (error) {
                 console.error("Login request error:", error);
@@ -94,10 +91,16 @@ const Login = () => {
                             required
                         />
                         {errors.usernameOrEmail && (
-                            <span className={styles.passwordPolicy}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.usernameOrEmail} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.usernameOrEmail} size="small" />
+                        )}
+
+                        {errors.backend_username_or_email && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_username_or_email}
+                                size="small"
+                            />
                         )}
                     </div>
 
@@ -114,10 +117,16 @@ const Login = () => {
                             required
                         />
                         {errors.password && (
-                            <span className={styles.passwordPolicy}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.password} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.password} size="small" />
+                        )}
+
+                        {errors.backend_password && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_password}
+                                size="small"
+                            />
                         )}
                     </div>
                 </div>

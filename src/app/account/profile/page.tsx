@@ -83,6 +83,12 @@ const Profile = () => {
                     if (response.ok) {
                         const data = await response.json();
                         console.log(data);
+                    } else {
+                        const errorData = await response.json();
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            [errorData.check]: errorData.error,
+                        }));
                     }
                 } catch (error) {
                     console.error("Error:", error);
@@ -105,6 +111,12 @@ const Profile = () => {
                     if (response.ok) {
                         const data = await response.json();
                         console.log(data);
+                    } else {
+                        const errorData = await response.json();
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            [errorData.check]: errorData.error,
+                        }));
                     }
                 } catch (error) {
                     console.error("Error:", error);
@@ -127,6 +139,12 @@ const Profile = () => {
                     if (response.ok) {
                         const data = await response.json();
                         console.log(data);
+                    } else {
+                        const errorData = await response.json();
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            [errorData.check]: errorData.error,
+                        }));
                     }
                 } catch (error) {
                     console.error("Error:", error);
@@ -149,6 +167,12 @@ const Profile = () => {
                     if (response.ok) {
                         const data = await response.json();
                         console.log(data);
+                    } else {
+                        const errorData = await response.json();
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            [errorData.check]: errorData.error,
+                        }));
                     }
                 } catch (error) {
                     console.error("Error:", error);
@@ -215,7 +239,9 @@ const Profile = () => {
     const onChangePassword = async () => {
         if (validatePasswords()) {
             const formData = new FormData();
+            formData.append("current_password", currentPassword);
             formData.append("password", newPassword);
+            formData.append("password_confirmation", newPasswordConfirmation);
 
             try {
                 const jwtCookie = document.cookie
@@ -240,6 +266,12 @@ const Profile = () => {
                     const data = await response.json();
                     console.log(data);
                     setIsPasswordModalOpen(false);
+                } else {
+                    const errorData = await response.json();
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        [errorData.check]: errorData.error,
+                    }));
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -456,7 +488,23 @@ const Profile = () => {
                                         onChange={(event) => setFirstName(event.target.value)}
                                         required
                                     />
-                                    {errors.firstName && <p>{errors.firstName}</p>}
+                                    {errors.firstName && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.firstName}
+                                            size="small"
+                                        />
+                                    )}
+
+                                    {errors.backend_first_name && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_first_name}
+                                            size="small"
+                                        />
+                                    )}
                                 </div>
 
                                 <div className={styles.labelInput}>
@@ -471,7 +519,23 @@ const Profile = () => {
                                         onChange={(event) => setLastName(event.target.value)}
                                         required
                                     />
-                                    {errors.lastName && <p>{errors.lastName}</p>}
+                                    {errors.lastName && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.lastName}
+                                            size="small"
+                                        />
+                                    )}
+
+                                    {errors.backend_last_name && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_last_name}
+                                            size="small"
+                                        />
+                                    )}
                                 </div>
 
                                 <div className={styles.labelInput}>
@@ -486,7 +550,23 @@ const Profile = () => {
                                         onChange={(event) => setUsername(event.target.value)}
                                         required
                                     />
-                                    {errors.username && <p>{errors.username}</p>}
+                                    {errors.username && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.username}
+                                            size="small"
+                                        />
+                                    )}
+
+                                    {errors.backend_username && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_username}
+                                            size="small"
+                                        />
+                                    )}
                                 </div>
 
                                 <div className={styles.labelInput}>
@@ -501,7 +581,23 @@ const Profile = () => {
                                         onChange={(event) => setEmail(event.target.value)}
                                         required
                                     />
-                                    {errors.email && <p>{errors.email}</p>}
+                                    {errors.email && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.email}
+                                            size="small"
+                                        />
+                                    )}
+
+                                    {errors.backend_email && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_email}
+                                            size="small"
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </Modal>
@@ -591,6 +687,15 @@ const Profile = () => {
                                                 classname={styles.errorText}
                                             />
                                         </span>
+                                    )}
+
+                                    {errors.backend_current_password && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_current_password}
+                                            size="small"
+                                        />
                                     )}
                                 </div>
 
@@ -734,14 +839,22 @@ const Profile = () => {
                                             />
                                         </span>
 
-                                        {errors.password && <p>{errors.password}</p>}
-                                        {errors.passwordLength && <p>{errors.passwordLength}</p>}
-                                        {errors.passwordUppercaseLetter && <p>{errors.passwordUppercaseLetter}</p>}
-                                        {errors.passwordLowercaseLetter && <p>{errors.passwordLowercaseLetter}</p>}
-                                        {errors.passwordNumber && <p>{errors.passwordNumber}</p>}
-                                        {errors.passwordSpecialCharacters && <p>{errors.passwordSpecialCharacters}</p>}
-                                        {errors.passwordInvalidSpecialCharacters && (
-                                            <p>{errors.passwordInvalidSpecialCharacters}</p>
+                                        {errors.backend_password && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.backend_password}
+                                                size="small"
+                                            />
+                                        )}
+
+                                        {errors.backend_password_confirmation && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.backend_password_confirmation}
+                                                size="small"
+                                            />
                                         )}
                                     </div>
                                 </div>
@@ -788,8 +901,23 @@ const Profile = () => {
                                             }
                                         />
                                     </span>
+                                    {errors.passwordConfirmation && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_password_confirmation}
+                                            size="small"
+                                        />
+                                    )}
 
-                                    {errors.passwordConfirmation && <p>{errors.passwordConfirmation}</p>}
+                                    {errors.backend_password_confirmation && (
+                                        <Notification
+                                            type="inline"
+                                            variant="error"
+                                            message={errors.backend_password_confirmation}
+                                            size="small"
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </Modal>
