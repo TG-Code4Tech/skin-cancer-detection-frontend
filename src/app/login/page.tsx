@@ -95,7 +95,7 @@ const Login = () => {
                         />
                         {errors.usernameOrEmail && (
                             <span className={styles.passwordPolicy}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.usernameOrEmail} classname={styles.errorText} />
                             </span>
                         )}
@@ -115,7 +115,7 @@ const Login = () => {
                         />
                         {errors.password && (
                             <span className={styles.passwordPolicy}>
-                                <Icon name="report" size={18} color="error" />
+                                <Icon name="danger" size={18} color="danger" />
                                 <Text variant="sm" text={errors.password} classname={styles.errorText} />
                             </span>
                         )}

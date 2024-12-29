@@ -1,0 +1,45 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 0.25rem;
+    width: 80%;
+    max-width: 630px;
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+}
+
+.headingIcon {
+    margin-right: 1rem;
+}
+
+.title {
+    flex-grow: 1;
+}
+
+.modalBody {
+}
+
+.modalFooter {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}

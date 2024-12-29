@@ -214,7 +214,7 @@ const Register = () => {
                                 )}
                                 {errors.passwordLowercaseLetter ||
                                     (password.length > 0 && !/[a-z]/.test(password) && (
-                                        <Icon name="report" size={18} color="error" />
+                                        <Icon name="danger" size={18} color="danger" />
                                     ))}
                                 <Text
                                     variant="sm"
@@ -239,7 +239,7 @@ const Register = () => {
                                 )}
                                 {errors.passwordUppercaseLetter ||
                                     (password.length > 0 && !/[A-Z]/.test(password) && (
-                                        <Icon name="report" size={18} color="error" />
+                                        <Icon name="danger" size={18} color="danger" />
                                     ))}
                                 <Text
                                     variant="sm"
@@ -264,7 +264,7 @@ const Register = () => {
                                 )}
                                 {errors.passwordNumber ||
                                     (password.length > 0 && !/\d/.test(password) && (
-                                        <Icon name="report" size={18} color="error" />
+                                        <Icon name="danger" size={18} color="danger" />
                                     ))}
                                 <Text
                                     variant="sm"
@@ -288,7 +288,7 @@ const Register = () => {
                                 )}
                                 {errors.passwordSpecialCharacters ||
                                     (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password) && (
-                                        <Icon name="report" size={18} color="error" />
+                                        <Icon name="danger" size={18} color="danger" />
                                     ))}
                                 <Text
                                     variant="sm"
@@ -313,7 +313,7 @@ const Register = () => {
                                 )}
                                 {errors.passwordLength ||
                                     (password.length > 0 && password.length < 8 && (
-                                        <Icon name="report" size={18} color="error" />
+                                        <Icon name="danger" size={18} color="danger" />
                                     ))}
                                 <Text
                                     variant="sm"
@@ -364,7 +364,7 @@ const Register = () => {
                                 )}
                             {errors.passwordConfirmation ||
                                 (passwordConfirmation.length > 0 && password !== passwordConfirmation && (
-                                    <Icon name="report" size={18} color="error" />
+                                    <Icon name="danger" size={18} color="danger" />
                                 ))}
                             <Text
                                 variant="sm"

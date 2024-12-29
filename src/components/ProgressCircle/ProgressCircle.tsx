@@ -12,7 +12,7 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({ progress }) => {
     let progressColor;
     let backgroundColor;
 
-    if (document.body.hasAttribute("dark-mode")) {
+    if (document.body.hasAttribute("data-dark-mode")) {
         progressColor = progress >= 80 ? "#2cc98d" : progress >= 60 ? "f8c462" : "#ec847d";
         backgroundColor = progress >= 80 ? "#0b3223" : progress >= 60 ? "#624104" : "#5f1e1a";
     } else {

@@ -14,16 +14,16 @@ const Icon = ({ name, size, color, classname = "" }: IconProps) => {
 
     useEffect(() => {
         const bodyObserver = new MutationObserver(() => {
-            const isDarkModeActive = document.body.hasAttribute("dark-mode");
+            const isDarkModeActive = document.body.hasAttribute("data-dark-mode");
             setIsDarkMode(isDarkModeActive);
         });
 
         bodyObserver.observe(document.body, {
             attributes: true,
-            attributeFilter: ["dark-mode"],
+            attributeFilter: ["data-dark-mode"],
         });
 
-        setIsDarkMode(document.body.hasAttribute("dark-mode"));
+        setIsDarkMode(document.body.hasAttribute("data-dark-mode"));
 
         return () => bodyObserver.disconnect();
     }, []);
@@ -85,7 +85,7 @@ const Icon = ({ name, size, color, classname = "" }: IconProps) => {
                     <path d="M7.71417 11.1157L12.4142 6.41566L11.4808 5.48232L7.71417 9.24899L5.81417 7.34899L4.88083 8.28232L7.71417 11.1157ZM8.6475 14.7157C7.72528 14.7157 6.85861 14.5407 6.0475 14.1907C5.23639 13.8407 4.53083 13.3657 3.93083 12.7657C3.33083 12.1657 2.85583 11.4601 2.50583 10.649C2.15583 9.83788 1.98083 8.97121 1.98083 8.04899C1.98083 7.12677 2.15583 6.2601 2.50583 5.44899C2.85583 4.63788 3.33083 3.93232 3.93083 3.33232C4.53083 2.73232 5.23639 2.25732 6.0475 1.90732C6.85861 1.55732 7.72528 1.38232 8.6475 1.38232C9.56972 1.38232 10.4364 1.55732 11.2475 1.90732C12.0586 2.25732 12.7642 2.73232 13.3642 3.33232C13.9642 3.93232 14.4392 4.63788 14.7892 5.44899C15.1392 6.2601 15.3142 7.12677 15.3142 8.04899C15.3142 8.97121 15.1392 9.83788 14.7892 10.649C14.4392 11.4601 13.9642 12.1657 13.3642 12.7657C12.7642 13.3657 12.0586 13.8407 11.2475 14.1907C10.4364 14.5407 9.56972 14.7157 8.6475 14.7157ZM8.6475 13.3823C10.1364 13.3823 11.3975 12.8657 12.4308 11.8323C13.4642 10.799 13.9808 9.53788 13.9808 8.04899C13.9808 6.5601 13.4642 5.29899 12.4308 4.26566C11.3975 3.23232 10.1364 2.71566 8.6475 2.71566C7.15861 2.71566 5.8975 3.23232 4.86417 4.26566C3.83083 5.29899 3.31417 6.5601 3.31417 8.04899C3.31417 9.53788 3.83083 10.799 4.86417 11.8323C5.8975 12.8657 7.15861 13.3823 8.6475 13.3823Z" />
                 </svg>
             );
-        case "report":
+        case "danger":
             return (
                 <svg
                     width={size}
