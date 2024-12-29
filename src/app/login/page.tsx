@@ -1,20 +1,39 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Heading from "@/components/Heading/Heading";
 import styles from "./page.module.css";
 import Button from "@/components/Button/Button";
 import Divider from "@/components/Divider/Divider";
 import Link from "@/components/Link/Link";
 import Notification from "@/components/Notification/Notification";
+import { GlobalNotification } from "@/types/globalTypes";
 
 const Login = () => {
+    const [notification, setNotification] = useState<GlobalNotification | null>(null);
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isHydrated, setIsHydrated] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const success = searchParams.get("success");
+
+        if (success === "true") {
+            setNotification({ type: "toast", variant: "success", message: "Abmeldung erfolgreich." });
+
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete("success");
+            router.replace(cleanUrl.toString());
+        }
+    }, [searchParams, router]);
 
     const validateForm = () => {
         const inputErrors: any = {};
@@ -51,8 +70,10 @@ const Login = () => {
                     const data = await response.json();
                     const { jwt_access_token } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
-                    router.push("/account/profile");
+                    router.push("/account/profile?success=true");
                 } else {
+                    setNotification({ type: "toast", variant: "error", message: "Anmeldung fehlgeschlagen." });
+
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({
                         ...prevErrors,
@@ -74,77 +95,88 @@ const Login = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <Heading as="h1" variant="md" headingText="Anmelden" />
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.inputFields}>
-                    <div className={styles.labelInput}>
-                        <label htmlFor="username-or-email">
-                            Benutzername oder E-Mail <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="username-or-email"
-                            name="username-or-email"
-                            value={usernameOrEmail}
-                            onChange={(event) => setUsernameOrEmail(event.target.value)}
-                            required
-                        />
-                        {errors.usernameOrEmail && (
-                            <Notification type="inline" variant="error" message={errors.usernameOrEmail} size="small" />
-                        )}
+        <>
+            {notification && (
+                <Notification type={notification.type} variant={notification.variant} message={notification.message} />
+            )}
 
-                        {errors.backend_username_or_email && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_username_or_email}
-                                size="small"
+            <div className={styles.container}>
+                <Heading as="h1" variant="md" headingText="Anmelden" />
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.inputFields}>
+                        <div className={styles.labelInput}>
+                            <label htmlFor="username-or-email">
+                                Benutzername oder E-Mail <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="username-or-email"
+                                name="username-or-email"
+                                value={usernameOrEmail}
+                                onChange={(event) => setUsernameOrEmail(event.target.value)}
+                                required
                             />
-                        )}
+                            {errors.usernameOrEmail && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.usernameOrEmail}
+                                    size="small"
+                                />
+                            )}
+
+                            {errors.backend_username_or_email && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_username_or_email}
+                                    size="small"
+                                />
+                            )}
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="password">
+                                Passwort <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                required
+                            />
+                            {errors.password && (
+                                <Notification type="inline" variant="error" message={errors.password} size="small" />
+                            )}
+
+                            {errors.backend_password && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_password}
+                                    size="small"
+                                />
+                            )}
+                        </div>
                     </div>
 
-                    <div className={styles.labelInput}>
-                        <label htmlFor="password">
-                            Passwort <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            required
-                        />
-                        {errors.password && (
-                            <Notification type="inline" variant="error" message={errors.password} size="small" />
-                        )}
-
-                        {errors.backend_password && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_password}
-                                size="small"
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <Button variant="primary" buttonText="Anmelden" type="submit" />
-            </form>
-            <Divider className={styles.customDivider} />
-            <section className={styles.secondarySection}>
-                <Heading as="h2" variant="md" headingText="Sind Sie neu bei Skin Cancer Detection?" />
-                <Link
-                    href="/register"
-                    linkText="Zur Registrierung"
-                    mode="default"
-                    aria-label="Gehen Sie zur Registrierung"
-                    className={styles.registrationLink}
-                />
-            </section>
-        </div>
+                    <Button variant="primary" buttonText="Anmelden" type="submit" />
+                </form>
+                <Divider className={styles.customDivider} />
+                <section className={styles.secondarySection}>
+                    <Heading as="h2" variant="md" headingText="Sind Sie neu bei Skin Cancer Detection?" />
+                    <Link
+                        href="/register"
+                        linkText="Zur Registrierung"
+                        mode="default"
+                        aria-label="Gehen Sie zur Registrierung"
+                        className={styles.registrationLink}
+                    />
+                </section>
+            </div>
+        </>
     );
 };
 
