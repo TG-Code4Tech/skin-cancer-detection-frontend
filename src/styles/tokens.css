@@ -4,6 +4,8 @@
     --text-color-error: var(--red-800);
     --text-color-success: var(--green-800);
     --text-color-warning: var(--yellow-900);
+    --text-color-information: var(--blue-800);
+    --text-color-neutral: var(--neutral-800);
     --background-color: var(--neutral-100);
     --background-color-accent: var(--neutral-200);
     --background-color-level-3: var(--neutral-300);
@@ -73,6 +75,32 @@
     --badge-color-malignant: var(--red-200);
     --badge-text-color-malignant: var(--red-800);
     --badge-border-color-malignant: var(--red-800);
+
+    --notification-toast-background-success: var(--green-800);
+    --notification-toast-border-success: var(--green-800);
+    --notification-toast-background-error: var(--red-800);
+    --notification-toast-border-error: var(--red-800);
+    --notification-toast-background-warning: var(--yellow-700);
+    --notification-toast-border-warning: var(--yellow-700);
+    --notification-toast-background-information: var(--blue-800);
+    --notification-toast-border-information: var(--blue-800);
+    --notification-toast-background-neutral: var(--neutral-800);
+    --notification-toast-border-neutral: var(--neutral-800);
+    --notification-area-background-success: var(--green-200);
+    --notification-area-border-success: var(--green-800);
+    --notification-area-color-success: var(--green-800);
+    --notification-area-background-error: var(--red-200);
+    --notification-area-border-error: var(--red-800);
+    --notification-area-color-error: var(--red-800);
+    --notification-area-background-warning: var(--yellow-300);
+    --notification-area-border-warning: var(--yellow-1000);
+    --notification-area-color-warning: var(--yellow-1000);
+    --notification-area-background-information: var(--blue-200);
+    --notification-area-border-information: var(--blue-800);
+    --notification-area-color-information: var(--blue-800);
+    --notification-area-background-neutral: var(--neutral-300);
+    --notification-area-border-neutral: var(--neutral-800);
+    --notification-area-color-neutral: var(--neutral-800);
 }
 
 body[data-dark-mode] {
@@ -81,6 +109,8 @@ body[data-dark-mode] {
     --text-color-error: var(--red-400);
     --text-color-success: var(--green-300);
     --text-color-warning: var(--yellow-400);
+    --text-color-information: var(--blue-300);
+    --text-color-neutral: var(--neutral-600);
     --background-color: var(--dark-neutral-100);
     --background-color-accent: var(--dark-neutral-200);
     --background-color-level-3: var(--dark-neutral-300);
@@ -148,4 +178,30 @@ body[data-dark-mode] {
     --badge-color-malignant: var(--red-1000);
     --badge-text-color-malignant: var(--red-400);
     --badge-border-color-malignant: var(--red-400);
+
+    --notification-toast-success-background: var(--green-300);
+    --notification-toast-success-border: var(--green-300);
+    --notification-toast-background-error: var(--red-300);
+    --notification-toast-border-error: var(--red-300);
+    --notification-toast-background-warning: var(--yellow-400);
+    --notification-toast-border-warning: var(--yellow-400);
+    --notification-toast-background-information: var(--blue-300);
+    --notification-toast-border-information: var(--blue-300);
+    --notification-toast-background-neutral: var(--dark-neutral-800);
+    --notification-toast-border-neutral: var(--dark-neutral-800);
+    --notification-area-background-success: var(--green-1000);
+    --notification-area-border-success: var(--green-500);
+    --notification-area-color-success: var(--green-500);
+    --notification-area-background-error: var(--red-1000);
+    --notification-area-border-error: var(--red-400);
+    --notification-area-color-success: var(--red-400);
+    --notification-area-background-warning: var(--yellow-1000);
+    --notification-area-border-warning: var(--yellow-400);
+    --notification-area-color-warning: var(--yellow-400);
+    --notification-area-background-information: var(--blue-1000);
+    --notification-area-border-information: var(--blue-300);
+    --notification-area-color-information: var(--blue-300);
+    --notification-area-background-neutral: var(--neutral-900);
+    --notification-area-border-neutral: var(--neutral-600);
+    --notification-area-color-neutral: var(--neutral-600);
 }

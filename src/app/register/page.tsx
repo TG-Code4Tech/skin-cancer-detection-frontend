@@ -9,6 +9,7 @@ import Divider from "@/components/Divider/Divider";
 import Link from "@/components/Link/Link";
 import Icon from "@/components/Icon/Icon";
 import Text from "@/components/Text/Text";
+import Notification from "@/components/Notification/Notification";
 
 const Register = () => {
     const [firstName, setFirstName] = useState("");
@@ -143,7 +144,9 @@ const Register = () => {
                             onChange={(event) => setFirstName(event.target.value)}
                             required
                         />
-                        {errors.firstName && <p>{errors.firstName}</p>}
+                        {errors.firstName && (
+                            <Notification type="inline" variant="error" message={errors.firstName} size="small" />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>
@@ -158,7 +161,9 @@ const Register = () => {
                             onChange={(event) => setLastName(event.target.value)}
                             required
                         />
-                        {errors.lastName && <p>{errors.lastName}</p>}
+                        {errors.lastName && (
+                            <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>
@@ -173,7 +178,9 @@ const Register = () => {
                             onChange={(event) => setUsername(event.target.value)}
                             required
                         />
-                        {errors.username && <p>{errors.username}</p>}
+                        {errors.username && (
+                            <Notification type="inline" variant="error" message={errors.username} size="small" />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>
@@ -188,7 +195,9 @@ const Register = () => {
                             onChange={(event) => setEmail(event.target.value)}
                             required
                         />
-                        {errors.email && <p>{errors.email}</p>}
+                        {errors.email && (
+                            <Notification type="inline" variant="error" message={errors.email} size="small" />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>

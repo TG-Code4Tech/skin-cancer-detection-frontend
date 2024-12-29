@@ -8,6 +8,7 @@ import SubNavigation from "@/components/SubNavigation/SubNavigation";
 import Divider from "@/components/Divider/Divider";
 import Button from "@/components/Button/Button";
 import Text from "@/components/Text/Text";
+import Notification from "@/components/Notification/Notification";
 import { deleteCookie, getCookie } from "@/utils/cookie";
 import { isAuthenticated } from "@/utils/authentication";
 import RadioField from "@/components/RadioField/RadioField";
@@ -553,14 +554,11 @@ const Profile = () => {
                                 />
                             </div>
 
-                            <span className={styles.warningMessage}>
-                                <Icon name="warning" size={16} color="warning" />
-                                <Text
-                                    variant="sm"
-                                    text="Die Anzahl der Asterisken korreliert nicht mit Ihrer Passwortlänge"
-                                    classname={styles.passwordHint}
-                                />
-                            </span>
+                            <Notification
+                                type="area"
+                                variant="warning"
+                                message="Die Anzahl der Asterisken korreliert nicht mit Ihrer Passwortlänge"
+                            />
                         </div>
 
                         <Modal

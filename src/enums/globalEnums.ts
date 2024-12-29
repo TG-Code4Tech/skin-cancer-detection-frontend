@@ -1,9 +1,11 @@
 export enum IconColor {
     brand = "#007582",
     default = "#212121",
+    defaultInverted = "#ffffff",
     subtle = "#616161",
     brandDarkMode = "#54abb4",
     defaultDarkMode = "#f4f4f4",
+    defaultInvertedDarkMode = "#212121",
     subtleDarkMode = "#dfdfdf",
     success = "#166446",
     successDarkMode = "#8ae5c2",
