@@ -19,3 +19,12 @@ export type Analysis = {
     result: string;
     confidence_score: number;
 };
+
+export type NotificationType = "toast" | "area" | "inline";
+export type NotificationVariant = "success" | "error" | "warning" | "information" | "neutral";
+
+export type GlobalNotification = {
+    type: NotificationType;
+    variant: NotificationVariant;
+    message: string;
+};

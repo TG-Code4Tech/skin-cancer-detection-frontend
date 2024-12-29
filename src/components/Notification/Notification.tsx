@@ -1,12 +1,9 @@
 import React from "react";
-import { IconName, IconSize } from "../../types/globalTypes";
-import { IconColor } from "../../enums/globalEnums";
+import { IconName, NotificationType, NotificationVariant } from "../../types/globalTypes";
 import Icon from "../Icon/Icon";
 import Text from "@/components/Text/Text";
 import styles from "./Notification.module.css";
 
-type NotificationType = "toast" | "area" | "inline";
-type NotificationVariant = "success" | "error" | "warning" | "information" | "neutral";
 type NotificationSize = "small" | "default";
 
 const typeStyles = {

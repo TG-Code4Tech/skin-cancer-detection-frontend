@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Heading from "@/components/Heading/Heading";
 import styles from "./page.module.css";
 import Button from "@/components/Button/Button";
@@ -10,8 +10,10 @@ import Link from "@/components/Link/Link";
 import Icon from "@/components/Icon/Icon";
 import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
+import { GlobalNotification } from "@/types/globalTypes";
 
 const Register = () => {
+    const [notification, setNotification] = useState<GlobalNotification | null>(null);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -21,6 +23,23 @@ const Register = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isHydrated, setIsHydrated] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const success = searchParams.get("success");
+
+        if (success === "true") {
+            setNotification({ type: "toast", variant: "success", message: "Account erfolgreich gelöscht." });
+
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete("success");
+            router.replace(cleanUrl.toString());
+        }
+    }, [searchParams, router]);
 
     const validateForm = () => {
         const inputErrors: any = {};
@@ -100,12 +119,14 @@ const Register = () => {
                 });
 
                 if (response.ok) {
+                    setNotification({ type: "toast", variant: "success", message: "Registrierung erfolgreich." });
+
                     const data = await response.json();
-                    console.log("Registered successfully:", data);
                     const { jwt_access_token } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
-                    router.push("/");
                 } else {
+                    setNotification({ type: "toast", variant: "error", message: "Registrierung fehlgeschlagen." });
+
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({
                         ...prevErrors,
@@ -128,254 +149,315 @@ const Register = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <Heading as="h1" variant="md" headingText="Registrieren" />
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.inputFields}>
-                    <div className={styles.labelInput}>
-                        <label htmlFor="first-name">
-                            Vorname <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="first-name"
-                            name="first-name"
-                            value={firstName}
-                            onChange={(event) => setFirstName(event.target.value)}
-                            required
-                        />
-                        {errors.firstName && (
-                            <Notification type="inline" variant="error" message={errors.firstName} size="small" />
-                        )}
+        <>
+            {notification && (
+                <Notification type={notification.type} variant={notification.variant} message={notification.message} />
+            )}
 
-                        {errors.backend_first_name && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_first_name}
-                                size="small"
+            <div className={styles.container}>
+                <Heading as="h1" variant="md" headingText="Registrieren" />
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.inputFields}>
+                        <div className={styles.labelInput}>
+                            <label htmlFor="first-name">
+                                Vorname <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="first-name"
+                                name="first-name"
+                                value={firstName}
+                                onChange={(event) => setFirstName(event.target.value)}
+                                required
                             />
-                        )}
-                    </div>
+                            {errors.firstName && (
+                                <Notification type="inline" variant="error" message={errors.firstName} size="small" />
+                            )}
 
-                    <div className={styles.labelInput}>
-                        <label htmlFor="last-name">
-                            Nachname <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="last-name"
-                            name="last-name"
-                            value={lastName}
-                            onChange={(event) => setLastName(event.target.value)}
-                            required
-                        />
-                        {errors.lastName && (
-                            <Notification type="inline" variant="error" message={errors.lastName} size="small" />
-                        )}
-
-                        {errors.backend_last_name && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_last_name}
-                                size="small"
-                            />
-                        )}
-                    </div>
-
-                    <div className={styles.labelInput}>
-                        <label htmlFor="username">
-                            Benutzername <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={username}
-                            onChange={(event) => setUsername(event.target.value)}
-                            required
-                        />
-                        {errors.username && (
-                            <Notification type="inline" variant="error" message={errors.username} size="small" />
-                        )}
-
-                        {errors.backend_username && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_username}
-                                size="small"
-                            />
-                        )}
-                    </div>
-
-                    <div className={styles.labelInput}>
-                        <label htmlFor="email">
-                            E-Mail-Adresse <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                            required
-                        />
-                        {errors.email && (
-                            <Notification type="inline" variant="error" message={errors.email} size="small" />
-                        )}
-
-                        {errors.backend_email && (
-                            <Notification type="inline" variant="error" message={errors.backend_email} size="small" />
-                        )}
-                    </div>
-
-                    <div className={styles.labelInput}>
-                        <label htmlFor="password">
-                            Passwort <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            required
-                        />
-
-                        <div className={styles.passwordPolicies}>
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordLength && password.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordLowercaseLetter && /[a-z]/.test(password) && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                                {errors.passwordLowercaseLetter ||
-                                    (password.length > 0 && !/[a-z]/.test(password) && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Mindestens ein Kleinbuchstabe"
-                                    classname={
-                                        errors.passwordLowercaseLetter ||
-                                        (password.length > 0 && !/[a-z]/.test(password))
-                                            ? styles.errorText
-                                            : password.length > 0 && /[a-z]/.test(password)
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordLength && password.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordUppercaseLetter && /[A-Z]/.test(password) && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                                {errors.passwordUppercaseLetter ||
-                                    (password.length > 0 && !/[A-Z]/.test(password) && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Mindestens ein Großbuchstabe"
-                                    classname={
-                                        errors.passwordUppercaseLetter ||
-                                        (password.length > 0 && !/[A-Z]/.test(password))
-                                            ? styles.errorText
-                                            : password.length > 0 && /[A-Z]/.test(password)
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordLength && password.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordNumber && /\d/.test(password) && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                                {errors.passwordNumber ||
-                                    (password.length > 0 && !/\d/.test(password) && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Mindestens eine Zahl"
-                                    classname={
-                                        errors.passwordNumber || (password.length > 0 && !/\d/.test(password))
-                                            ? styles.errorText
-                                            : password.length > 0 && /\d/.test(password)
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordLength && password.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordSpecialCharacters && /[@$!%*?&#<>|_-]/.test(password) && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                                {errors.passwordSpecialCharacters ||
-                                    (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password) && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Mindestens eines dieser erlaubten Sonderzeichen: @$!%*?&#<>|_-"
-                                    classname={
-                                        errors.passwordSpecialCharacters ||
-                                        (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password))
-                                            ? styles.errorText
-                                            : password.length > 0 && /[@$!%*?&#<>|_-]/.test(password)
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordLength && password.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordLength && password.length >= 8 && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                                {errors.passwordLength ||
-                                    (password.length > 0 && password.length < 8 && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Mindestens 8 Zeichen"
-                                    classname={
-                                        errors.passwordLength || (password.length > 0 && password.length < 8)
-                                            ? styles.errorText
-                                            : password.length >= 8
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            {errors.backend_password && (
+                            {errors.backend_first_name && (
                                 <Notification
                                     type="inline"
                                     variant="error"
-                                    message={errors.backend_password}
+                                    message={errors.backend_first_name}
                                     size="small"
                                 />
                             )}
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="last-name">
+                                Nachname <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="last-name"
+                                name="last-name"
+                                value={lastName}
+                                onChange={(event) => setLastName(event.target.value)}
+                                required
+                            />
+                            {errors.lastName && (
+                                <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                            )}
+
+                            {errors.backend_last_name && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_last_name}
+                                    size="small"
+                                />
+                            )}
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="username">
+                                Benutzername <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={username}
+                                onChange={(event) => setUsername(event.target.value)}
+                                required
+                            />
+                            {errors.username && (
+                                <Notification type="inline" variant="error" message={errors.username} size="small" />
+                            )}
+
+                            {errors.backend_username && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_username}
+                                    size="small"
+                                />
+                            )}
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="email">
+                                E-Mail-Adresse <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                required
+                            />
+                            {errors.email && (
+                                <Notification type="inline" variant="error" message={errors.email} size="small" />
+                            )}
+
+                            {errors.backend_email && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_email}
+                                    size="small"
+                                />
+                            )}
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="password">
+                                Passwort <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                required
+                            />
+
+                            <div className={styles.passwordPolicies}>
+                                <span className={styles.passwordPolicy}>
+                                    {!errors.passwordLength && password.length === 0 && (
+                                        <figure className={styles.passwordPolicyIndicator}></figure>
+                                    )}
+                                    {!errors.passwordLowercaseLetter && /[a-z]/.test(password) && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                    {errors.passwordLowercaseLetter ||
+                                        (password.length > 0 && !/[a-z]/.test(password) && (
+                                            <Icon name="danger" size={18} color="danger" />
+                                        ))}
+                                    <Text
+                                        variant="sm"
+                                        text="Mindestens ein Kleinbuchstabe"
+                                        classname={
+                                            errors.passwordLowercaseLetter ||
+                                            (password.length > 0 && !/[a-z]/.test(password))
+                                                ? styles.errorText
+                                                : password.length > 0 && /[a-z]/.test(password)
+                                                ? styles.successText
+                                                : styles.defaultText
+                                        }
+                                    />
+                                </span>
+
+                                <span className={styles.passwordPolicy}>
+                                    {!errors.passwordLength && password.length === 0 && (
+                                        <figure className={styles.passwordPolicyIndicator}></figure>
+                                    )}
+                                    {!errors.passwordUppercaseLetter && /[A-Z]/.test(password) && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                    {errors.passwordUppercaseLetter ||
+                                        (password.length > 0 && !/[A-Z]/.test(password) && (
+                                            <Icon name="danger" size={18} color="danger" />
+                                        ))}
+                                    <Text
+                                        variant="sm"
+                                        text="Mindestens ein Großbuchstabe"
+                                        classname={
+                                            errors.passwordUppercaseLetter ||
+                                            (password.length > 0 && !/[A-Z]/.test(password))
+                                                ? styles.errorText
+                                                : password.length > 0 && /[A-Z]/.test(password)
+                                                ? styles.successText
+                                                : styles.defaultText
+                                        }
+                                    />
+                                </span>
+
+                                <span className={styles.passwordPolicy}>
+                                    {!errors.passwordLength && password.length === 0 && (
+                                        <figure className={styles.passwordPolicyIndicator}></figure>
+                                    )}
+                                    {!errors.passwordNumber && /\d/.test(password) && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                    {errors.passwordNumber ||
+                                        (password.length > 0 && !/\d/.test(password) && (
+                                            <Icon name="danger" size={18} color="danger" />
+                                        ))}
+                                    <Text
+                                        variant="sm"
+                                        text="Mindestens eine Zahl"
+                                        classname={
+                                            errors.passwordNumber || (password.length > 0 && !/\d/.test(password))
+                                                ? styles.errorText
+                                                : password.length > 0 && /\d/.test(password)
+                                                ? styles.successText
+                                                : styles.defaultText
+                                        }
+                                    />
+                                </span>
+
+                                <span className={styles.passwordPolicy}>
+                                    {!errors.passwordLength && password.length === 0 && (
+                                        <figure className={styles.passwordPolicyIndicator}></figure>
+                                    )}
+                                    {!errors.passwordSpecialCharacters && /[@$!%*?&#<>|_-]/.test(password) && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                    {errors.passwordSpecialCharacters ||
+                                        (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password) && (
+                                            <Icon name="danger" size={18} color="danger" />
+                                        ))}
+                                    <Text
+                                        variant="sm"
+                                        text="Mindestens eines dieser erlaubten Sonderzeichen: @$!%*?&#<>|_-"
+                                        classname={
+                                            errors.passwordSpecialCharacters ||
+                                            (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password))
+                                                ? styles.errorText
+                                                : password.length > 0 && /[@$!%*?&#<>|_-]/.test(password)
+                                                ? styles.successText
+                                                : styles.defaultText
+                                        }
+                                    />
+                                </span>
+
+                                <span className={styles.passwordPolicy}>
+                                    {!errors.passwordLength && password.length === 0 && (
+                                        <figure className={styles.passwordPolicyIndicator}></figure>
+                                    )}
+                                    {!errors.passwordLength && password.length >= 8 && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                    {errors.passwordLength ||
+                                        (password.length > 0 && password.length < 8 && (
+                                            <Icon name="danger" size={18} color="danger" />
+                                        ))}
+                                    <Text
+                                        variant="sm"
+                                        text="Mindestens 8 Zeichen"
+                                        classname={
+                                            errors.passwordLength || (password.length > 0 && password.length < 8)
+                                                ? styles.errorText
+                                                : password.length >= 8
+                                                ? styles.successText
+                                                : styles.defaultText
+                                        }
+                                    />
+                                </span>
+
+                                {errors.backend_password && (
+                                    <Notification
+                                        type="inline"
+                                        variant="error"
+                                        message={errors.backend_password}
+                                        size="small"
+                                    />
+                                )}
+
+                                {errors.backend_password_confirmation && (
+                                    <Notification
+                                        type="inline"
+                                        variant="error"
+                                        message={errors.backend_password_confirmation}
+                                        size="small"
+                                    />
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.labelInput}>
+                            <label htmlFor="password-confirmation">
+                                Passwort bestätigen <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="password-confirmation"
+                                name="password-confirmation"
+                                value={passwordConfirmation}
+                                onChange={(event) => setPasswordConfirmation(event.target.value)}
+                                required
+                            />
+
+                            <span className={styles.passwordPolicy}>
+                                {!errors.passwordConfirmation && passwordConfirmation.length === 0 && (
+                                    <figure className={styles.passwordPolicyIndicator}></figure>
+                                )}
+                                {!errors.passwordConfirmation &&
+                                    passwordConfirmation.length > 0 &&
+                                    password === passwordConfirmation && (
+                                        <Icon name="check-circle" size={18} color="success" />
+                                    )}
+                                {errors.passwordConfirmation ||
+                                    (passwordConfirmation.length > 0 && password !== passwordConfirmation && (
+                                        <Icon name="danger" size={18} color="danger" />
+                                    ))}
+                                <Text
+                                    variant="sm"
+                                    text="Passwörter müssen übereinstimmen"
+                                    classname={
+                                        errors.passwordConfirmation ||
+                                        (passwordConfirmation.length > 0 && password !== passwordConfirmation)
+                                            ? styles.errorText
+                                            : passwordConfirmation.length > 0 && password === passwordConfirmation
+                                            ? styles.successText
+                                            : styles.defaultText
+                                    }
+                                />
+                            </span>
 
                             {errors.backend_password_confirmation && (
                                 <Notification
@@ -388,71 +470,21 @@ const Register = () => {
                         </div>
                     </div>
 
-                    <div className={styles.labelInput}>
-                        <label htmlFor="password-confirmation">
-                            Passwort bestätigen <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="password"
-                            id="password-confirmation"
-                            name="password-confirmation"
-                            value={passwordConfirmation}
-                            onChange={(event) => setPasswordConfirmation(event.target.value)}
-                            required
-                        />
-
-                        <span className={styles.passwordPolicy}>
-                            {!errors.passwordConfirmation && passwordConfirmation.length === 0 && (
-                                <figure className={styles.passwordPolicyIndicator}></figure>
-                            )}
-                            {!errors.passwordConfirmation &&
-                                passwordConfirmation.length > 0 &&
-                                password === passwordConfirmation && (
-                                    <Icon name="check-circle" size={18} color="success" />
-                                )}
-                            {errors.passwordConfirmation ||
-                                (passwordConfirmation.length > 0 && password !== passwordConfirmation && (
-                                    <Icon name="danger" size={18} color="danger" />
-                                ))}
-                            <Text
-                                variant="sm"
-                                text="Passwörter müssen übereinstimmen"
-                                classname={
-                                    errors.passwordConfirmation ||
-                                    (passwordConfirmation.length > 0 && password !== passwordConfirmation)
-                                        ? styles.errorText
-                                        : passwordConfirmation.length > 0 && password === passwordConfirmation
-                                        ? styles.successText
-                                        : styles.defaultText
-                                }
-                            />
-                        </span>
-
-                        {errors.backend_password_confirmation && (
-                            <Notification
-                                type="inline"
-                                variant="error"
-                                message={errors.backend_password_confirmation}
-                                size="small"
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <Button variant="primary" buttonText="Registrieren" type="submit" />
-            </form>
-            <Divider className={styles.customDivider} />
-            <section className={styles.secondarySection}>
-                <Heading as="h2" variant="md" headingText="Sie haben bereits einen Account?" />
-                <Link
-                    href="/login"
-                    linkText="Zur Anmeldung"
-                    mode="default"
-                    aria-label="Gehen Sie zur Anmeldung"
-                    className={styles.loginLink}
-                />
-            </section>
-        </div>
+                    <Button variant="primary" buttonText="Registrieren" type="submit" />
+                </form>
+                <Divider className={styles.customDivider} />
+                <section className={styles.secondarySection}>
+                    <Heading as="h2" variant="md" headingText="Sie haben bereits einen Account?" />
+                    <Link
+                        href="/login"
+                        linkText="Zur Anmeldung"
+                        mode="default"
+                        aria-label="Gehen Sie zur Anmeldung"
+                        className={styles.loginLink}
+                    />
+                </section>
+            </div>
+        </>
     );
 };
 
