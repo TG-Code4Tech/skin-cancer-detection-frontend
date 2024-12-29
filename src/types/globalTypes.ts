@@ -7,7 +7,9 @@ export type IconName =
     | "warning"
     | "upload-image"
     | "delete"
-    | "open-in-new";
+    | "open-in-new"
+    | "information-circle"
+    | "information-chat";
 
 export type IconSize = 14 | 16 | 18 | 20 | 24 | 28 | 32;
 

@@ -1,0 +1,159 @@
+.toastNotification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100%;
+    opacity: 1;
+    animation: fadeout 5s forwards;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.25rem;
+}
+
+.toastNotification.success {
+    background-color: var(--notification-toast-background-success);
+    border: 2px solid var(--notification-toast-border-success);
+    color: var(--text-color-inverted);
+}
+
+.toastNotification.error {
+    background-color: var(--notification-toast-background-error);
+    border: 2px solid var(--notification-toast-border-error);
+    color: var(--text-color-inverted);
+}
+
+.toastNotification.warning {
+    background-color: var(--notification-toast-background-warning);
+    border: 2px solid var(--notification-toast-border-warning);
+    color: var(--text-color);
+}
+
+.toastNotification.information {
+    background-color: var(--notification-toast-background-information);
+    border: 2px solid var(--notification-toast-border-information);
+    color: var(--text-color-inverted);
+}
+
+.toastNotification.neutral {
+    background-color: var(--notification-toast-background-neutral);
+    border: 2px solid var(--notification-toast-border-neutral);
+    color: var(--text-color-inverted);
+}
+
+.areaNotification {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.25rem;
+}
+
+.areaNotification.success {
+    background-color: var(--notification-area-background-success);
+    border: 2px solid var(--notification-area-border-success);
+    color: var(--notification-area-color-success);
+}
+
+.areaNotification.error {
+    background-color: var(--notification-area-background-error);
+    border: 2px solid var(--notification-area-border-error);
+    color: var(--notification-area-color-error);
+}
+
+.areaNotification.warning {
+    background-color: var(--notification-area-background-warning);
+    border: 2px solid var(--notification-area-border-warning);
+    color: var(--notification-area-color-warning);
+}
+
+.areaNotification.information {
+    background-color: var(--notification-area-background-information);
+    border: 2px solid var(--notification-area-border-information);
+    color: var(--notification-area-color-information);
+}
+
+.areaNotification.neutral {
+    background-color: var(--notification-area-background-neutral);
+    border: 2px solid var(--notification-area-border-neutral);
+    color: var(--notification-area-color-neutral);
+}
+
+.inlineNotification {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.inlineNotification.small {
+    gap: 0.5rem;
+}
+
+.inlineNotification.success {
+    color: var(--text-color-success);
+}
+
+.inlineNotification.error {
+    color: var(--text-color-error);
+}
+
+.inlineNotification.warning {
+    color: var(--text-color-warning);
+}
+
+.inlineNotification.information {
+    color: var(--text-color-information);
+}
+
+.toastNotification.success svg,
+.toastNotification.error svg,
+.toastNotification.information svg,
+.toastNotification.neutral svg {
+    fill: var(--text-color-inverted);
+}
+
+.toastNotification.warning svg {
+    fill: var(--text-color);
+}
+
+.areaNotification.success svg,
+.inlineNotification.success svg {
+    fill: var(--notification-area-color-success);
+}
+
+.areaNotification.error svg,
+.inlineNotification.error svg {
+    fill: var(--text-color-error);
+}
+
+.areaNotification.warning svg {
+    fill: var(--notification-area-color-warning);
+}
+
+.inlineNotification.warning svg {
+    fill: var(--text-color-warning);
+}
+
+.areaNotification.information svg,
+.inlineNotification.information svg {
+    fill: var(--text-color-information);
+}
+
+.areaNotification.neutral svg,
+.inlineNotification.neutral svg {
+    fill: var(--text-color-neutral);
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
