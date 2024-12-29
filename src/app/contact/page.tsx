@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import Heading from "@/components/Heading/Heading";
 import styles from "./page.module.css";
 import Button from "@/components/Button/Button";
-import Divider from "@/components/Divider/Divider";
 import Link from "@/components/Link/Link";
 import Text from "@/components/Text/Text";
-import Icon from "@/components/Icon/Icon";
+import Notification from "@/components/Notification/Notification";
 
 const Login = () => {
     const [firstName, setFirstName] = useState("");
@@ -67,9 +66,8 @@ const Login = () => {
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({
                         ...prevErrors,
-                        backend: errorData.error,
+                        [errorData.check]: errorData.error,
                     }));
-                    console.error("Sending failed:", response.statusText);
                 }
             } catch (error) {
                 console.error("Send request error:", error);
@@ -105,10 +103,16 @@ const Login = () => {
                             required
                         />
                         {errors.firstName && (
-                            <span className={styles.errorHint}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.firstName} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.firstName} size="small" />
+                        )}
+
+                        {errors.backend_first_name && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_first_name}
+                                size="small"
+                            />
                         )}
                     </div>
 
@@ -125,10 +129,16 @@ const Login = () => {
                             required
                         />
                         {errors.lastName && (
-                            <span className={styles.errorHint}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.lastName} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                        )}
+
+                        {errors.backend_last_name && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_last_name}
+                                size="small"
+                            />
                         )}
                     </div>
 
@@ -145,10 +155,11 @@ const Login = () => {
                             required
                         />
                         {errors.email && (
-                            <span className={styles.errorHint}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.email} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.email} size="small" />
+                        )}
+
+                        {errors.backend_email && (
+                            <Notification type="inline" variant="error" message={errors.backend_email} size="small" />
                         )}
                     </div>
 
@@ -166,10 +177,11 @@ const Login = () => {
                             {matter}
                         </textarea>
                         {errors.matter && (
-                            <span className={styles.errorHint}>
-                                <Icon name="danger" size={18} color="danger" />
-                                <Text variant="sm" text={errors.matter} classname={styles.errorText} />
-                            </span>
+                            <Notification type="inline" variant="error" message={errors.matter} size="small" />
+                        )}
+
+                        {errors.backend_matter && (
+                            <Notification type="inline" variant="error" message={errors.backend_matter} size="small" />
                         )}
                     </div>
 

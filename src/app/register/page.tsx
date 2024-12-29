@@ -109,7 +109,7 @@ const Register = () => {
                     const errorData = await response.json();
                     setErrors((prevErrors) => ({
                         ...prevErrors,
-                        backend: errorData.error,
+                        [errorData.check]: errorData.error,
                     }));
                     console.error("Registration failed:", response.statusText);
                 }
@@ -147,6 +147,15 @@ const Register = () => {
                         {errors.firstName && (
                             <Notification type="inline" variant="error" message={errors.firstName} size="small" />
                         )}
+
+                        {errors.backend_first_name && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_first_name}
+                                size="small"
+                            />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>
@@ -163,6 +172,15 @@ const Register = () => {
                         />
                         {errors.lastName && (
                             <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                        )}
+
+                        {errors.backend_last_name && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_last_name}
+                                size="small"
+                            />
                         )}
                     </div>
 
@@ -181,6 +199,15 @@ const Register = () => {
                         {errors.username && (
                             <Notification type="inline" variant="error" message={errors.username} size="small" />
                         )}
+
+                        {errors.backend_username && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_username}
+                                size="small"
+                            />
+                        )}
                     </div>
 
                     <div className={styles.labelInput}>
@@ -197,6 +224,10 @@ const Register = () => {
                         />
                         {errors.email && (
                             <Notification type="inline" variant="error" message={errors.email} size="small" />
+                        )}
+
+                        {errors.backend_email && (
+                            <Notification type="inline" variant="error" message={errors.backend_email} size="small" />
                         )}
                     </div>
 
@@ -337,14 +368,22 @@ const Register = () => {
                                 />
                             </span>
 
-                            {errors.password && <p>{errors.password}</p>}
-                            {errors.passwordLength && <p>{errors.passwordLength}</p>}
-                            {errors.passwordUppercaseLetter && <p>{errors.passwordUppercaseLetter}</p>}
-                            {errors.passwordLowercaseLetter && <p>{errors.passwordLowercaseLetter}</p>}
-                            {errors.passwordNumber && <p>{errors.passwordNumber}</p>}
-                            {errors.passwordSpecialCharacters && <p>{errors.passwordSpecialCharacters}</p>}
-                            {errors.passwordInvalidSpecialCharacters && (
-                                <p>{errors.passwordInvalidSpecialCharacters}</p>
+                            {errors.backend_password && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_password}
+                                    size="small"
+                                />
+                            )}
+
+                            {errors.backend_password_confirmation && (
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.backend_password_confirmation}
+                                    size="small"
+                                />
                             )}
                         </div>
                     </div>
@@ -389,7 +428,14 @@ const Register = () => {
                             />
                         </span>
 
-                        {errors.passwordConfirmation && <p>{errors.passwordConfirmation}</p>}
+                        {errors.backend_password_confirmation && (
+                            <Notification
+                                type="inline"
+                                variant="error"
+                                message={errors.backend_password_confirmation}
+                                size="small"
+                            />
+                        )}
                     </div>
                 </div>
 
