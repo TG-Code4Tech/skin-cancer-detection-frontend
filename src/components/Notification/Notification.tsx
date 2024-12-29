@@ -41,7 +41,7 @@ const variantStyles = {
 
 const iconMapping: Record<NotificationVariant, IconName> = {
     success: "check-circle",
-    error: "report", // change to "danger" after SCD-69 has been merged
+    error: "danger",
     warning: "warning",
     information: "information-circle",
     neutral: "information-chat",
