@@ -119,11 +119,10 @@ const Register = () => {
                 });
 
                 if (response.ok) {
-                    setNotification({ type: "toast", variant: "success", message: "Registrierung erfolgreich." });
-
                     const data = await response.json();
                     const { jwt_access_token } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
+                    router.push("/account/profile?register=true");
                 } else {
                     setNotification({ type: "toast", variant: "error", message: "Registrierung fehlgeschlagen." });
 

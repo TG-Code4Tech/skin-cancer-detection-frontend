@@ -37,6 +37,7 @@ const Profile = () => {
 
     useEffect(() => {
         const success = searchParams.get("success");
+        const registration = searchParams.get("register");
 
         if (success === "true") {
             setNotification({ type: "toast", variant: "success", message: "Anmeldung erfolgreich." });
@@ -47,6 +48,18 @@ const Profile = () => {
 
             const cleanUrl = new URL(window.location.href);
             cleanUrl.searchParams.delete("success");
+            router.replace(cleanUrl.toString());
+        }
+
+        if (registration === "true") {
+            setNotification({ type: "toast", variant: "success", message: "Registrierung erfolgreich." });
+
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete("register");
             router.replace(cleanUrl.toString());
         }
     }, [searchParams, router]);
