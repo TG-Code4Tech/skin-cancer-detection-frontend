@@ -14,6 +14,8 @@ import { getCookie } from "@/utils/cookie";
 import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
+import { isAuthenticated } from "@/utils/authentication";
+import router from "next/router";
 
 interface AnalysisResult {
     prediction: string;
@@ -38,22 +40,29 @@ const CheckSkin = () => {
 
     const resetInput = () => {
         const input = document.getElementById("upload-skin-lesion") as HTMLInputElement;
+
         if (input) {
             input.value = "";
         }
     };
 
     const onAnalyzeSkinLesion = async () => {
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
+
+            return;
+        }
+
         if (!skinLesionImage) {
             return;
         }
+
+        const token = getCookie("jwt_access_token");
 
         const formData = new FormData();
         formData.append("skin-lesion-image", skinLesionImage);
 
         try {
-            const token = getCookie("jwt_access_token");
-
             const saveResponse = await fetch("http://127.0.0.1:5000/upload-skin-lesion", {
                 method: "POST",
                 body: formData,
@@ -80,6 +89,12 @@ const CheckSkin = () => {
                     setAnalysisResult(data);
                     setShowAnalysisResult(true);
                 } else {
+                    if (response.status === 401) {
+                        router.push("/login?expired=true");
+
+                        return;
+                    }
+
                     setNotification({
                         type: "toast",
                         variant: "error",
@@ -87,6 +102,12 @@ const CheckSkin = () => {
                     });
                 }
             } else {
+                if (saveResponse.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
+
                 console.error("Fehler bei Speichern in der Datenbank:", saveResponse.statusText);
             }
         } catch (error) {

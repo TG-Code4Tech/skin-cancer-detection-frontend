@@ -9,7 +9,7 @@ import Divider from "@/components/Divider/Divider";
 import Button from "@/components/Button/Button";
 import Text from "@/components/Text/Text";
 import { isAuthenticated } from "@/utils/authentication";
-import { deleteCookie } from "@/utils/cookie";
+import { deleteCookie, getCookie } from "@/utils/cookie";
 import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
@@ -34,25 +34,31 @@ const Analyses = () => {
     ];
 
     const getUserData = async () => {
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
+
+            return;
+        }
+
+        const token = getCookie("jwt_access_token");
+
         try {
-            const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-            const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
-
-            if (!jwtToken) {
-                console.error("Kein JWT-Token gefunden");
-                return;
-            }
-
             const response = await fetch("http://127.0.0.1:5000/get-user-data", {
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
             if (response.ok) {
                 const data = await response.json();
                 setUserData(data);
+            } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
             }
         } catch (error) {
             console.error("Error:", error);
@@ -60,35 +66,48 @@ const Analyses = () => {
     };
 
     const getAnalyses = async () => {
-        const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-        const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
 
-        if (!jwtToken) {
-            console.error("Kein JWT-Token gefunden");
             return;
         }
 
-        const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+        const token = getCookie("jwt_access_token");
 
-        if (response.ok) {
-            const data = await response.json();
-            setAnalyses(data);
+        try {
+            const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setAnalyses(data);
+            } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
 
     const logout = () => {
         deleteCookie("jwt_access_token");
         router.push("/login");
+
+        return;
     };
 
     useEffect(() => {
         if (!isAuthenticated()) {
-            router.push("/login");
+            router.push("/login?expired=true");
+
             return;
         }
 
