@@ -9,6 +9,7 @@ import Divider from "@/components/Divider/Divider";
 import Link from "@/components/Link/Link";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Login = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -18,6 +19,10 @@ const Login = () => {
     const [isHydrated, setIsHydrated] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Login", href: "/login" },
+    ];
 
     useEffect(() => {
         const tokenExpired = searchParams.get("expired");
@@ -112,6 +117,8 @@ const Login = () => {
             {notification && (
                 <Notification type={notification.type} variant={notification.variant} message={notification.message} />
             )}
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <div className={styles.container}>
                 <Heading as="h1" variant="md" headingText="Anmelden" />

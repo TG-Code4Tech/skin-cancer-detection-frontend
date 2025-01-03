@@ -13,12 +13,17 @@ import { deleteCookie, getCookie } from "@/utils/cookie";
 import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Analyses = () => {
     const [userData, setUserData] = useState<Record<string, string>>({});
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Meine Analysen", href: "/account/analyses" },
+    ];
     const subNavigationLinks = [
         {
             href: "/account/analyses",
@@ -123,6 +128,8 @@ const Analyses = () => {
 
     return (
         <div className={styles.pageContainer}>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+
             <Heading as="h1" variant="md">
                 <span className={styles.greeting}>Willkommen,</span>
                 <br />

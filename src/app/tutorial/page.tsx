@@ -7,9 +7,14 @@ import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const SkinCancerDetection = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Anleitung", href: "/tutorial" },
+    ];
 
     useEffect(() => {
         try {
@@ -28,6 +33,10 @@ const SkinCancerDetection = () => {
 
     return (
         <div className={styles.container}>
+            <section className={styles.section}>
+                <Breadcrumbs breadcrumbs={breadcrumbs} />
+            </section>
+
             <section className={styles.section}>
                 <Heading
                     as="h1"

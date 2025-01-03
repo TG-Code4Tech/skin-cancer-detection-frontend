@@ -6,9 +6,14 @@ import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Accessibility = () => {
     const [isHydrated, setIsHydrated] = useState(false);
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Barrierefreiheit", href: "/accessibility" },
+    ];
 
     useEffect(() => {
         setIsHydrated(true);
@@ -20,6 +25,8 @@ const Accessibility = () => {
 
     return (
         <div className={styles.container}>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+
             <Heading as="h1" variant="xl" headingText="Erklärung zur Barrierefreiheit" />
 
             <Text variant="md">

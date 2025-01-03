@@ -5,9 +5,14 @@ import Heading from "@/components/Heading/Heading";
 import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const SkinCancerDetection = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Skin Cancer Detection", href: "/about/skin-cancer-detection" },
+    ];
 
     useEffect(() => {
         try {
@@ -26,6 +31,8 @@ const SkinCancerDetection = () => {
 
     return (
         <div className={styles.container}>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+
             <article className={styles.article}>
                 <section className={styles.section}>
                     <Heading as="h1" variant="md" headingText="Über Skin Cancer Detection" />

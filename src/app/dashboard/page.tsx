@@ -11,11 +11,16 @@ import { Analysis } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
 import HorizontalBarChart from "@/components/HorizontalBarChart/HorizontalBarChart";
 import { getCookie } from "@/utils/cookie";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Dashboard = () => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Dashboard", href: "/dashboard" },
+    ];
     let benignDiagnoses = 0;
     let malignantDiagnoses = 0;
 
@@ -88,6 +93,8 @@ const Dashboard = () => {
 
     return (
         <div className={styles.container}>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+
             <section className={styles.recentAnalyses}>
                 <Heading as="h1" variant="md" headingText="Aktuelle Analysen" />
                 <div className={styles.analysesTable}>

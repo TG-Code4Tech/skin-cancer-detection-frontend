@@ -1,7 +1,15 @@
 "use client";
 
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+
 const Home = () => {
-    return <main>Home</main>;
+    const breadcrumbs = [{ label: "Home", href: "/" }];
+
+    return (
+        <main>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+        </main>
+    );
 };
 
 export default Home;

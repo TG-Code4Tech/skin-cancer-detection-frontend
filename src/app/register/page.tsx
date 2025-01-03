@@ -11,6 +11,7 @@ import Icon from "@/components/Icon/Icon";
 import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Register = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -24,6 +25,10 @@ const Register = () => {
     const [isHydrated, setIsHydrated] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Registrierung", href: "/register" },
+    ];
 
     useEffect(() => {
         const success = searchParams.get("success");
@@ -152,6 +157,8 @@ const Register = () => {
             {notification && (
                 <Notification type={notification.type} variant={notification.variant} message={notification.message} />
             )}
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <div className={styles.container}>
                 <Heading as="h1" variant="md" headingText="Registrieren" />

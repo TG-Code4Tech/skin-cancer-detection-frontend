@@ -5,10 +5,18 @@ import Heading from "@/components/Heading/Heading";
 import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Impressum = () => {
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Impressum", href: "/impressum" },
+    ];
+
     return (
         <div className={styles.container}>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+
             <Heading as="h1" variant="md" headingText="Impressum" />
 
             <section className={styles.section}>

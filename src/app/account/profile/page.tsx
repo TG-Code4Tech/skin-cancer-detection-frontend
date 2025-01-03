@@ -15,6 +15,7 @@ import RadioField from "@/components/RadioField/RadioField";
 import Icon from "@/components/Icon/Icon";
 import Modal from "@/components/Modal/Modal";
 import { GlobalNotification } from "@/types/globalTypes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Profile = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -34,6 +35,10 @@ const Profile = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const router = useRouter();
     const searchParams = useSearchParams();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Mein Profil", href: "/account/profile" },
+    ];
 
     useEffect(() => {
         const success = searchParams.get("success");
@@ -631,6 +636,8 @@ const Profile = () => {
             {notification && (
                 <Notification type={notification.type} variant={notification.variant} message={notification.message} />
             )}
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <div className={styles.pageContainer}>
                 <Heading as="h1" variant="md">
