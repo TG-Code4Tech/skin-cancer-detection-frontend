@@ -135,6 +135,7 @@ const Login = () => {
                                     variant="error"
                                     message={errors.usernameOrEmail}
                                     size="small"
+                                    describedById="username-or-email"
                                 />
                             )}
 
@@ -144,6 +145,7 @@ const Login = () => {
                                     variant="error"
                                     message={errors.backend_username_or_email}
                                     size="small"
+                                    describedById="username-or-email"
                                 />
                             )}
                         </div>
@@ -161,7 +163,13 @@ const Login = () => {
                                 required
                             />
                             {errors.password && (
-                                <Notification type="inline" variant="error" message={errors.password} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.password}
+                                    size="small"
+                                    describedById="password"
+                                />
                             )}
 
                             {errors.backend_password && (
@@ -170,6 +178,7 @@ const Login = () => {
                                     variant="error"
                                     message={errors.backend_password}
                                     size="small"
+                                    describedById="password"
                                 />
                             )}
                         </div>
