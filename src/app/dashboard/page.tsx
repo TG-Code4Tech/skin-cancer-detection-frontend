@@ -10,6 +10,7 @@ import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
 import HorizontalBarChart from "@/components/HorizontalBarChart/HorizontalBarChart";
+import { getCookie } from "@/utils/cookie";
 
 const Dashboard = () => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
@@ -33,33 +34,42 @@ const Dashboard = () => {
 
     const maximum = benignDiagnoses >= malignantDiagnoses ? ++benignDiagnoses : ++malignantDiagnoses;
 
-    console.log("maximum", maximum);
-
     const getAnalyses = async () => {
-        const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-        const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
 
-        if (!jwtToken) {
-            console.error("Kein JWT-Token gefunden");
             return;
         }
 
-        const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+        const token = getCookie("jwt_access_token");
 
-        if (response.ok) {
-            const data = await response.json();
-            setAnalyses(data);
+        try {
+            const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setAnalyses(data);
+            } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error("Request error:", error);
         }
     };
 
     useEffect(() => {
         if (!isAuthenticated()) {
-            router.push("/login");
+            router.push("/login?expired=true");
+
             return;
         }
 

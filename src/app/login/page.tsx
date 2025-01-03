@@ -20,7 +20,20 @@ const Login = () => {
     const searchParams = useSearchParams();
 
     useEffect(() => {
+        const tokenExpired = searchParams.get("expired");
         const success = searchParams.get("success");
+
+        if (tokenExpired === "true") {
+            setNotification({
+                type: "toast",
+                variant: "error",
+                message: "Ihr Authentifizierungs-Token ist abgelaufen. Bitte melden Sie sich erneut an.",
+            });
+
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+        }
 
         if (success === "true") {
             setNotification({ type: "toast", variant: "success", message: "Abmeldung erfolgreich." });

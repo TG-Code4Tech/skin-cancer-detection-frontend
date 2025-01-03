@@ -91,13 +91,14 @@ const Profile = () => {
 
     const onChangePersonalData = async () => {
         if (validatePersonalData()) {
-            const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-            const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
 
-            if (!jwtToken) {
-                console.error("Kein JWT-Token gefunden");
+            if (isAuthenticated() === false) {
+                router.push("/login?expired=true");
+
                 return;
             }
+
+            const token = getCookie("jwt_access_token");
 
             if (firstName !== userData.first_name) {
                 const updateFirstNameFormData = new FormData();
@@ -108,7 +109,7 @@ const Profile = () => {
                         method: "PUT",
                         body: updateFirstNameFormData,
                         headers: {
-                            Authorization: `Bearer ${jwtToken}`,
+                            Authorization: `Bearer ${token}`,
                         },
                     });
 
@@ -124,6 +125,12 @@ const Profile = () => {
                             setNotification(null);
                         }, 5000);
                     } else {
+                        if (response.status === 401) {
+                            router.push("/login?expired=true");
+
+                            return;
+                        }
+
                         setNotification({
                             type: "toast",
                             variant: "error",
@@ -155,7 +162,7 @@ const Profile = () => {
                         method: "PUT",
                         body: updateLastNameFormData,
                         headers: {
-                            Authorization: `Bearer ${jwtToken}`,
+                            Authorization: `Bearer ${token}`,
                         },
                     });
 
@@ -171,6 +178,12 @@ const Profile = () => {
                             setNotification(null);
                         }, 5000);
                     } else {
+                        if (response.status === 401) {
+                            router.push("/login?expired=true");
+
+                            return;
+                        }
+
                         setNotification({
                             type: "toast",
                             variant: "error",
@@ -202,7 +215,7 @@ const Profile = () => {
                         method: "PUT",
                         body: updateEmailFormData,
                         headers: {
-                            Authorization: `Bearer ${jwtToken}`,
+                            Authorization: `Bearer ${token}`,
                         },
                     });
 
@@ -218,6 +231,12 @@ const Profile = () => {
                             setNotification(null);
                         }, 5000);
                     } else {
+                        if (response.status === 401) {
+                            router.push("/login?expired=true");
+
+                            return;
+                        }
+
                         setNotification({
                             type: "toast",
                             variant: "error",
@@ -249,7 +268,7 @@ const Profile = () => {
                         method: "PUT",
                         body: updateUsernameFormData,
                         headers: {
-                            Authorization: `Bearer ${jwtToken}`,
+                            Authorization: `Bearer ${token}`,
                         },
                     });
 
@@ -265,6 +284,12 @@ const Profile = () => {
                             setNotification(null);
                         }, 5000);
                     } else {
+                        if (response.status === 401) {
+                            router.push("/login?expired=true");
+
+                            return;
+                        }
+
                         setNotification({
                             type: "toast",
                             variant: "error",
@@ -346,27 +371,25 @@ const Profile = () => {
 
     const onChangePassword = async () => {
         if (validatePasswords()) {
+            if (!isAuthenticated()) {
+                router.push("/login?expired=true");
+
+                return;
+            }
+
+            const token = getCookie("jwt_access_token");
+
             const formData = new FormData();
             formData.append("current_password", currentPassword);
             formData.append("password", newPassword);
             formData.append("password_confirmation", newPasswordConfirmation);
 
             try {
-                const jwtCookie = document.cookie
-                    .split(";")
-                    .find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-                const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
-
-                if (!jwtToken) {
-                    console.error("Kein JWT-Token gefunden");
-                    return;
-                }
-
                 const response = await fetch("http://127.0.0.1:5000/update-password", {
                     method: "PUT",
                     body: formData,
                     headers: {
-                        Authorization: `Bearer ${jwtToken}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
@@ -383,6 +406,12 @@ const Profile = () => {
                         setNotification(null);
                     }, 5000);
                 } else {
+                    if (response.status === 401) {
+                        router.push("/login?expired=true");
+
+                        return;
+                    }
+
                     setNotification({
                         type: "toast",
                         variant: "error",
@@ -409,23 +438,23 @@ const Profile = () => {
     };
 
     const onChangeTheme = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
+
+            return;
+        }
+
+        const token = getCookie("jwt_access_token");
+
         const formData = new FormData();
         formData.append("theme", event.target.value);
 
         try {
-            const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-            const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
-
-            if (!jwtToken) {
-                console.error("Kein JWT-Token gefunden");
-                return;
-            }
-
             const response = await fetch("http://127.0.0.1:5000/update-theme", {
                 method: "PUT",
                 body: formData,
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -450,6 +479,12 @@ const Profile = () => {
                     setNotification(null);
                 }, 5000);
             } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
+
                 setNotification({
                     type: "toast",
                     variant: "error",
@@ -469,19 +504,19 @@ const Profile = () => {
     };
 
     const getUserData = async () => {
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
+
+            return;
+        }
+
+        const token = getCookie("jwt_access_token");
+
         try {
-            const jwtCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("jwt_access_token"));
-            const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : null;
-
-            if (!jwtToken) {
-                console.error("Kein JWT-Token gefunden");
-                return;
-            }
-
             const response = await fetch("http://127.0.0.1:5000/get-user-data", {
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -493,6 +528,12 @@ const Profile = () => {
                 setEmail(data.email);
                 setUsername(data.username);
                 setSelectedTheme(data.theme);
+            } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
             }
         } catch (error) {
             console.error("Error:", error);
@@ -505,12 +546,18 @@ const Profile = () => {
     };
 
     const onDeleteAccount = async () => {
+        if (!isAuthenticated()) {
+            router.push("/login?expired=true");
+
+            return;
+        }
+
+        const token = getCookie("jwt_access_token");
+
         const formData = new FormData();
         formData.append("user_id", userData.user_id);
 
         try {
-            const token = getCookie("jwt_access_token");
-
             const response = await fetch("http://127.0.0.1:5000/delete-account", {
                 method: "DELETE",
                 body: formData,
@@ -524,6 +571,12 @@ const Profile = () => {
                 deleteCookie("jwt_access_token");
                 router.push("/register?success=true");
             } else {
+                if (response.status === 401) {
+                    router.push("/login?expired=true");
+
+                    return;
+                }
+
                 setNotification({
                     type: "toast",
                     variant: "error",
@@ -556,7 +609,8 @@ const Profile = () => {
 
     useEffect(() => {
         if (!isAuthenticated()) {
-            router.push("/login");
+            router.push("/login?expired=true");
+
             return;
         }
 
