@@ -28,3 +28,5 @@ export type GlobalNotification = {
     variant: NotificationVariant;
     message: string;
 };
+
+export type Theme = "light" | "dark";

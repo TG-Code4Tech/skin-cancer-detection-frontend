@@ -10,6 +10,7 @@ import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const Contact = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -24,6 +25,10 @@ const Contact = () => {
         { label: "Home", href: "/" },
         { label: "Kontaktformular", href: "/contact" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     const validateForm = () => {
         const inputErrors: any = {};

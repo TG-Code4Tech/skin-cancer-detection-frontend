@@ -14,6 +14,7 @@ import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const Analyses = () => {
     const [userData, setUserData] = useState<Record<string, string>>({});
@@ -37,6 +38,10 @@ const Analyses = () => {
             ariaLabel: "Gehen Sie zu Ihren persönlichen Angaben",
         },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     const getUserData = async () => {
         if (!isAuthenticated()) {
