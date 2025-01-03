@@ -215,7 +215,7 @@ const CheckSkin = () => {
                         <div className={styles.resultItem}>
                             <Heading as="h2" variant="sm" headingText="Diagnose:" />
                             <Badge
-                                variant={analysisResult.prediction === "benign" ? "benign" : "malignant"}
+                                variant={analysisResult.prediction === "gutartig" ? "benign" : "malignant"}
                                 text={analysisResult.prediction}
                                 className={styles.badge}
                             />
@@ -229,14 +229,7 @@ const CheckSkin = () => {
                         </div>
                         <div className={styles.resultItem}>
                             <Heading as="h2" variant="sm" headingText="Empfehlung:" />
-                            <Text
-                                variant="md"
-                                text={
-                                    analysisResult.recommendation
-                                        ? analysisResult.recommendation
-                                        : "Ihre Hautläsion wurde von dem Modell als unbedenklich eingestuft. Bitte konsultieren Sie dennoch einen Dermatologen, um eine verbindliche Diagnose zu erhalten. Hier können Sie mehr über unser Modell erfahren."
-                                }
-                            />
+                            <Text variant="md" text={analysisResult.recommendation} />
                         </div>
                         <Button
                             variant="primary"
