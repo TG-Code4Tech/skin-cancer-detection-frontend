@@ -49,17 +49,28 @@ interface NotificationProps {
     variant: NotificationVariant;
     message: string;
     size?: NotificationSize;
+    describedById?: string;
 }
 
-const Notification = ({ type, variant, message, size = "default" }: NotificationProps) => {
+const Notification = ({ type, variant, message, size = "default", describedById }: NotificationProps) => {
     const { typeStyle } = typeStyles[type];
     const { variantStyle } = variantStyles[variant];
+    const role = variant === "error" ? "alert" : "status";
+    const ariaLive = variant === "error" ? "assertive" : "polite";
+    const tabIndex = variant === "error" ? 0 : undefined;
+    const ariaDescribedBy = type === "inline" && describedById ? describedById : undefined;
 
     return (
-        <span className={`${typeStyle} ${variantStyle} ${size === "small" ? styles.small : ""}`}>
-            <Icon name={iconMapping[variant]} size={size === "small" ? 20 : 24} color="default" />
+        <div
+            className={`${typeStyle} ${variantStyle} ${size === "small" ? styles.small : ""}`}
+            role={role}
+            aria-live={ariaLive}
+            aria-describedby={ariaDescribedBy}
+            tabIndex={tabIndex}
+        >
+            <Icon name={iconMapping[variant]} size={size === "small" ? 20 : 24} color="default" aria-hidden="true" />
             <Text variant="sm">{type === "inline" ? <strong>{message}</strong> : message}</Text>
-        </span>
+        </div>
     );
 };
 

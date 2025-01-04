@@ -170,7 +170,13 @@ const Register = () => {
                                 required
                             />
                             {errors.firstName && (
-                                <Notification type="inline" variant="error" message={errors.firstName} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.firstName}
+                                    size="small"
+                                    describedById="first-name"
+                                />
                             )}
 
                             {errors.backend_first_name && (
@@ -179,6 +185,7 @@ const Register = () => {
                                     variant="error"
                                     message={errors.backend_first_name}
                                     size="small"
+                                    describedById="first-name"
                                 />
                             )}
                         </div>
@@ -196,7 +203,13 @@ const Register = () => {
                                 required
                             />
                             {errors.lastName && (
-                                <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.lastName}
+                                    size="small"
+                                    describedById="last-name"
+                                />
                             )}
 
                             {errors.backend_last_name && (
@@ -205,6 +218,7 @@ const Register = () => {
                                     variant="error"
                                     message={errors.backend_last_name}
                                     size="small"
+                                    describedById="last-name"
                                 />
                             )}
                         </div>
@@ -222,7 +236,13 @@ const Register = () => {
                                 required
                             />
                             {errors.username && (
-                                <Notification type="inline" variant="error" message={errors.username} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.username}
+                                    size="small"
+                                    describedById="username"
+                                />
                             )}
 
                             {errors.backend_username && (
@@ -231,6 +251,7 @@ const Register = () => {
                                     variant="error"
                                     message={errors.backend_username}
                                     size="small"
+                                    describedById="username"
                                 />
                             )}
                         </div>
@@ -248,7 +269,13 @@ const Register = () => {
                                 required
                             />
                             {errors.email && (
-                                <Notification type="inline" variant="error" message={errors.email} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.email}
+                                    size="small"
+                                    describedById="email"
+                                />
                             )}
 
                             {errors.backend_email && (
@@ -257,6 +284,7 @@ const Register = () => {
                                     variant="error"
                                     message={errors.backend_email}
                                     size="small"
+                                    describedById="email"
                                 />
                             )}
                         </div>
@@ -404,15 +432,7 @@ const Register = () => {
                                         variant="error"
                                         message={errors.backend_password}
                                         size="small"
-                                    />
-                                )}
-
-                                {errors.backend_password_confirmation && (
-                                    <Notification
-                                        type="inline"
-                                        variant="error"
-                                        message={errors.backend_password_confirmation}
-                                        size="small"
+                                        describedById="password"
                                     />
                                 )}
                             </div>
@@ -464,6 +484,7 @@ const Register = () => {
                                     variant="error"
                                     message={errors.backend_password_confirmation}
                                     size="small"
+                                    describedById="password-confirmation"
                                 />
                             )}
                         </div>

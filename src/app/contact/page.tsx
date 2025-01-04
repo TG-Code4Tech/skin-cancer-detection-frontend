@@ -127,7 +127,13 @@ const Contact = () => {
                                 required
                             />
                             {errors.firstName && (
-                                <Notification type="inline" variant="error" message={errors.firstName} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.firstName}
+                                    size="small"
+                                    describedById="first-name"
+                                />
                             )}
 
                             {errors.backend_first_name && (
@@ -136,6 +142,7 @@ const Contact = () => {
                                     variant="error"
                                     message={errors.backend_first_name}
                                     size="small"
+                                    describedById="first-name"
                                 />
                             )}
                         </div>
@@ -153,7 +160,13 @@ const Contact = () => {
                                 required
                             />
                             {errors.lastName && (
-                                <Notification type="inline" variant="error" message={errors.lastName} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.lastName}
+                                    size="small"
+                                    describedById="last-name"
+                                />
                             )}
 
                             {errors.backend_last_name && (
@@ -162,6 +175,7 @@ const Contact = () => {
                                     variant="error"
                                     message={errors.backend_last_name}
                                     size="small"
+                                    describedById="last-name"
                                 />
                             )}
                         </div>
@@ -179,7 +193,13 @@ const Contact = () => {
                                 required
                             />
                             {errors.email && (
-                                <Notification type="inline" variant="error" message={errors.email} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.email}
+                                    size="small"
+                                    describedById="email"
+                                />
                             )}
 
                             {errors.backend_email && (
@@ -188,6 +208,7 @@ const Contact = () => {
                                     variant="error"
                                     message={errors.backend_email}
                                     size="small"
+                                    describedById="email"
                                 />
                             )}
                         </div>
@@ -206,7 +227,13 @@ const Contact = () => {
                                 {matter}
                             </textarea>
                             {errors.matter && (
-                                <Notification type="inline" variant="error" message={errors.matter} size="small" />
+                                <Notification
+                                    type="inline"
+                                    variant="error"
+                                    message={errors.matter}
+                                    size="small"
+                                    describedById="matter"
+                                />
                             )}
 
                             {errors.backend_matter && (
@@ -215,6 +242,7 @@ const Contact = () => {
                                     variant="error"
                                     message={errors.backend_matter}
                                     size="small"
+                                    describedById="matter"
                                 />
                             )}
                         </div>

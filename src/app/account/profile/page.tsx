@@ -91,7 +91,6 @@ const Profile = () => {
 
     const onChangePersonalData = async () => {
         if (validatePersonalData()) {
-
             if (isAuthenticated() === false) {
                 router.push("/login?expired=true");
 
@@ -710,6 +709,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.firstName}
                                                 size="small"
+                                                describedById="first-name"
                                             />
                                         )}
 
@@ -719,6 +719,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_first_name}
                                                 size="small"
+                                                describedById="first-name"
                                             />
                                         )}
                                     </div>
@@ -741,6 +742,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.lastName}
                                                 size="small"
+                                                describedById="last-name"
                                             />
                                         )}
 
@@ -750,6 +752,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_last_name}
                                                 size="small"
+                                                describedById="last-name"
                                             />
                                         )}
                                     </div>
@@ -772,6 +775,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.username}
                                                 size="small"
+                                                describedById="username"
                                             />
                                         )}
 
@@ -781,6 +785,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_username}
                                                 size="small"
+                                                describedById="username"
                                             />
                                         )}
                                     </div>
@@ -803,6 +808,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.email}
                                                 size="small"
+                                                describedById="email"
                                             />
                                         )}
 
@@ -812,6 +818,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_email}
                                                 size="small"
+                                                describedById="email"
                                             />
                                         )}
                                     </div>
@@ -897,14 +904,13 @@ const Profile = () => {
                                             required
                                         />
                                         {errors.currentPassword && (
-                                            <span className={styles.errorMessage}>
-                                                <Icon name="danger" size={18} color="danger" />
-                                                <Text
-                                                    variant="sm"
-                                                    text={errors.currentPassword}
-                                                    classname={styles.errorText}
-                                                />
-                                            </span>
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.currentPassword}
+                                                size="small"
+                                                describedById="current-password"
+                                            />
                                         )}
 
                                         {errors.backend_current_password && (
@@ -913,6 +919,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_current_password}
                                                 size="small"
+                                                describedById="current-password"
                                             />
                                         )}
                                     </div>
@@ -1064,15 +1071,7 @@ const Profile = () => {
                                                     variant="error"
                                                     message={errors.backend_password}
                                                     size="small"
-                                                />
-                                            )}
-
-                                            {errors.backend_password_confirmation && (
-                                                <Notification
-                                                    type="inline"
-                                                    variant="error"
-                                                    message={errors.backend_password_confirmation}
-                                                    size="small"
+                                                    describedById="new-password"
                                                 />
                                             )}
                                         </div>
@@ -1126,6 +1125,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_password_confirmation}
                                                 size="small"
+                                                describedById="new-password-confirmation"
                                             />
                                         )}
 
@@ -1135,6 +1135,7 @@ const Profile = () => {
                                                 variant="error"
                                                 message={errors.backend_password_confirmation}
                                                 size="small"
+                                                describedById="new-password-confirmation"
                                             />
                                         )}
                                     </div>
