@@ -16,6 +16,7 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
 import router from "next/router";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 interface AnalysisResult {
     prediction: string;
@@ -29,6 +30,10 @@ const CheckSkin = () => {
     const [skinLesionThumbnail, setSkinLesionThumbnail] = useState<string | null>(null);
     const [showAnalysisResult, setShowAnalysisResult] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Haut prüfen", href: "/check-skin" },
+    ];
 
     const onSkinLesionUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -120,6 +125,8 @@ const CheckSkin = () => {
             {notification && (
                 <Notification type={notification.type} variant={notification.variant} message={notification.message} />
             )}
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <div className={styles.container}>
                 <Heading

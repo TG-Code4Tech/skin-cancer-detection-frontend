@@ -9,6 +9,7 @@ import Link from "@/components/Link/Link";
 import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 const Contact = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -19,6 +20,10 @@ const Contact = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isHydrated, setIsHydrated] = useState(false);
     const router = useRouter();
+    const breadcrumbs = [
+        { label: "Home", href: "/" },
+        { label: "Kontaktformular", href: "/contact" },
+    ];
 
     const validateForm = () => {
         const inputErrors: any = {};
@@ -107,6 +112,8 @@ const Contact = () => {
             {notification && (
                 <Notification type={notification.type} variant={notification.variant} message={notification.message} />
             )}
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <div className={styles.container}>
                 <Heading as="h1" variant="md" headingText="Kontaktieren Sie uns!" />
