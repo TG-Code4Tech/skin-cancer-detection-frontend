@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Heading from "@/components/Heading/Heading";
 import styles from "./page.module.css";
@@ -17,6 +17,7 @@ import { GlobalNotification } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
 import router from "next/router";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 interface AnalysisResult {
     prediction: string;
@@ -34,6 +35,10 @@ const CheckSkin = () => {
         { label: "Home", href: "/" },
         { label: "Haut prüfen", href: "/check-skin" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     const onSkinLesionUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {

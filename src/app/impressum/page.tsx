@@ -6,12 +6,17 @@ import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const Impressum = () => {
     const breadcrumbs = [
         { label: "Home", href: "/" },
         { label: "Impressum", href: "/impressum" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     return (
         <div className={styles.container}>

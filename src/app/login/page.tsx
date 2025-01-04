@@ -10,6 +10,7 @@ import Link from "@/components/Link/Link";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme, setTheme } from "@/utils/theme";
 
 const Login = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -23,6 +24,10 @@ const Login = () => {
         { label: "Home", href: "/" },
         { label: "Login", href: "/login" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     useEffect(() => {
         const tokenExpired = searchParams.get("expired");
@@ -86,8 +91,9 @@ const Login = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    const { jwt_access_token } = data;
+                    const { jwt_access_token, theme } = data;
                     document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
+                    setTheme(theme);
                     router.push("/account/profile?success=true");
                 } else {
                     setNotification({ type: "toast", variant: "error", message: "Anmeldung fehlgeschlagen." });

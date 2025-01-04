@@ -1,17 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Heading from "@/components/Heading/Heading";
 import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const PrivacyPolicy = () => {
     const breadcrumbs = [
         { label: "Home", href: "/" },
         { label: "Datenschutz", href: "/privacy-policy" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     return (
         <div className={styles.container}>

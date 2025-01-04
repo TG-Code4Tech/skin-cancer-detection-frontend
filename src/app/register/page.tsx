@@ -12,6 +12,7 @@ import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const Register = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -29,6 +30,10 @@ const Register = () => {
         { label: "Home", href: "/" },
         { label: "Registrierung", href: "/register" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     useEffect(() => {
         const success = searchParams.get("success");

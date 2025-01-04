@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme } from "@/utils/theme";
 
 const Accessibility = () => {
     const [isHydrated, setIsHydrated] = useState(false);
@@ -14,6 +15,10 @@ const Accessibility = () => {
         { label: "Home", href: "/" },
         { label: "Barrierefreiheit", href: "/accessibility" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     useEffect(() => {
         setIsHydrated(true);

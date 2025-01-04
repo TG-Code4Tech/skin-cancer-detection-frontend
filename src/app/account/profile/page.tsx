@@ -16,6 +16,7 @@ import Icon from "@/components/Icon/Icon";
 import Modal from "@/components/Modal/Modal";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { loadTheme, setTheme } from "@/utils/theme";
 
 const Profile = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -39,6 +40,10 @@ const Profile = () => {
         { label: "Home", href: "/" },
         { label: "Mein Profil", href: "/account/profile" },
     ];
+
+    useEffect(() => {
+        loadTheme();
+    }, []);
 
     useEffect(() => {
         const success = searchParams.get("success");
@@ -465,12 +470,8 @@ const Profile = () => {
             if (response.ok) {
                 const data = await response.json();
                 setSelectedTheme(data.theme);
-
-                if (data.theme === "dark") {
-                    document.body.setAttribute("data-dark-mode", "true");
-                } else {
-                    document.body.removeAttribute("data-dark-mode");
-                }
+                setTheme(data.theme);
+                loadTheme();
 
                 setNotification({
                     type: "toast",
