@@ -110,27 +110,6 @@
     color: var(--required-indicator);
 }
 
-.passwordPolicies {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.25rem;
-}
-
-.passwordPolicy {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.passwordPolicyIndicator {
-    height: 0.9375rem;
-    width: 0.9375rem;
-    border-radius: 50%;
-    background-color: var(--input-color);
-    margin-left: 0.125rem;
-}
-
 .defaultText {
     color: var(--input-color);
 }
