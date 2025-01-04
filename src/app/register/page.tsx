@@ -13,6 +13,7 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
 
 const Register = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -314,140 +315,7 @@ const Register = () => {
                                 required
                             />
 
-                            <div className={styles.passwordPolicies}>
-                                <span className={styles.passwordPolicy}>
-                                    {!errors.passwordLength && password.length === 0 && (
-                                        <figure className={styles.passwordPolicyIndicator}></figure>
-                                    )}
-                                    {!errors.passwordLowercaseLetter && /[a-z]/.test(password) && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                    {errors.passwordLowercaseLetter ||
-                                        (password.length > 0 && !/[a-z]/.test(password) && (
-                                            <Icon name="danger" size={18} color="danger" />
-                                        ))}
-                                    <Text
-                                        variant="sm"
-                                        text="Mindestens ein Kleinbuchstabe"
-                                        classname={
-                                            errors.passwordLowercaseLetter ||
-                                            (password.length > 0 && !/[a-z]/.test(password))
-                                                ? styles.errorText
-                                                : password.length > 0 && /[a-z]/.test(password)
-                                                ? styles.successText
-                                                : styles.defaultText
-                                        }
-                                    />
-                                </span>
-
-                                <span className={styles.passwordPolicy}>
-                                    {!errors.passwordLength && password.length === 0 && (
-                                        <figure className={styles.passwordPolicyIndicator}></figure>
-                                    )}
-                                    {!errors.passwordUppercaseLetter && /[A-Z]/.test(password) && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                    {errors.passwordUppercaseLetter ||
-                                        (password.length > 0 && !/[A-Z]/.test(password) && (
-                                            <Icon name="danger" size={18} color="danger" />
-                                        ))}
-                                    <Text
-                                        variant="sm"
-                                        text="Mindestens ein Großbuchstabe"
-                                        classname={
-                                            errors.passwordUppercaseLetter ||
-                                            (password.length > 0 && !/[A-Z]/.test(password))
-                                                ? styles.errorText
-                                                : password.length > 0 && /[A-Z]/.test(password)
-                                                ? styles.successText
-                                                : styles.defaultText
-                                        }
-                                    />
-                                </span>
-
-                                <span className={styles.passwordPolicy}>
-                                    {!errors.passwordLength && password.length === 0 && (
-                                        <figure className={styles.passwordPolicyIndicator}></figure>
-                                    )}
-                                    {!errors.passwordNumber && /\d/.test(password) && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                    {errors.passwordNumber ||
-                                        (password.length > 0 && !/\d/.test(password) && (
-                                            <Icon name="danger" size={18} color="danger" />
-                                        ))}
-                                    <Text
-                                        variant="sm"
-                                        text="Mindestens eine Zahl"
-                                        classname={
-                                            errors.passwordNumber || (password.length > 0 && !/\d/.test(password))
-                                                ? styles.errorText
-                                                : password.length > 0 && /\d/.test(password)
-                                                ? styles.successText
-                                                : styles.defaultText
-                                        }
-                                    />
-                                </span>
-
-                                <span className={styles.passwordPolicy}>
-                                    {!errors.passwordLength && password.length === 0 && (
-                                        <figure className={styles.passwordPolicyIndicator}></figure>
-                                    )}
-                                    {!errors.passwordSpecialCharacters && /[@$!%*?&#<>|_-]/.test(password) && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                    {errors.passwordSpecialCharacters ||
-                                        (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password) && (
-                                            <Icon name="danger" size={18} color="danger" />
-                                        ))}
-                                    <Text
-                                        variant="sm"
-                                        text="Mindestens eines dieser erlaubten Sonderzeichen: @$!%*?&#<>|_-"
-                                        classname={
-                                            errors.passwordSpecialCharacters ||
-                                            (password.length > 0 && !/[@$!%*?&#<>|_-]/.test(password))
-                                                ? styles.errorText
-                                                : password.length > 0 && /[@$!%*?&#<>|_-]/.test(password)
-                                                ? styles.successText
-                                                : styles.defaultText
-                                        }
-                                    />
-                                </span>
-
-                                <span className={styles.passwordPolicy}>
-                                    {!errors.passwordLength && password.length === 0 && (
-                                        <figure className={styles.passwordPolicyIndicator}></figure>
-                                    )}
-                                    {!errors.passwordLength && password.length >= 8 && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                    {errors.passwordLength ||
-                                        (password.length > 0 && password.length < 8 && (
-                                            <Icon name="danger" size={18} color="danger" />
-                                        ))}
-                                    <Text
-                                        variant="sm"
-                                        text="Mindestens 8 Zeichen"
-                                        classname={
-                                            errors.passwordLength || (password.length > 0 && password.length < 8)
-                                                ? styles.errorText
-                                                : password.length >= 8
-                                                ? styles.successText
-                                                : styles.defaultText
-                                        }
-                                    />
-                                </span>
-
-                                {errors.backend_password && (
-                                    <Notification
-                                        type="inline"
-                                        variant="error"
-                                        message={errors.backend_password}
-                                        size="small"
-                                        describedById="password"
-                                    />
-                                )}
-                            </div>
+                            <PasswordPolicies password={password} errors={errors} />
                         </div>
 
                         <div className={styles.labelInput}>
@@ -463,42 +331,12 @@ const Register = () => {
                                 required
                             />
 
-                            <span className={styles.passwordPolicy}>
-                                {!errors.passwordConfirmation && passwordConfirmation.length === 0 && (
-                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                )}
-                                {!errors.passwordConfirmation &&
-                                    passwordConfirmation.length > 0 &&
-                                    password === passwordConfirmation && (
-                                        <Icon name="check-circle" size={18} color="success" />
-                                    )}
-                                {errors.passwordConfirmation ||
-                                    (passwordConfirmation.length > 0 && password !== passwordConfirmation && (
-                                        <Icon name="danger" size={18} color="danger" />
-                                    ))}
-                                <Text
-                                    variant="sm"
-                                    text="Passwörter müssen übereinstimmen"
-                                    classname={
-                                        errors.passwordConfirmation ||
-                                        (passwordConfirmation.length > 0 && password !== passwordConfirmation)
-                                            ? styles.errorText
-                                            : passwordConfirmation.length > 0 && password === passwordConfirmation
-                                            ? styles.successText
-                                            : styles.defaultText
-                                    }
-                                />
-                            </span>
-
-                            {errors.backend_password_confirmation && (
-                                <Notification
-                                    type="inline"
-                                    variant="error"
-                                    message={errors.backend_password_confirmation}
-                                    size="small"
-                                    describedById="password-confirmation"
-                                />
-                            )}
+                            <PasswordPolicies
+                                password={password}
+                                errors={errors}
+                                passwordConfirmation={passwordConfirmation}
+                                showOnlyPasswordConfirmation={true}
+                            />
                         </div>
                     </div>
 

@@ -17,6 +17,7 @@ import Modal from "@/components/Modal/Modal";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme, setTheme } from "@/utils/theme";
+import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
 
 const Profile = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -933,219 +934,40 @@ const Profile = () => {
                                     </div>
 
                                     <div className={styles.labelInput}>
-                                        <label htmlFor="new-password">
+                                        <label htmlFor="password">
                                             Neues Passwort <span className={styles.required}>*</span>
                                         </label>
                                         <input
                                             type="password"
-                                            id="new-password"
-                                            name="new-password"
+                                            id="password"
+                                            name="password"
                                             value={newPassword}
                                             onChange={(event) => setNewPassword(event.target.value)}
                                             required
                                         />
 
-                                        <div className={styles.passwordPolicies}>
-                                            <span className={styles.passwordPolicy}>
-                                                {!errors.passwordLength && newPassword.length === 0 && (
-                                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                                )}
-                                                {!errors.passwordLowercaseLetter && /[a-z]/.test(newPassword) && (
-                                                    <Icon name="check-circle" size={18} color="success" />
-                                                )}
-                                                {errors.passwordLowercaseLetter ||
-                                                    (newPassword.length > 0 && !/[a-z]/.test(newPassword) && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                                <Text
-                                                    variant="sm"
-                                                    text="Mindestens ein Kleinbuchstabe"
-                                                    classname={
-                                                        errors.passwordLowercaseLetter ||
-                                                        (newPassword.length > 0 && !/[a-z]/.test(newPassword))
-                                                            ? styles.errorText
-                                                            : newPassword.length > 0 && /[a-z]/.test(newPassword)
-                                                            ? styles.successText
-                                                            : styles.defaultText
-                                                    }
-                                                />
-                                            </span>
-
-                                            <span className={styles.passwordPolicy}>
-                                                {!errors.passwordLength && newPassword.length === 0 && (
-                                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                                )}
-                                                {!errors.passwordUppercaseLetter && /[A-Z]/.test(newPassword) && (
-                                                    <Icon name="check-circle" size={18} color="success" />
-                                                )}
-                                                {errors.passwordUppercaseLetter ||
-                                                    (newPassword.length > 0 && !/[A-Z]/.test(newPassword) && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                                <Text
-                                                    variant="sm"
-                                                    text="Mindestens ein Großbuchstabe"
-                                                    classname={
-                                                        errors.passwordUppercaseLetter ||
-                                                        (newPassword.length > 0 && !/[A-Z]/.test(newPassword))
-                                                            ? styles.errorText
-                                                            : newPassword.length > 0 && /[A-Z]/.test(newPassword)
-                                                            ? styles.successText
-                                                            : styles.defaultText
-                                                    }
-                                                />
-                                            </span>
-
-                                            <span className={styles.passwordPolicy}>
-                                                {!errors.passwordLength && newPassword.length === 0 && (
-                                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                                )}
-                                                {!errors.passwordNumber && /\d/.test(newPassword) && (
-                                                    <Icon name="check-circle" size={18} color="success" />
-                                                )}
-                                                {errors.passwordNumber ||
-                                                    (newPassword.length > 0 && !/\d/.test(newPassword) && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                                <Text
-                                                    variant="sm"
-                                                    text="Mindestens eine Zahl"
-                                                    classname={
-                                                        errors.passwordNumber ||
-                                                        (newPassword.length > 0 && !/\d/.test(newPassword))
-                                                            ? styles.errorText
-                                                            : newPassword.length > 0 && /\d/.test(newPassword)
-                                                            ? styles.successText
-                                                            : styles.defaultText
-                                                    }
-                                                />
-                                            </span>
-
-                                            <span className={styles.passwordPolicy}>
-                                                {!errors.passwordLength && newPassword.length === 0 && (
-                                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                                )}
-                                                {!errors.passwordSpecialCharacters &&
-                                                    /[@$!%*?&#<>|_-]/.test(newPassword) && (
-                                                        <Icon name="check-circle" size={18} color="success" />
-                                                    )}
-                                                {errors.passwordSpecialCharacters ||
-                                                    (newPassword.length > 0 && !/[@$!%*?&#<>|_-]/.test(newPassword) && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                                <Text
-                                                    variant="sm"
-                                                    text="Mindestens eines dieser erlaubten Sonderzeichen: @$!%*?&#<>|_-"
-                                                    classname={
-                                                        errors.passwordSpecialCharacters ||
-                                                        (newPassword.length > 0 && !/[@$!%*?&#<>|_-]/.test(newPassword))
-                                                            ? styles.errorText
-                                                            : newPassword.length > 0 &&
-                                                              /[@$!%*?&#<>|_-]/.test(newPassword)
-                                                            ? styles.successText
-                                                            : styles.defaultText
-                                                    }
-                                                />
-                                            </span>
-
-                                            <span className={styles.passwordPolicy}>
-                                                {!errors.passwordLength && newPassword.length === 0 && (
-                                                    <figure className={styles.passwordPolicyIndicator}></figure>
-                                                )}
-                                                {!errors.passwordLength && newPassword.length >= 8 && (
-                                                    <Icon name="check-circle" size={18} color="success" />
-                                                )}
-                                                {errors.passwordLength ||
-                                                    (newPassword.length > 0 && newPassword.length < 8 && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                                <Text
-                                                    variant="sm"
-                                                    text="Mindestens 8 Zeichen"
-                                                    classname={
-                                                        errors.passwordLength ||
-                                                        (newPassword.length > 0 && newPassword.length < 8)
-                                                            ? styles.errorText
-                                                            : newPassword.length >= 8
-                                                            ? styles.successText
-                                                            : styles.defaultText
-                                                    }
-                                                />
-                                            </span>
-
-                                            {errors.backend_password && (
-                                                <Notification
-                                                    type="inline"
-                                                    variant="error"
-                                                    message={errors.backend_password}
-                                                    size="small"
-                                                    describedById="new-password"
-                                                />
-                                            )}
-                                        </div>
+                                        <PasswordPolicies password={newPassword} errors={errors} />
                                     </div>
 
                                     <div className={styles.labelInput}>
-                                        <label htmlFor="new-password-confirmation">
+                                        <label htmlFor="password-confirmation">
                                             Neues Passwort bestätigen <span className={styles.required}>*</span>
                                         </label>
                                         <input
                                             type="password"
-                                            id="new-password-confirmation"
-                                            name="new-password-confirmation"
+                                            id="password-confirmation"
+                                            name="password-confirmation"
                                             value={newPasswordConfirmation}
                                             onChange={(event) => setNewPasswordConfirmation(event.target.value)}
                                             required
                                         />
 
-                                        <span className={styles.passwordPolicy}>
-                                            {!errors.passwordConfirmation && newPasswordConfirmation.length === 0 && (
-                                                <figure className={styles.passwordPolicyIndicator}></figure>
-                                            )}
-                                            {!errors.passwordConfirmation &&
-                                                newPasswordConfirmation.length > 0 &&
-                                                newPassword === newPasswordConfirmation && (
-                                                    <Icon name="check-circle" size={18} color="success" />
-                                                )}
-                                            {errors.passwordConfirmation ||
-                                                (newPasswordConfirmation.length > 0 &&
-                                                    newPassword !== newPasswordConfirmation && (
-                                                        <Icon name="danger" size={18} color="danger" />
-                                                    ))}
-                                            <Text
-                                                variant="sm"
-                                                text="Passwörter müssen übereinstimmen"
-                                                classname={
-                                                    errors.passwordConfirmation ||
-                                                    (newPasswordConfirmation.length > 0 &&
-                                                        newPassword !== newPasswordConfirmation)
-                                                        ? styles.errorText
-                                                        : newPasswordConfirmation.length > 0 &&
-                                                          newPassword === newPasswordConfirmation
-                                                        ? styles.successText
-                                                        : styles.defaultText
-                                                }
-                                            />
-                                        </span>
-                                        {errors.passwordConfirmation && (
-                                            <Notification
-                                                type="inline"
-                                                variant="error"
-                                                message={errors.backend_password_confirmation}
-                                                size="small"
-                                                describedById="new-password-confirmation"
-                                            />
-                                        )}
-
-                                        {errors.backend_password_confirmation && (
-                                            <Notification
-                                                type="inline"
-                                                variant="error"
-                                                message={errors.backend_password_confirmation}
-                                                size="small"
-                                                describedById="new-password-confirmation"
-                                            />
-                                        )}
+                                        <PasswordPolicies
+                                            password={newPassword}
+                                            errors={errors}
+                                            passwordConfirmation={newPasswordConfirmation}
+                                            showOnlyPasswordConfirmation={true}
+                                        />
                                     </div>
                                 </div>
                             </Modal>
