@@ -13,6 +13,7 @@ import HorizontalBarChart from "@/components/HorizontalBarChart/HorizontalBarCha
 import { getCookie } from "@/utils/cookie";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Dashboard = () => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
@@ -93,7 +94,7 @@ const Dashboard = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (

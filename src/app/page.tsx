@@ -6,7 +6,10 @@ import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import Spinner from "@/components/Spinner/Spinner";
+
 import { loadTheme } from "@/utils/theme";
+import { useEffect, useState } from "react";
 
 const SkinCancerDetection = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +17,7 @@ const SkinCancerDetection = () => {
 
     useEffect(() => {
         loadTheme();
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -28,7 +32,7 @@ const SkinCancerDetection = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (

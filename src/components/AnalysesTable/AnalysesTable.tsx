@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./AnalysesTable.module.css";
 import Badge from "../Badge/Badge";
+import Spinner from "../Spinner/Spinner";
 
 interface Analysis {
     image_id: number;
@@ -17,7 +18,8 @@ interface AnalysesTableProps {
 
 const AnalysesTable = ({ caption, tableBodyRows }: AnalysesTableProps) => {
     const [images, setImages] = useState<{ [key: number]: string }>({});
-    
+    const [loadingStates, setLoadingStates] = useState<{ [key: number]: boolean }>({});
+
     useEffect(() => {
         const fetchImages = async () => {
             const skinLesionUrls: { [key: number]: string } = {};
@@ -58,6 +60,14 @@ const AnalysesTable = ({ caption, tableBodyRows }: AnalysesTableProps) => {
         fetchImages();
     }, [tableBodyRows]);
 
+    const handleLoadingComplete = (imageId: number) => {
+        setLoadingStates((prevState) => ({ ...prevState, [imageId]: false }));
+    };
+
+    const handleError = (imageId: number) => {
+        setLoadingStates((prevState) => ({ ...prevState, [imageId]: true }));
+    };
+
     return (
         <table className={styles.table}>
             <caption className={styles.caption}>{caption}</caption>
@@ -84,11 +94,14 @@ const AnalysesTable = ({ caption, tableBodyRows }: AnalysesTableProps) => {
                             key={`skin-lesion-image-${index}`}
                             className={`${styles.tableData} ${styles.skinLesionCell}`}
                         >
+                            {loadingStates[analysis.image_id] && <Spinner size="md" className={styles.spinner} />}
                             <Image
                                 alt={`Hautläsion-${index}`}
                                 src={images[analysis.image_id]}
                                 width={100}
                                 height={100}
+                                onLoadingComplete={() => handleLoadingComplete(analysis.image_id)}
+                                onError={() => handleError(analysis.image_id)}
                             />
                         </td>
                         <td key={`analysis-date-${index}`} className={styles.tableData}>

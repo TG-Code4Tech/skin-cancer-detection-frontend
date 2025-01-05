@@ -15,6 +15,7 @@ import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Analyses = () => {
     const [userData, setUserData] = useState<Record<string, string>>({});
@@ -130,6 +131,10 @@ const Analyses = () => {
             setIsLoading(false);
         }
     }, []);
+
+    if (isLoading) {
+        return <Spinner size="lg" centered={true} />;
+    }
 
     return (
         <div className={styles.pageContainer}>
