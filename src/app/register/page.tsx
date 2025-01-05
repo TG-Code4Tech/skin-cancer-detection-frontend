@@ -14,6 +14,7 @@ import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
 import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Register = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -24,7 +25,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [isHydrated, setIsHydrated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const searchParams = useSearchParams();
     const breadcrumbs = [
@@ -34,6 +35,7 @@ const Register = () => {
 
     useEffect(() => {
         loadTheme();
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -150,12 +152,8 @@ const Register = () => {
         }
     };
 
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
-    if (!isHydrated) {
-        return <div>Lädt...</div>;
+    if (isLoading) {
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (

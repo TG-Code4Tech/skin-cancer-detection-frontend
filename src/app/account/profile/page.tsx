@@ -32,6 +32,7 @@ import {
     updateUsername,
 } from "@/services/userService";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Profile = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -246,7 +247,7 @@ const Profile = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (

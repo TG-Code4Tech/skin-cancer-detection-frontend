@@ -11,6 +11,7 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Contact = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -19,7 +20,7 @@ const Contact = () => {
     const [email, setEmail] = useState("");
     const [matter, setMatter] = useState("");
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [isHydrated, setIsHydrated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const breadcrumbs = [
         { label: "Home", href: "/" },
@@ -28,6 +29,7 @@ const Contact = () => {
 
     useEffect(() => {
         loadTheme();
+        setIsLoading(false);
     }, []);
 
     const validateForm = () => {
@@ -104,12 +106,8 @@ const Contact = () => {
         }
     };
 
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
-    if (!isHydrated) {
-        return <div>Lädt...</div>;
+    if (isLoading) {
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (

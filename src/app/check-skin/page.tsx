@@ -18,6 +18,7 @@ import { isAuthenticated } from "@/utils/authentication";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/Spinner/Spinner";
 
 interface AnalysisResult {
     prediction: string;
@@ -31,6 +32,7 @@ const CheckSkin = () => {
     const [skinLesionThumbnail, setSkinLesionThumbnail] = useState<string | null>(null);
     const [showAnalysisResult, setShowAnalysisResult] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const breadcrumbs = [
         { label: "Home", href: "/" },
@@ -39,6 +41,7 @@ const CheckSkin = () => {
 
     useEffect(() => {
         loadTheme();
+        setIsLoading(false);
     }, []);
 
     const onSkinLesionUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +128,10 @@ const CheckSkin = () => {
             console.error("Request error:", error);
         }
     };
+
+    if (isLoading) {
+        return <Spinner size="lg" centered={true} />;
+    }
 
     return (
         <>

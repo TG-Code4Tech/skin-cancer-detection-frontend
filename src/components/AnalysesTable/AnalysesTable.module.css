@@ -29,4 +29,9 @@
 
 .skinLesionCell {
     display: flex;
+    width: 100px;
+}
+
+.spinner {
+    z-index: 1;
 }

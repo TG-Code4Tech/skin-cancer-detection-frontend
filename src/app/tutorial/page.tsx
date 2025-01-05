@@ -9,6 +9,7 @@ import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import Spinner from "@/components/Spinner/Spinner";
 
 const SkinCancerDetection = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +34,7 @@ const SkinCancerDetection = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner size="lg" centered={true} />;
     }
 
     return (
