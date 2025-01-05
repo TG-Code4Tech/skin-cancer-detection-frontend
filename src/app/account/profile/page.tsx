@@ -14,10 +14,24 @@ import { isAuthenticated } from "@/utils/authentication";
 import RadioField from "@/components/RadioField/RadioField";
 import Icon from "@/components/Icon/Icon";
 import Modal from "@/components/Modal/Modal";
-import { GlobalNotification } from "@/types/globalTypes";
+import { GlobalNotification, Theme } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme, setTheme } from "@/utils/theme";
 import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
+import { getNotificationFromUrl } from "@/services/notificationService";
+import { removeUrlSearchParams } from "@/services/urlService";
+import { validatePasswords, validatePersonalData } from "@/services/validationService";
+import {
+    deleteUser,
+    fetchUserData,
+    updateEmail,
+    updateFirstName,
+    updateLastName,
+    updatePassword,
+    updateTheme,
+    updateUsername,
+} from "@/services/userService";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const Profile = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -41,285 +55,90 @@ const Profile = () => {
         { label: "Home", href: "/" },
         { label: "Mein Profil", href: "/account/profile" },
     ];
+    const subNavigationLinks = [
+        {
+            href: "/account/analyses",
+            linkText: "Meine Analysen",
+            ariaLabel: "Gehen Sie zu Ihren durchgeführten Analysen",
+        },
+        {
+            href: "/account/profile",
+            linkText: "Persönliche Angaben",
+            ariaLabel: "Gehen Sie zu Ihren persönlichen Angaben",
+            active: true,
+        },
+    ];
 
     useEffect(() => {
         loadTheme();
     }, []);
 
     useEffect(() => {
-        const success = searchParams.get("success");
-        const registration = searchParams.get("register");
+        const notification = getNotificationFromUrl(searchParams);
 
-        if (success === "true") {
-            setNotification({ type: "toast", variant: "success", message: "Anmeldung erfolgreich." });
-
-            setTimeout(() => {
-                setNotification(null);
-            }, 5000);
-
-            const cleanUrl = new URL(window.location.href);
-            cleanUrl.searchParams.delete("success");
-            router.replace(cleanUrl.toString());
-        }
-
-        if (registration === "true") {
-            setNotification({ type: "toast", variant: "success", message: "Registrierung erfolgreich." });
-
-            setTimeout(() => {
-                setNotification(null);
-            }, 5000);
-
-            const cleanUrl = new URL(window.location.href);
-            cleanUrl.searchParams.delete("register");
-            router.replace(cleanUrl.toString());
+        if (notification) {
+            setNotification(notification);
+            setTimeout(() => setNotification(null), 5000);
+            removeUrlSearchParams(router, ["success", "register"]);
         }
     }, [searchParams, router]);
 
-    const validatePersonalData = () => {
-        const inputErrors: any = {};
+    const handleUpdateResponse = (
+        result: { message?: string; error?: string; check?: string; theme?: Theme },
+        fallbackMessage: string
+    ) => {
+        if (result.message) {
+            setNotification({ type: "toast", variant: "success", message: result.message! });
 
-        if (!firstName.trim()) {
-            inputErrors.firstName = "Bitte einen Vornamen angeben.";
+            if (result.theme) {
+                setSelectedTheme(result.theme);
+                setTheme(result.theme);
+                loadTheme();
+            }
+        } else if (result.error === "UNAUTHORIZED") {
+            router.push("/login?expired=true");
+        } else {
+            setNotification({ type: "toast", variant: "error", message: fallbackMessage });
+
+            if (result.check) {
+                setErrors((prevErrors) => ({ ...prevErrors, [result.check!]: result.error ?? "" }));
+            }
         }
 
-        if (!lastName.trim()) {
-            inputErrors.lastName = "Bitte einen Nachnamen angeben.";
-        }
-
-        if (!username.trim()) {
-            inputErrors.username = "Bitte einen Benutzernamen angeben.";
-        }
-
-        if (!email.trim()) {
-            inputErrors.email = "Bitte eine gültige E-Mail-Adresse angeben.";
-        }
-
-        setErrors(inputErrors);
-        const isValid = Object.keys(inputErrors).length === 0;
-
-        return isValid;
+        setTimeout(() => setNotification(null), 5000);
     };
 
     const onChangePersonalData = async () => {
-        if (validatePersonalData()) {
+        const { isValid, inputErrors } = validatePersonalData(firstName, lastName, username, email);
+        setErrors(inputErrors);
+
+        if (isValid) {
             if (isAuthenticated() === false) {
                 router.push("/login?expired=true");
-
                 return;
             }
 
             const token = getCookie("jwt_access_token");
+            const fallbackMessage = "Persönliche Angaben konnten nicht oder nicht alle geändert werden.";
 
             if (firstName !== userData.first_name) {
-                const updateFirstNameFormData = new FormData();
-                updateFirstNameFormData.append("first_name", firstName);
-
-                try {
-                    const response = await fetch("http://127.0.0.1:5000/update-first-name", {
-                        method: "PUT",
-                        body: updateFirstNameFormData,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-
-                    if (response.ok) {
-                        setNotification({
-                            type: "toast",
-                            variant: "success",
-                            message: "Persönliche Angaben wurden erfolgreich geändert.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-                    } else {
-                        if (response.status === 401) {
-                            router.push("/login?expired=true");
-
-                            return;
-                        }
-
-                        setNotification({
-                            type: "toast",
-                            variant: "error",
-                            message: "Persönliche Angaben konnten nicht oder nicht alle geändert werden.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-
-                        const errorData = await response.json();
-                        setErrors((prevErrors) => ({
-                            ...prevErrors,
-                            [errorData.check]: errorData.error,
-                        }));
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                }
+                const result = await updateFirstName(firstName, token);
+                handleUpdateResponse(result, fallbackMessage);
             }
 
             if (lastName !== userData.last_name) {
-                const updateLastNameFormData = new FormData();
-                updateLastNameFormData.append("last_name", lastName);
-
-                try {
-                    const response = await fetch("http://127.0.0.1:5000/update-last-name", {
-                        method: "PUT",
-                        body: updateLastNameFormData,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-
-                    if (response.ok) {
-                        setNotification({
-                            type: "toast",
-                            variant: "success",
-                            message: "Persönliche Angaben wurden erfolgreich geändert.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-                    } else {
-                        if (response.status === 401) {
-                            router.push("/login?expired=true");
-
-                            return;
-                        }
-
-                        setNotification({
-                            type: "toast",
-                            variant: "error",
-                            message: "Persönliche Angaben konnten nicht oder nicht alle geändert werden.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-
-                        const errorData = await response.json();
-                        setErrors((prevErrors) => ({
-                            ...prevErrors,
-                            [errorData.check]: errorData.error,
-                        }));
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                }
-            }
-
-            if (email !== userData.email) {
-                const updateEmailFormData = new FormData();
-                updateEmailFormData.append("email", email);
-
-                try {
-                    const response = await fetch("http://127.0.0.1:5000/update-email", {
-                        method: "PUT",
-                        body: updateEmailFormData,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-
-                    if (response.ok) {
-                        setNotification({
-                            type: "toast",
-                            variant: "success",
-                            message: "Persönliche Angaben wurden erfolgreich geändert.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-                    } else {
-                        if (response.status === 401) {
-                            router.push("/login?expired=true");
-
-                            return;
-                        }
-
-                        setNotification({
-                            type: "toast",
-                            variant: "error",
-                            message: "Persönliche Angaben konnten nicht oder nicht alle geändert werden.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-
-                        const errorData = await response.json();
-                        setErrors((prevErrors) => ({
-                            ...prevErrors,
-                            [errorData.check]: errorData.error,
-                        }));
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                }
+                const result = await updateLastName(lastName, token);
+                handleUpdateResponse(result, fallbackMessage);
             }
 
             if (username !== userData.username) {
-                const updateUsernameFormData = new FormData();
-                updateUsernameFormData.append("username", username);
+                const result = await updateUsername(username, token);
+                handleUpdateResponse(result, fallbackMessage);
+            }
 
-                try {
-                    const response = await fetch("http://127.0.0.1:5000/update-username", {
-                        method: "PUT",
-                        body: updateUsernameFormData,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-
-                    if (response.ok) {
-                        setNotification({
-                            type: "toast",
-                            variant: "success",
-                            message: "Persönliche Angaben wurden erfolgreich geändert.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-                    } else {
-                        if (response.status === 401) {
-                            router.push("/login?expired=true");
-
-                            return;
-                        }
-
-                        setNotification({
-                            type: "toast",
-                            variant: "error",
-                            message: "Persönliche Angaben konnten nicht oder nicht alle geändert werden.",
-                        });
-
-                        // Benachrichtigung nach 5 Sekunden zurücksetzen
-                        setTimeout(() => {
-                            setNotification(null);
-                        }, 5000);
-
-                        const errorData = await response.json();
-                        setErrors((prevErrors) => ({
-                            ...prevErrors,
-                            [errorData.check]: errorData.error,
-                        }));
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                }
+            if (email !== userData.email) {
+                const result = await updateEmail(email, token);
+                handleUpdateResponse(result, fallbackMessage);
             }
 
             await getUserData();
@@ -327,121 +146,21 @@ const Profile = () => {
         }
     };
 
-    const validatePasswords = () => {
-        const passwordErrors: any = {};
-
-        if (!currentPassword.trim()) {
-            passwordErrors.currentPassword = "Bitte Ihr aktuelles Passwort angeben.";
-        }
-
-        if (!newPassword.trim()) {
-            passwordErrors.newPassword = "Bitte ein gültiges neues Passwort angeben.";
-        } else {
-            if (newPassword.length < 8) {
-                passwordErrors.passwordLength = "Das Passwort muss aus mindestens 8 Zeichen bestehen.";
-            }
-
-            if (!/[A-Z]/.test(newPassword)) {
-                passwordErrors.passwordUppercaseLetter = "Das Passwort muss mindestens einen Großbuchstaben enthalten.";
-            }
-
-            if (!/[a-z]/.test(newPassword)) {
-                passwordErrors.passwordLowercaseLetter =
-                    "Das Passwort muss mindestens einen Kleinbuchstaben enthalten.";
-            }
-
-            if (!/\d/.test(newPassword)) {
-                passwordErrors.passwordNumber = "Das Passwort muss mindestens eine Zahl enthalten.";
-            }
-
-            if (!/[@$!%*?&#<>|_-]/.test(newPassword)) {
-                passwordErrors.passwordSpecialCharacters =
-                    "Das Passwort muss mindestens eines der folgenden Sonderzeichen enthalten: @$!%*?&#<>|_-.";
-            }
-
-            if (!/^[a-zA-Z0-9@$!%*?&#<>|_-]*$/.test(newPassword)) {
-                passwordErrors.passwordInvalidSpecialCharacters =
-                    "Das Passwort darf nur die folgenden Sonderzeichen enthalten: @$!%*?&#<>|_-.";
-            }
-        }
-
-        if (currentPassword === newPassword) {
-            passwordErrors.matchingPasswords = "Ihr neues Passwort darf nicht Ihr aktuelles Passwort sein.";
-        }
-
-        if (newPassword !== newPasswordConfirmation) {
-            passwordErrors.newPasswordConfirmation = "Die neuen Passwörter stimmen nicht überein.";
-        }
-
-        setErrors(passwordErrors);
-        const isValid = Object.keys(passwordErrors).length === 0;
-
-        return isValid;
-    };
-
     const onChangePassword = async () => {
-        if (validatePasswords()) {
+        const { isValid, passwordErrors } = validatePasswords(newPassword, newPasswordConfirmation, currentPassword);
+        setErrors(passwordErrors);
+
+        if (isValid) {
             if (!isAuthenticated()) {
                 router.push("/login?expired=true");
-
                 return;
             }
 
             const token = getCookie("jwt_access_token");
+            const fallbackMessage = "Ihr Passwort konnte leider nicht geändert werden.";
 
-            const formData = new FormData();
-            formData.append("current_password", currentPassword);
-            formData.append("password", newPassword);
-            formData.append("password_confirmation", newPasswordConfirmation);
-
-            try {
-                const response = await fetch("http://127.0.0.1:5000/update-password", {
-                    method: "PUT",
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (response.ok) {
-                    setIsPasswordModalOpen(false);
-                    setNotification({
-                        type: "toast",
-                        variant: "success",
-                        message: "Ihr Passwort wurde erfolgreich geändert.",
-                    });
-
-                    // Benachrichtigung nach 5 Sekunden zurücksetzen
-                    setTimeout(() => {
-                        setNotification(null);
-                    }, 5000);
-                } else {
-                    if (response.status === 401) {
-                        router.push("/login?expired=true");
-
-                        return;
-                    }
-
-                    setNotification({
-                        type: "toast",
-                        variant: "error",
-                        message: "Ihr Passwort konnte leider nicht geändert werden.",
-                    });
-
-                    // Benachrichtigung nach 5 Sekunden zurücksetzen
-                    setTimeout(() => {
-                        setNotification(null);
-                    }, 5000);
-
-                    const errorData = await response.json();
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        [errorData.check]: errorData.error,
-                    }));
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
+            const result = await updatePassword(newPassword, newPasswordConfirmation, currentPassword, token);
+            handleUpdateResponse(result, fallbackMessage);
 
             await getUserData();
         }
@@ -455,56 +174,10 @@ const Profile = () => {
         }
 
         const token = getCookie("jwt_access_token");
+        const fallbackMessage = "Das Theme konnte leider nicht geändert werden.";
 
-        const formData = new FormData();
-        formData.append("theme", event.target.value);
-
-        try {
-            const response = await fetch("http://127.0.0.1:5000/update-theme", {
-                method: "PUT",
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setSelectedTheme(data.theme);
-                setTheme(data.theme);
-                loadTheme();
-
-                setNotification({
-                    type: "toast",
-                    variant: "success",
-                    message: "Das Theme wurde erfolgreich geändert.",
-                });
-
-                // Benachrichtigung nach 5 Sekunden zurücksetzen
-                setTimeout(() => {
-                    setNotification(null);
-                }, 5000);
-            } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
-
-                setNotification({
-                    type: "toast",
-                    variant: "error",
-                    message: "Das Theme konnte leider nicht geändert werden.",
-                });
-
-                // Benachrichtigung nach 5 Sekunden zurücksetzen
-                setTimeout(() => {
-                    setNotification(null);
-                }, 5000);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        const result = await updateTheme(event.target.value, token);
+        handleUpdateResponse(result, fallbackMessage);
 
         await getUserData();
     };
@@ -512,37 +185,23 @@ const Profile = () => {
     const getUserData = async () => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
         const token = getCookie("jwt_access_token");
+        const result = await fetchUserData(token);
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/get-user-data", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUserData(data);
-                setFirstName(data.first_name);
-                setLastName(data.last_name);
-                setEmail(data.email);
-                setUsername(data.username);
-                setSelectedTheme(data.theme);
-            } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
+        if (result.error) {
+            if (result.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
             }
-        } catch (error) {
-            console.error("Error:", error);
+        } else {
+            setUserData(result);
+            setFirstName(result.first_name);
+            setLastName(result.last_name);
+            setEmail(result.email);
+            setUsername(result.username);
+            setSelectedTheme(result.theme);
         }
     };
 
@@ -559,64 +218,21 @@ const Profile = () => {
         }
 
         const token = getCookie("jwt_access_token");
+        const result = await deleteUser(userData.user_id, token);
 
-        const formData = new FormData();
-        formData.append("user_id", userData.user_id);
-
-        try {
-            const response = await fetch("http://127.0.0.1:5000/delete-account", {
-                method: "DELETE",
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                deleteCookie("jwt_access_token");
-                router.push("/register?success=true");
-            } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
-
-                setNotification({
-                    type: "toast",
-                    variant: "error",
-                    message: "Ihr Account konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
-                });
-
-                // Benachrichtigung nach 5 Sekunden zurücksetzen
-                setTimeout(() => {
-                    setNotification(null);
-                }, 5000);
+        if (result.success) {
+            router.push("/login?success=true");
+        } else {
+            if (result.error) {
+                setNotification({ type: "toast", variant: "error", message: result.error });
+                setTimeout(() => setNotification(null), 5000);
             }
-        } catch (error) {
-            console.error("Login request error:", error);
         }
     };
-
-    const subNavigationLinks = [
-        {
-            href: "/account/analyses",
-            linkText: "Meine Analysen",
-            ariaLabel: "Gehen Sie zu Ihren durchgeführten Analysen",
-        },
-        {
-            href: "/account/profile",
-            linkText: "Persönliche Angaben",
-            ariaLabel: "Gehen Sie zu Ihren persönlichen Angaben",
-            active: true,
-        },
-    ];
 
     useEffect(() => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
@@ -1006,5 +622,3 @@ const Profile = () => {
         </>
     );
 };
-
-export default Profile;
