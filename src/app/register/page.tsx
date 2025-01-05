@@ -12,7 +12,6 @@ import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
 import Spinner from "@/components/Spinner/Spinner";
 
@@ -34,7 +33,6 @@ const Register = () => {
     ];
 
     useEffect(() => {
-        loadTheme();
         setIsLoading(false);
     }, []);
 

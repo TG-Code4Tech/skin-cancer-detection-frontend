@@ -16,6 +16,7 @@
 .uploadArea {
     display: flex;
     gap: 1rem;
+    background-color: var(--upload-area-background);
     box-shadow: 0 0 10px var(--neutral-300-a);
     padding: 0.5rem;
     align-items: center;

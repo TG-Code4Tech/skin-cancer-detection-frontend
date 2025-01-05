@@ -7,7 +7,6 @@ import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import Spinner from "@/components/Spinner/Spinner";
 
 const Accessibility = () => {
@@ -18,7 +17,6 @@ const Accessibility = () => {
     ];
 
     useEffect(() => {
-        loadTheme();
         setIsLoading(false);
     }, []);
 

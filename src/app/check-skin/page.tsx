@@ -16,7 +16,6 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner/Spinner";
 
@@ -40,7 +39,6 @@ const CheckSkin = () => {
     ];
 
     useEffect(() => {
-        loadTheme();
         setIsLoading(false);
     }, []);
 

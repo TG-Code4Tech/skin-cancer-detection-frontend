@@ -14,7 +14,6 @@ import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import Spinner from "@/components/Spinner/Spinner";
 
 const Analyses = () => {
@@ -40,9 +39,6 @@ const Analyses = () => {
         },
     ];
 
-    useEffect(() => {
-        loadTheme();
-    }, []);
 
     const getUserData = async () => {
         if (!isAuthenticated()) {
