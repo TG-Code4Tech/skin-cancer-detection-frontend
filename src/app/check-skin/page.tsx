@@ -15,9 +15,9 @@ import ProgressCircle from "@/components/ProgressCircle/ProgressCircle";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import { isAuthenticated } from "@/utils/authentication";
-import router from "next/router";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { loadTheme } from "@/utils/theme";
+import { useRouter } from "next/navigation";
 
 interface AnalysisResult {
     prediction: string;
@@ -31,6 +31,7 @@ const CheckSkin = () => {
     const [skinLesionThumbnail, setSkinLesionThumbnail] = useState<string | null>(null);
     const [showAnalysisResult, setShowAnalysisResult] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    const router = useRouter();
     const breadcrumbs = [
         { label: "Home", href: "/" },
         { label: "Haut prüfen", href: "/check-skin" },
