@@ -12,7 +12,6 @@ import Notification from "@/components/Notification/Notification";
 import { deleteCookie, getCookie } from "@/utils/cookie";
 import { isAuthenticated } from "@/utils/authentication";
 import RadioField from "@/components/RadioField/RadioField";
-import Icon from "@/components/Icon/Icon";
 import Modal from "@/components/Modal/Modal";
 import { GlobalNotification, Theme } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";

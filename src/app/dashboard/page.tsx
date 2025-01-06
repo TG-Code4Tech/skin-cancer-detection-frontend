@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Heading from "@/components/Heading/Heading";
-import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
@@ -13,6 +12,7 @@ import HorizontalBarChart from "@/components/HorizontalBarChart/HorizontalBarCha
 import { getCookie } from "@/utils/cookie";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Spinner from "@/components/Spinner/Spinner";
+import { fetchAllAnalyses } from "@/services/analysisService";
 
 const Dashboard = () => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
@@ -43,39 +43,26 @@ const Dashboard = () => {
     const getAnalyses = async () => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
         const token = getCookie("jwt_access_token");
+        const result = await fetchAllAnalyses(token);
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setAnalyses(data);
+        if (result.error) {
+            if (result.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
             } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
+                console.error(result.error);
             }
-        } catch (error) {
-            console.error("Request error:", error);
+        } else {
+            setAnalyses(result);
         }
     };
 
     useEffect(() => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 

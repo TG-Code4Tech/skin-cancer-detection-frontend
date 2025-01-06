@@ -1,27 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Heading from "@/components/Heading/Heading";
 import Text from "@/components/Text/Text";
 import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import Spinner from "@/components/Spinner/Spinner";
 
 const PrivacyPolicy = () => {
-    const [isLoading, setIsLoading] = useState(true);
     const breadcrumbs = [
         { label: "Home", href: "/" },
         { label: "Datenschutz", href: "/privacy-policy" },
     ];
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
-    if (isLoading) {
-        return <Spinner size="lg" centered={true} />;
-    }
 
     return (
         <div className={styles.container}>

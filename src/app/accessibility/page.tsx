@@ -1,41 +1,32 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import Heading from "@/components/Heading/Heading";
 import Text from "@/components/Text/Text";
-import styles from "./page.module.css";
 import Link from "@/components/Link/Link";
 import Badge from "@/components/Badge/Badge";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import Spinner from "@/components/Spinner/Spinner";
+import styles from "./page.module.css";
 
 const Accessibility = () => {
-    const [isLoading, setIsLoading] = useState(true);
     const breadcrumbs = [
         { label: "Home", href: "/" },
         { label: "Barrierefreiheit", href: "/accessibility" },
     ];
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
-    if (isLoading) {
-        return <Spinner size="lg" centered={true} />;
-    }
 
     return (
         <div className={styles.container}>
             <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <Heading as="h1" variant="xl" headingText="Erklärung zur Barrierefreiheit" />
+            <section className={`${styles.accessibilitySection} ${styles.principle}`}>
+                <Text variant="md">
+                    Diese Erklärung zur Barrierefreiheit gilt für die Webanwendung <i>Skin Cancer Detection</i>. Wir
+                    sind benüht die Webanwendung barrierefrei zugänglich zu gestalten und die WCAG-Richtlinien 2.2 (Web
+                    Content Accessibility Guidelines) in den Konformitätsstufen A und AA zu erfüllen. <br />
+                    <br />
+                    Die Grundlage zur Barrierefreiheit bilden vier Prinzipien:
+                </Text>
 
-            <Text variant="md">
-                Diese Erklärung zur Barrierefreiheit gilt für die Webanwendung <i>Skin Cancer Detection</i>. Wir sind
-                benüht die Webanwendung barrierefrei zugägnlich zu gestlaten und die WCAG-Richtlinien 2.2 (Web Content
-                Accessibility Guidelines) in den Konformitätsstufen A und AA zu erfüllen. <br />
-                <br />
-                Die Grundlage zur Barrierefreiheit bilden vier Prinzipien:{" "}
                 <nav>
                     <ul className={styles.list}>
                         <li>
@@ -52,20 +43,24 @@ const Accessibility = () => {
                         </li>
                     </ul>
                 </nav>
-                Diesen vier Prinzipien liegen insgesamt 13 Richtlinien zugrunde, die für sich zwar nicht testbar sind,
-                allerdings helfen sie die einzelnen Erfolgskriterien besser zu verstehen und geben einen groben Rahmen
-                vor. Mehr Details zu den Prinzipien, Richtlinien und Erfolgskriterien finden Sie in den{" "}
-                <Link
-                    href="https://w3c.github.io/wcag/guidelines/22/"
-                    target="_blank"
-                    linkText="Web Content Accessibility Guidelines 2.2"
-                    iconName="open-in-new"
-                    iconPosition="right"
-                    iconColor="brand"
-                    iconSize={18}
-                />
-                <br />
-                Die Erfolgskriterien sind letztendlich testbar und können in drei Konformitätsstufen erüllt werden:{" "}
+
+                <Text variant="md">
+                    Diesen vier Prinzipien liegen insgesamt 13 Richtlinien zugrunde, die für sich zwar nicht testbar
+                    sind, allerdings helfen sie die einzelnen Erfolgskriterien besser zu verstehen und geben einen
+                    groben Rahmen vor. Mehr Details zu den Prinzipien, Richtlinien und Erfolgskriterien finden Sie in
+                    den{" "}
+                    <Link
+                        href="https://w3c.github.io/wcag/guidelines/22/"
+                        target="_blank"
+                        linkText="Web Content Accessibility Guidelines 2.2"
+                        iconName="open-in-new"
+                        iconPosition="right"
+                        iconColor="brand"
+                        iconSize={18}
+                    />
+                    <br />
+                    Die Erfolgskriterien sind letztendlich testbar und können in drei Konformitätsstufen erfüllt werden:
+                </Text>
                 <ul className={styles.list}>
                     <li>
                         <Badge variant="default" text="A" />
@@ -77,8 +72,10 @@ const Accessibility = () => {
                         <Badge variant="default" text="AAA" />
                     </li>
                 </ul>
-                Die folgenden Erfolgskriterien der Konformitätsstufen A und AA wurden umgesetzt:
-            </Text>
+                <Text variant="md">
+                    Die folgenden Erfolgskriterien der Konformitätsstufen A und AA wurden umgesetzt:
+                </Text>
+            </section>
 
             <section className={`${styles.accessibilitySection} ${styles.principle}`}>
                 <div className={styles.headingAndBadge}>
@@ -133,7 +130,7 @@ const Accessibility = () => {
                     Für voraufgezeichnete Audio-Only und Video-Only-Medien muss eine Alternative für zeitbasierte Medien
                     bereitgestellt werden, außer die Audioaufnahme oder das Video dient als Medienalternative für
                     Text-Inhalte und sind deutlich als solche gekennzeichnet. Bei voraufgezeichneten reinen
-                    Audio-Inhalten muss eine gleichwertige Informationsalternative existieren. Bei voraufgezeichneteten
+                    Audio-Inhalten muss eine gleichwertige Informationsalternative existieren. Bei voraufgezeichneten
                     reinen Video-Inhalten muss entweder eine zeitbasierte Medienalternative oder eine Audioaufnahme, die
                     gleichwertige Informationen bietet, bereitgestellt werden.
                 </Text>
@@ -222,7 +219,7 @@ const Accessibility = () => {
                     <Badge variant="primary" text="AA" />
                 </div>
                 <Text variant="md">
-                    Der Inhalt ist nicht auf eine einzige Displayausrichtung, wir Hoch- oder Querformat, beschränkt,
+                    Der Inhalt ist nicht auf eine einzige Displayausrichtung, wie Hoch- oder Querformat, beschränkt,
                     außer eine bestimmte Ausrichtung ist unerlässlich.
                 </Text>
             </section>
@@ -235,26 +232,26 @@ const Accessibility = () => {
                 <Text variant="md">
                     Der Zweck eines jeden Eingabefeldes, welches Benutzerinformationen sammelt, kann programmatisch
                     bestimmt werden, wenn:
-                    <ul className={styles.list}>
-                        <li>
-                            Das Eingabefeld dient einem Zweck der in{" "}
-                            <Link
-                                href="https://w3c.github.io/wcag/guidelines/22/#input-purposes"
-                                target="_blank"
-                                linkText="Eingabezwecke für Komponenten der Benutzeroberfläche"
-                                iconName="open-in-new"
-                                iconPosition="right"
-                                iconColor="brand"
-                                iconSize={18}
-                            />{" "}
-                            angegeben ist und
-                        </li>
-                        <li>
-                            Der Inhalt mit Technologien implementiert wurde, die die Identifizierung der erwarteten
-                            Bedeutung von Formulareingabefeldern unterstützen.
-                        </li>
-                    </ul>
                 </Text>
+                <ul className={styles.list}>
+                    <li>
+                        Das Eingabefeld dient einem Zweck der in{" "}
+                        <Link
+                            href="https://w3c.github.io/wcag/guidelines/22/#input-purposes"
+                            target="_blank"
+                            linkText="Eingabezwecke für Komponenten der Benutzeroberfläche"
+                            iconName="open-in-new"
+                            iconPosition="right"
+                            iconColor="brand"
+                            iconSize={18}
+                        />{" "}
+                        angegeben ist und
+                    </li>
+                    <li>
+                        Der Inhalt mit Technologien implementiert wurde, die die Identifizierung der erwarteten
+                        Bedeutung von Formulareingabefeldern unterstützen.
+                    </li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.guideline}`}>
@@ -300,22 +297,23 @@ const Accessibility = () => {
                 <Text variant="md">
                     Die visuelle Darstellung von Text und Textbildern hat ein Kontrastverhältnis von mindestens 4,5:1.
                     Dabei gelten folgende Ausnahmen:
-                    <ul className={styles.list}>
-                        <li>
-                            Großer Text (mindestens 18 Punkt oder 14 Punkt Fettdruck): Großflächiger Text und Bilder von
-                            großflächigem Text haben ein Kontrastverhältnis von mindestens 3:1
-                        </li>
-                        <li>
-                            Nebensächlichkeit: Text oder Bilder von Text, die Teil einer interaktiven Komponente der
-                            Benutzeroberfläche sind, die zur reinen Dekoration dienen, die für niemanden sichtbar sind
-                            oder die Teil eines Bildes sind, das bedeutende andere visuelle Inhalte enthält, müssen
-                            keinen Kontrast aufweisen.
-                        </li>
-                        <li>
-                            Logotypen: Text, der Teil eines Logos oder Markennamens ist, muss keinen Kontrast aufweisen.
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Großer Text (mindestens 18 Punkt oder 14 Punkt Fettdruck): Großflächiger Text und Bilder von
+                        großflächigem Text haben ein Kontrastverhältnis von mindestens 3:1
+                    </li>
+                    <li>
+                        Nebensächlichkeit: Text oder Bilder von Text, die Teil einer interaktiven Komponente der
+                        Benutzeroberfläche sind, die zur reinen Dekoration dienen, die für niemanden sichtbar sind oder
+                        die Teil eines Bildes sind, das bedeutende andere visuelle Inhalte enthält, müssen keinen
+                        Kontrast aufweisen.
+                    </li>
+                    <li>
+                        Logotypen: Text, der Teil eines Logos oder Markennamens ist, muss keinen Kontrast aufweisen.
+                    </li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -337,16 +335,17 @@ const Accessibility = () => {
                 <Text variant="md">
                     Wenn die verwendeten Technologien die visuelle Darstellung ermöglichen können, wird Text anstelle
                     von Bildern von Text zur Informationsvermittlung verwendet. Dabei gelten folgende Ausnahmen:
-                    <ul className={styles.list}>
-                        <li>
-                            Anpassbarkeit: Das Textbild kann visuell an die Anforderungen des Benutzers angepasst werden
-                        </li>
-                        <li>
-                            Essentiell: Eine bestimmte Textdarstellung ist für die zu vermittelnde Information
-                            essenziell (hierzu zählen auch Logotypen)
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Anpassbarkeit: Das Textbild kann visuell an die Anforderungen des Benutzers angepasst werden
+                    </li>
+                    <li>
+                        Essentiell: Eine bestimmte Textdarstellung ist für die zu vermittelnde Information essenziell
+                        (hierzu zählen auch Logotypen)
+                    </li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -369,20 +368,20 @@ const Accessibility = () => {
                 <Text variant="md">
                     Die visuelle Darstellung der folgenden Elemente hat ein Kontrastverhältnis von mindestens 3:1 zu
                     benachbarten Farben:
-                    <ul className={styles.list}>
-                        <li>
-                            Komponenten der Benutzeroberfläche: Visuelle Informationen, die erforderlich sind, um
-                            Komponenten und Zustände der Benutzeroberfläche zu identifizieren, außer bei inaktiven
-                            Komponenten oder wenn das Aussehen der Komponente vom User-Agent bestimmt und nicht vom
-                            Autor geändert wird
-                        </li>
-                        <li>
-                            Graphische Objekte: Teile von Grafiken, die zum Verständnis des Inhalts erforderlich sind,
-                            außer eine bestimmte Darstellung von Grafiken ist für die zu vermittelnde Information
-                            essentiell
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Komponenten der Benutzeroberfläche: Visuelle Informationen, die erforderlich sind, um
+                        Komponenten und Zustände der Benutzeroberfläche zu identifizieren, außer bei inaktiven
+                        Komponenten oder wenn das Aussehen der Komponente vom User-Agent bestimmt und nicht vom Autor
+                        geändert wird
+                    </li>
+                    <li>
+                        Graphische Objekte: Teile von Grafiken, die zum Verständnis des Inhalts erforderlich sind, außer
+                        eine bestimmte Darstellung von Grafiken ist für die zu vermittelnde Information essentiell
+                    </li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -403,12 +402,14 @@ const Accessibility = () => {
                     />{" "}
                     unterstützen, kommt es zu keinem Inhalts- oder Funktionalitätsverlust, wenn alle folgenden
                     Einstellungen vorgenommen werden und keine andere Stileigenschaft geändert wird:
-                    <ul className={styles.list}>
-                        <li>Zeilenhöhe auf mindestens das 1,5-fache der Schriftgröße</li>
-                        <li>Abstand nach Absätzen auf mindestens das 2-fache der Schriftgröße</li>
-                        <li>Buchstabenabstand auf mindestens das 0,12-fache der Schriftgröße</li>
-                        <li>Wortabstand auf mindestens das 0,16-fache der Schriftgröße</li>
-                    </ul>
+                </Text>
+                <ul className={styles.list}>
+                    <li>Zeilenhöhe auf mindestens das 1,5-fache der Schriftgröße</li>
+                    <li>Abstand nach Absätzen auf mindestens das 2-fache der Schriftgröße</li>
+                    <li>Buchstabenabstand auf mindestens das 0,12-fache der Schriftgröße</li>
+                    <li>Wortabstand auf mindestens das 0,16-fache der Schriftgröße</li>
+                </ul>
+                <Text variant="md">
                     Ausnahmen: Menschliche Sprachen und Schriften, die eine oder mehrere dieser Textstileigenschaften im
                     geschriebenen Text nicht verwenden, können nur die Eigenschaften verwenden, die für diese
                     Kombination von Sprache und Schrift existieren.
@@ -423,23 +424,24 @@ const Accessibility = () => {
                 <Text variant="md">
                     Wenn durch das Setzen und Entfernen des Mauszeigers oder des Tastaturfokus zusätzliche Inhalte
                     sichtbar werden und dann Wiede ausgeblendet werden, gilt Folgendes:
-                    <ul className={styles.list}>
-                        <li>
-                            Ablehnbar: Es gibt einen Mechanismus, mit dem der zusätzliche Inhalt ausgeblendet werden
-                            kann, den Mauszeiger Hover oder den Tastaturfokus zu bewegen, außer der zusätzlich Inhalt
-                            übermittelt einen Eingabefehler oder verdeckt oder ersetzt keinen anderen Inhalt
-                        </li>
-                        <li>
-                            Hoverable: Wenn der Hover des Mauszeiger den zusätzlichen Inhalt auslösen kann, dann kann
-                            der Mauszeiger über den zusätzlichen Inhalt bewegt werden, ohne dass der zusätzliche Inhalt
-                            verschwindet
-                        </li>
-                        <li>
-                            Persistent: Der zusätzliche Inhalt bleibt so lange sichtbar, bis der Hover- oder
-                            Fokus-Auslöser entfernt wird, der Benutzer ihn ablehnt oder seine Informationen nicht mehr
-                            gültig sind
-                        </li>
-                    </ul>
+                </Text>
+                <ul className={styles.list}>
+                    <li>
+                        Ablehnbar: Es gibt einen Mechanismus, mit dem der zusätzliche Inhalt ausgeblendet werden kann,
+                        den Mauszeiger Hover oder den Tastaturfokus zu bewegen, außer der zusätzlich Inhalt übermittelt
+                        einen Eingabefehler oder verdeckt oder ersetzt keinen anderen Inhalt
+                    </li>
+                    <li>
+                        Hoverable: Wenn der Hover des Mauszeiger den zusätzlichen Inhalt auslösen kann, dann kann der
+                        Mauszeiger über den zusätzlichen Inhalt bewegt werden, ohne dass der zusätzliche Inhalt
+                        verschwindet
+                    </li>
+                    <li>
+                        Persistent: Der zusätzliche Inhalt bleibt so lange sichtbar, bis der Hover- oder Fokus-Auslöser
+                        entfernt wird, der Benutzer ihn ablehnt oder seine Informationen nicht mehr gültig sind
+                    </li>
+                </ul>
+                <Text variant="md">
                     Ausnahme: Die visuelle Darstellung des zusätzlichen Inhalts wird vom User-Agent gesteuert und nicht
                     vom Autor geändert.
                 </Text>
@@ -457,7 +459,7 @@ const Accessibility = () => {
 
             <section className={`${styles.accessibilitySection} ${styles.guideline}`}>
                 <div className={styles.headingAndBadge}>
-                    <Heading as="h4" variant="md" headingText="2.1 Tastaturzugägnlichkeit" />
+                    <Heading as="h4" variant="md" headingText="2.1 Tastaturzugänglichkeit" />
                     <Badge variant="default" text="Richtlinie" />
                 </div>
                 <Text variant="md">Die vollständige Funktionalität muss über die Tastatur zugänglich sein.</Text>
@@ -497,23 +499,23 @@ const Accessibility = () => {
                 <Text variant="md">
                     Wenn eine Tastenkombination in einem Inhalt implementiert ist, der nur Buchstaben, Satzzeichen,
                     Zahlen oder Symbole verwendet, dann ist mindestens eine der folgenden Bedingungen erfüllt:
-                    <ul className={styles.list}>
-                        <li>Ausschalten: Es ist ein Mechanismus vorhanden, um die Tastenkombination zu deaktivieren</li>
-                        <li>
-                            Neu zuordnen: Es ist ein Mechanismus verfügbar um die Tastenkombination neu zuzuordnen, so
-                            dass sie eine oder mehrere nicht druckbare Tastaturtasten, wie Strg oder Alt, enthält
-                        </li>
-                        <li>
-                            Persistent: Der zusätzliche Inhalt bleibt so lange sichtbar, bis der Hover- oder
-                            Fokus-Auslöser entfernt wird, der Benutzer ihn ablehnt oder seine Informationen nicht mehr
-                            gültig sind
-                        </li>
-                        <li>
-                            Nur bei Fokus aktiv: Das Tastaturkürzel für eine Komponente der Benutzeroberfläche ist nur
-                            aktiv, wenn dies Komponente den Fokus besitzt.
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>Ausschalten: Es ist ein Mechanismus vorhanden, um die Tastenkombination zu deaktivieren</li>
+                    <li>
+                        Neu zuordnen: Es ist ein Mechanismus verfügbar um die Tastenkombination neu zuzuordnen, so dass
+                        sie eine oder mehrere nicht druckbare Tastaturtasten, wie Strg oder Alt, enthält
+                    </li>
+                    <li>
+                        Persistent: Der zusätzliche Inhalt bleibt so lange sichtbar, bis der Hover- oder Fokus-Auslöser
+                        entfernt wird, der Benutzer ihn ablehnt oder seine Informationen nicht mehr gültig sind
+                    </li>
+                    <li>
+                        Nur bei Fokus aktiv: Das Tastaturkürzel für eine Komponente der Benutzeroberfläche ist nur
+                        aktiv, wenn dies Komponente den Fokus besitzt.
+                    </li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.guideline}`}>
@@ -534,28 +536,29 @@ const Accessibility = () => {
                 <Text variant="md">
                     Für jedes Zeitlimit, welches durch den Inhalt festgelegt wird, ist mindestens eine der folgenden
                     Bedingungen erfüllt:
-                    <ul className={styles.list}>
-                        <li>Ausschalten: Der Benutzer kann das Zeitlimit ausschalten, bevor es auftritt</li>
-                        <li>
-                            Anpassen: Der Benutzer kann das Zeitlimit in einem weiten Bereich, der mindestens zehnmal so
-                            lang ist wie die Standardeinstellung , anpassen, bevor es auftritt
-                        </li>
-                        <li>
-                            Verlängern: Der Benutzer wird vor dem Ablauf der Zeit gewarnt und hat mindestens 20 Sekunden
-                            Zeit das Zeitlimit mir einer einfachen Aktion (beispielsweise „Drücken Sie die Leertaste“)
-                            zu verlängern und der Benutzer darf das Zeitlimit mindestens zehnmal verlängern
-                        </li>
-                        <li>
-                            Echtzeit-Ausnahme: Das Zeitlimit ist ein notwendiger Bestandteil eines Echtzeit-Ereignisses
-                            (beispielsweise einer Auktion) und es gibt keine Alternative zum Zeitlimit
-                        </li>
-                        <li>
-                            Essentielle Ausnahme: Das Zeitlimit ist essentiell und eine Verlängerung würde die Aktivität
-                            ungültig machen
-                        </li>
-                        <li>20-Stunden-Ausnahme: Das Zeitlimit ist länger als 20 Stunden.</li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>Ausschalten: Der Benutzer kann das Zeitlimit ausschalten, bevor es auftritt</li>
+                    <li>
+                        Anpassen: Der Benutzer kann das Zeitlimit in einem weiten Bereich, der mindestens zehnmal so
+                        lang ist wie die Standardeinstellung , anpassen, bevor es auftritt
+                    </li>
+                    <li>
+                        Verlängern: Der Benutzer wird vor dem Ablauf der Zeit gewarnt und hat mindestens 20 Sekunden
+                        Zeit das Zeitlimit mir einer einfachen Aktion (beispielsweise „Drücken Sie die Leertaste“) zu
+                        verlängern und der Benutzer darf das Zeitlimit mindestens zehnmal verlängern
+                    </li>
+                    <li>
+                        Echtzeit-Ausnahme: Das Zeitlimit ist ein notwendiger Bestandteil eines Echtzeit-Ereignisses
+                        (beispielsweise einer Auktion) und es gibt keine Alternative zum Zeitlimit
+                    </li>
+                    <li>
+                        Essentielle Ausnahme: Das Zeitlimit ist essentiell und eine Verlängerung würde die Aktivität
+                        ungültig machen
+                    </li>
+                    <li>20-Stunden-Ausnahme: Das Zeitlimit ist länger als 20 Stunden.</li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -566,23 +569,24 @@ const Accessibility = () => {
                 <Text variant="md">
                     Für sich bewegende, blinkende, schrillende oder automatisch aktualisierende Informationen treffen
                     alle der folgenden Punkte zu:
-                    <ul className={styles.list}>
-                        <li>
-                            Bewegen, Blinken, Scrollen: Für alle sich bewegenden, blinkenden oder scrollenden
-                            Informationen, die (1) automatisch starten, (2) länger als fünf Sekunden dauern und (3)
-                            parallel zu anderen Inhalten dargestellt werden, gibt es einen Mechanismus, mit dem der
-                            Benutzer sie anhalten, stoppen oder ausblenden kann, außer, das Bewegen, Blinken oder
-                            Scrollen ist Teil einer Aktivität, für die es unerlässlich ist
-                        </li>
-                        <li>
-                            Automatische Aktualisierung: Für jede automatisch aktualisierende Information, die (1)
-                            automatisch startet und (2) parallel zu anderen Inhalten dargestellt wird, gibt es einen
-                            Mechanismus, mit dem der Benutzer sie anhalten, stoppen oder ausblenden oder die Häufigkeit
-                            der Aktualisierung kontrollieren kann, außer die automatische Aktualisierung ist Teil einer
-                            Aktivität für die sie unerlässlich ist.
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Bewegen, Blinken, Scrollen: Für alle sich bewegenden, blinkenden oder scrollenden Informationen,
+                        die (1) automatisch starten, (2) länger als fünf Sekunden dauern und (3) parallel zu anderen
+                        Inhalten dargestellt werden, gibt es einen Mechanismus, mit dem der Benutzer sie anhalten,
+                        stoppen oder ausblenden kann, außer, das Bewegen, Blinken oder Scrollen ist Teil einer
+                        Aktivität, für die es unerlässlich ist
+                    </li>
+                    <li>
+                        Automatische Aktualisierung: Für jede automatisch aktualisierende Information, die (1)
+                        automatisch startet und (2) parallel zu anderen Inhalten dargestellt wird, gibt es einen
+                        Mechanismus, mit dem der Benutzer sie anhalten, stoppen oder ausblenden oder die Häufigkeit der
+                        Aktualisierung kontrollieren kann, außer die automatische Aktualisierung ist Teil einer
+                        Aktivität für die sie unerlässlich ist.
+                    </li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.guideline}`}>
@@ -746,23 +750,23 @@ const Accessibility = () => {
                 <Text variant="md">
                     Bei Funktionen, die mit einem einzigen Mauszeiger bedient werden können, ist mindestens eine der
                     folgenden Bedingung erfüllt:
-                    <ul className={styles.list}>
-                        <li>
-                            Kein Down-Event: Das Down-Event des Zeigers wird nicht zur Ausführung eines Teils der
-                            Funktion verwendet
-                        </li>
-                        <li>
-                            Abbruch oder Rückgängig machen: Die Funktion wird mit dem Up-Ereignis abgeschlossen und es
-                            ist ein Mechanismus vorhanden, um die Funktion vor dem Abschluss abzubrechen oder ach dem
-                            Abschluss rückgängig zu machen
-                        </li>
-                        <li>
-                            Up-Umkehrung: Das Up-Ereignis macht das Ergebnis des vorangegangenen Down-Ereignisses
-                            rückgängig
-                        </li>
-                        <li>Essentiell: Der Abschluss der Funktion beim Down-Ereignis ist unerlässlich.</li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Kein Down-Event: Das Down-Event des Zeigers wird nicht zur Ausführung eines Teils der Funktion
+                        verwendet
+                    </li>
+                    <li>
+                        Abbruch oder Rückgängig machen: Die Funktion wird mit dem Up-Ereignis abgeschlossen und es ist
+                        ein Mechanismus vorhanden, um die Funktion vor dem Abschluss abzubrechen oder ach dem Abschluss
+                        rückgängig zu machen
+                    </li>
+                    <li>
+                        Up-Umkehrung: Das Up-Ereignis macht das Ergebnis des vorangegangenen Down-Ereignisses rückgängig
+                    </li>
+                    <li>Essentiell: Der Abschluss der Funktion beim Down-Ereignis ist unerlässlich.</li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -785,17 +789,18 @@ const Accessibility = () => {
                     Funktionen, die durch die Bewegung des Geräts oder des Benutzers gesteuert werden können, können
                     auch durch Komponenten der Benutzeroberfläche gesteuert werden und die Reaktion auf die Bewegung
                     kann deaktiviert werden, um eine versehentliche Bestätigung zu verhindern, außer wenn:
-                    <ul className={styles.list}>
-                        <li>
-                            Unterstützte Schnittstelle: Die Bewegung wird verwendet, um Funktionen über eine
-                            barrierefreie Schnittstelle zu bedienen
-                        </li>
-                        <li>
-                            Essentiell: Die Bewegung ist für die Funktion unabdingbar und würde die Aktivität ungültig
-                            machen.
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Unterstützte Schnittstelle: Die Bewegung wird verwendet, um Funktionen über eine barrierefreie
+                        Schnittstelle zu bedienen
+                    </li>
+                    <li>
+                        Essentiell: Die Bewegung ist für die Funktion unabdingbar und würde die Aktivität ungültig
+                        machen.
+                    </li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -817,30 +822,31 @@ const Accessibility = () => {
                 </div>
                 <Text variant="md">
                     Die Größe des Ziels für Zeigereingaben beträgt mindestens 24 x 24 CSS-Pixel, außer wenn:
-                    <ul className={styles.list}>
-                        <li>
-                            Abstände: Kleinere Ziele werden so positioniert, dass wenn ein Kreis mit einem Durchmesser
-                            von 24 CSS-Pixeln auf dem Begrenzungsrahmen eines jeden Ziels zentriert wird, die Kreise
-                            kein anderes Ziel oder den Kreis für ein anderes kleineres Ziel überschneiden
-                        </li>
-                        <li>
-                            Äquivalenz: Die Funktion kann durch ein anderes Steuerelement auf derselben Seite erreicht
-                            werden, das dieses Kriterium erfüllt
-                        </li>
-                        <li>
-                            Inline: Das Zeil befindet sich in einem Satz oder seine Größe wird anderweitig durch die
-                            Zeilenhöhe von Nicht-Ziel-Text eingeschränkt
-                        </li>
-                        <li>
-                            User-Agent-Steuerung: Die Größe des Ziels wird vom User-Agent bestimmt und nicht vom Autor
-                            geändert
-                        </li>
-                        <li>
-                            Essentiell: Eine bestimmte Darstellung des Ziels ist für die zu vermittelnde Information
-                            essentiell oder gesetzlich vorgeschrieben
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Abstände: Kleinere Ziele werden so positioniert, dass wenn ein Kreis mit einem Durchmesser von
+                        24 CSS-Pixeln auf dem Begrenzungsrahmen eines jeden Ziels zentriert wird, die Kreise kein
+                        anderes Ziel oder den Kreis für ein anderes kleineres Ziel überschneiden
+                    </li>
+                    <li>
+                        Äquivalenz: Die Funktion kann durch ein anderes Steuerelement auf derselben Seite erreicht
+                        werden, das dieses Kriterium erfüllt
+                    </li>
+                    <li>
+                        Inline: Das Zeil befindet sich in einem Satz oder seine Größe wird anderweitig durch die
+                        Zeilenhöhe von Nicht-Ziel-Text eingeschränkt
+                    </li>
+                    <li>
+                        User-Agent-Steuerung: Die Größe des Ziels wird vom User-Agent bestimmt und nicht vom Autor
+                        geändert
+                    </li>
+                    <li>
+                        Essentiell: Eine bestimmte Darstellung des Ziels ist für die zu vermittelnde Information
+                        essentiell oder gesetzlich vorgeschrieben
+                    </li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.principle}`}>
@@ -946,12 +952,13 @@ const Accessibility = () => {
                     Wenn eine Webseite einen der folgenden Hilfemechanismen enthält und diese Mechanismen auf mehreren
                     Webseiten innerhalb eine Webseiten-Sets wiederholt werden, erscheinen sie in der gleichen
                     Reihenfolge in Bezug aug andere Seiteninhalte, außer der Benutzer hat eine Änderung veranlasst:
-                    <ul className={styles.list}>
-                        <li>Angaben zum menschlichen Kontakt</li>
-                        <li>Mechanismus für menschlichen Kontakt</li>
-                        <li>Ein vollautomatischer Kontaktmechanismus</li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>Angaben zum menschlichen Kontakt</li>
+                    <li>Mechanismus für menschlichen Kontakt</li>
+                    <li>Ein vollautomatischer Kontaktmechanismus</li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.guideline}`}>
@@ -1004,18 +1011,19 @@ const Accessibility = () => {
                     Für Webseiten, die rechtliche Verpflichtungen oder finanzielle Transaktionen für den Benutzer
                     auslösen, die vom Benutzer kontrollierbare Daten in Datenspeichersystemen ändern oder löschen oder
                     die Textantworten des Benutzers übermitteln, trifft mindestens einer der folgenden Punkte zu:
-                    <ul className={styles.list}>
-                        <li>Umkehrung: Einreichung ist umkehrbar</li>
-                        <li>
-                            Prüfung: Die vom Benutzer eingegebenen Daten werden auf Eingabefehler geprüft und der
-                            Benutzer erhält die Möglichkeit diese zu korrigieren
-                        </li>
-                        <li>
-                            Bestätigung: Es gibt einen Mechanismus zur Überprüfung, Bestätigung und Korrektur von
-                            Informationen, bevor die Übermittlung abgeschlossen wird
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>Umkehrung: Einreichung ist umkehrbar</li>
+                    <li>
+                        Prüfung: Die vom Benutzer eingegebenen Daten werden auf Eingabefehler geprüft und der Benutzer
+                        erhält die Möglichkeit diese zu korrigieren
+                    </li>
+                    <li>
+                        Bestätigung: Es gibt einen Mechanismus zur Überprüfung, Bestätigung und Korrektur von
+                        Informationen, bevor die Übermittlung abgeschlossen wird
+                    </li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -1026,19 +1034,19 @@ const Accessibility = () => {
                 <Text variant="md">
                     Vom Benutzer zuvor eingegebene oder ihm zur Verfügung gestellte Informationen, die in demselben
                     Vorgang erneut eingegeben werden müssen, werden entweder:
-                    <ul className={styles.list}>
-                        <li>Automatisch ausgefüllt, oder</li>
-                        <li>Dem Benutzer zur Auswahl zur Verfügung gestellt</li>
-                    </ul>
-                    Außer wenn:
-                    <ul className={styles.list}>
-                        <li>Die erneute Eingabe der Informationen unerlässlich ist,</li>
-                        <li>
-                            Die Informationen erforderlich sind, um die Sicherheit des Inhalts zu gewährleisten, oder
-                        </li>
-                        <li>Die zuvor eingegebenen Informationen nicht mehr gültig sind.</li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>Automatisch ausgefüllt, oder</li>
+                    <li>Dem Benutzer zur Auswahl zur Verfügung gestellt</li>
+                </ul>
+                <Text variant="md">Außer wenn:</Text>
+
+                <ul className={styles.list}>
+                    <li>Die erneute Eingabe der Informationen unerlässlich ist,</li>
+                    <li>Die Informationen erforderlich sind, um die Sicherheit des Inhalts zu gewährleisten, oder</li>
+                    <li>Die zuvor eingegebenen Informationen nicht mehr gültig sind.</li>
+                </ul>
             </section>
 
             <section className={styles.accessibilitySection}>
@@ -1050,22 +1058,23 @@ const Accessibility = () => {
                     Ein kognitiver Funktionstest (beispielsweise das Merken eines Passworts oder das Lösen eines
                     Rätsels) ist für keinen Schritt in einem Authentifizierungsverfahren erforderlich, außer dieser
                     Schritt bietet mindestens eine der folgenden Möglichkeiten:
-                    <ul className={styles.list}>
-                        <li>
-                            Alternative: Eine andere Authentifizierungsmethode, die nicht auf einem kognitiven
-                            Funktionstest beruht
-                        </li>
-                        <li>
-                            Mechanismus: Es steht ein Mechanismus zur Verfügung, den den Benutzer beim Ausfüllen des
-                            kognitiven Funktionstests unterstützt
-                        </li>
-                        <li>Objekterkennung: Der Test der kognitiven Funktion besteht darin, Objekte zu erkennen.</li>
-                        <li>
-                            Persönlicher Inhalt: Der kognitive Funktionstest soll nicht-textliche Inhalte erkennen, die
-                            der Benutzer der Webseite zur Verfügung gestellt hat
-                        </li>
-                    </ul>
                 </Text>
+
+                <ul className={styles.list}>
+                    <li>
+                        Alternative: Eine andere Authentifizierungsmethode, die nicht auf einem kognitiven Funktionstest
+                        beruht
+                    </li>
+                    <li>
+                        Mechanismus: Es steht ein Mechanismus zur Verfügung, den den Benutzer beim Ausfüllen des
+                        kognitiven Funktionstests unterstützt
+                    </li>
+                    <li>Objekterkennung: Der Test der kognitiven Funktion besteht darin, Objekte zu erkennen.</li>
+                    <li>
+                        Persönlicher Inhalt: Der kognitive Funktionstest soll nicht-textliche Inhalte erkennen, die der
+                        Benutzer der Webseite zur Verfügung gestellt hat
+                    </li>
+                </ul>
             </section>
 
             <section className={`${styles.accessibilitySection} ${styles.principle}`}>
