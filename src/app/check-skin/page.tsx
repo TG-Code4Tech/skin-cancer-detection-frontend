@@ -18,6 +18,7 @@ import { isAuthenticated } from "@/utils/authentication";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner/Spinner";
+import { analyzeSkinLesion, uploadSkinLesion } from "@/services/analysisService";
 
 interface AnalysisResult {
     prediction: string;
@@ -47,12 +48,12 @@ const CheckSkin = () => {
             setSkinLesionImage(event.target.files[0]);
             setSkinLesionThumbnail(URL.createObjectURL(event.target.files[0]));
             setNotification({ type: "toast", variant: "success", message: "Bild erfolgreich hochgeladen." });
+            setTimeout(() => setNotification(null), 5000);
         }
     };
 
     const resetInput = () => {
         const input = document.getElementById("upload-skin-lesion") as HTMLInputElement;
-
         if (input) {
             input.value = "";
         }
@@ -61,7 +62,6 @@ const CheckSkin = () => {
     const onAnalyzeSkinLesion = async () => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
@@ -70,61 +70,33 @@ const CheckSkin = () => {
         }
 
         const token = getCookie("jwt_access_token");
+        const uploadResponse = await uploadSkinLesion(skinLesionImage, token);
 
-        const formData = new FormData();
-        formData.append("skin-lesion-image", skinLesionImage);
-
-        try {
-            const saveResponse = await fetch("http://127.0.0.1:5000/upload-skin-lesion", {
-                method: "POST",
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (saveResponse.ok) {
-                const data = await saveResponse.json();
-                const imageId = data.image_id;
-                formData.append("image_id", imageId);
-
-                const response = await fetch("http://127.0.0.1:5000/analyze-skin-lesion", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setAnalysisResult(data);
-                    setShowAnalysisResult(true);
-                } else {
-                    if (response.status === 401) {
-                        router.push("/login?expired=true");
-
-                        return;
-                    }
-
-                    setNotification({
-                        type: "toast",
-                        variant: "error",
-                        message: "Bei der Analyse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-                    });
-                }
+        if (uploadResponse.error) {
+            if (uploadResponse.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
             } else {
-                if (saveResponse.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
-
-                console.error("Fehler bei Speichern in der Datenbank:", saveResponse.statusText);
+                setNotification({ type: "toast", variant: "error", message: uploadResponse.error });
+                setTimeout(() => setNotification(null), 5000);
             }
-        } catch (error) {
-            console.error("Request error:", error);
+            return;
         }
+
+        const imageId = uploadResponse.image_id;
+        const analysisResponse = await analyzeSkinLesion(imageId, skinLesionImage, token);
+
+        if (analysisResponse.error) {
+            if (analysisResponse.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
+            } else {
+                setNotification({ type: "toast", variant: "error", message: analysisResponse.error });
+                setTimeout(() => setNotification(null), 5000);
+            }
+            return;
+        }
+
+        setAnalysisResult(analysisResponse);
+        setShowAnalysisResult(true);
     };
 
     if (isLoading) {

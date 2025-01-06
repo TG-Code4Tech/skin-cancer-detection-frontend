@@ -14,6 +14,8 @@ import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
 import Spinner from "@/components/Spinner/Spinner";
+import { validateRegisterData } from "@/services/validationService";
+import { register } from "@/services/authenticationService";
 
 const Register = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -114,38 +116,38 @@ const Register = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (validateForm()) {
-            const formData = new FormData();
-            formData.append("first_name", firstName);
-            formData.append("last_name", lastName);
-            formData.append("username", username);
-            formData.append("email", email);
-            formData.append("password", password);
-            formData.append("password_confirmation", passwordConfirmation);
+        const { isValid, inputErrors } = validateRegisterData(
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+            passwordConfirmation
+        );
+        setErrors(inputErrors);
 
-            try {
-                const response = await fetch("http://127.0.0.1:5000/register", {
-                    method: "POST",
-                    body: formData,
-                });
+        if (isValid) {
+            const { success, errorData, error } = await register(
+                firstName,
+                lastName,
+                username,
+                email,
+                password,
+                passwordConfirmation
+            );
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const { jwt_access_token } = data;
-                    document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
-                    router.push("/account/profile?register=true");
-                } else {
-                    setNotification({ type: "toast", variant: "error", message: "Registrierung fehlgeschlagen." });
-
-                    const errorData = await response.json();
+            if (success) {
+                router.push("/account/profile?register=true");
+                return;
+            } else {
+                if (errorData) {
                     setErrors((prevErrors) => ({
                         ...prevErrors,
                         [errorData.check]: errorData.error,
                     }));
-                    console.error("Registration failed:", response.statusText);
                 }
-            } catch (error) {
-                console.error("Register request error:", error);
+                setNotification({ type: "toast", variant: "error", message: error || "Registrierung fehlgeschlagen." });
+                setTimeout(() => setNotification(null), 5000);
             }
         }
     };

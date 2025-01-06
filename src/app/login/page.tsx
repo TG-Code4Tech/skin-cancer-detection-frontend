@@ -11,6 +11,8 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Spinner from "@/components/Spinner/Spinner";
+import { validateLoginData } from "@/services/validationService";
+import { login } from "@/services/authenticationService";
 
 const Login = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -58,53 +60,28 @@ const Login = () => {
         }
     }, [searchParams, router]);
 
-    const validateForm = () => {
-        const inputErrors: any = {};
-
-        if (!usernameOrEmail.trim()) {
-            inputErrors.usernameOrEmail = "Bitte geben Sie Ihren Benutzernamen oder Ihre E-Mail-Adresse an.";
-        }
-
-        if (!password.trim()) {
-            inputErrors.password = "Bitte geben Sie ein gültiges Passwort an.";
-        }
-
-        setErrors(inputErrors);
-        const isValid = Object.keys(inputErrors).length === 0;
-
-        return isValid;
-    };
-
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (validateForm()) {
-            const formData = new FormData();
-            formData.append("username_or_email", usernameOrEmail);
-            formData.append("password", password);
+        const { isValid, inputErrors } = validateLoginData(usernameOrEmail, password);
+        setErrors(inputErrors);
 
-            try {
-                const response = await fetch("http://127.0.0.1:5000/login", {
-                    method: "POST",
-                    body: formData,
-                });
+        if (isValid) {
+            const { success, error } = await login(usernameOrEmail, password);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const { jwt_access_token, theme } = data;
-                    document.cookie = `jwt_access_token=${jwt_access_token}; path=/`;
-                    router.push("/account/profile?success=true");
-                } else {
-                    setNotification({ type: "toast", variant: "error", message: "Anmeldung fehlgeschlagen." });
+            if (success) {
+                router.push("/account/profile?success=true");
+                return;
+            } else {
+                setNotification({ type: "toast", variant: "error", message: error || "Anmeldung fehlgeschlagen." });
+                setTimeout(() => setNotification(null), 5000);
 
-                    const errorData = await response.json();
+                if (error && error.check) {
                     setErrors((prevErrors) => ({
                         ...prevErrors,
-                        [errorData.check]: errorData.error,
+                        [error.check]: error.error,
                     }));
                 }
-            } catch (error) {
-                console.error("Login request error:", error);
             }
         }
     };

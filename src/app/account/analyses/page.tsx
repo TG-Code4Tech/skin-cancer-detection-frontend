@@ -7,14 +7,14 @@ import styles from "./page.module.css";
 import SubNavigation from "@/components/SubNavigation/SubNavigation";
 import Divider from "@/components/Divider/Divider";
 import Button from "@/components/Button/Button";
-import Text from "@/components/Text/Text";
 import { isAuthenticated } from "@/utils/authentication";
 import { deleteCookie, getCookie } from "@/utils/cookie";
-import Table from "@/components/AnalysesTable/AnalysesTable";
 import AnalysesTable from "@/components/AnalysesTable/AnalysesTable";
 import { Analysis } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Spinner from "@/components/Spinner/Spinner";
+import { fetchUserData } from "@/services/userService";
+import { fetchAllAnalyses } from "@/services/analysisService";
 
 const Analyses = () => {
     const [userData, setUserData] = useState<Record<string, string>>({});
@@ -39,82 +39,55 @@ const Analyses = () => {
         },
     ];
 
-
     const getUserData = async () => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
         const token = getCookie("jwt_access_token");
+        const result = await fetchUserData(token);
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/get-user-data", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUserData(data);
+        if (result.error) {
+            if (result.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
             } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
+                console.error(result.error);
             }
-        } catch (error) {
-            console.error("Error:", error);
+        } else {
+            setUserData(result);
         }
     };
 
     const getAnalyses = async () => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 
         const token = getCookie("jwt_access_token");
+        const result = await fetchAllAnalyses(token);
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/get-all-analyses", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setAnalyses(data);
+        if (result.error) {
+            if (result.error === "UNAUTHORIZED") {
+                router.push("/login?expired=true");
             } else {
-                if (response.status === 401) {
-                    router.push("/login?expired=true");
-
-                    return;
-                }
+                console.error(result.error);
             }
-        } catch (error) {
-            console.error("Error:", error);
+        } else {
+            setAnalyses(result);
         }
     };
 
     const logout = () => {
         deleteCookie("jwt_access_token");
         router.push("/login");
-
         return;
     };
 
     useEffect(() => {
         if (!isAuthenticated()) {
             router.push("/login?expired=true");
-
             return;
         }
 

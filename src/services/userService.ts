@@ -210,7 +210,7 @@ export const deleteUser = async (userId: string, token: string | undefined | nul
     formData.append("user_id", userId);
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/get-user-data", {
+        const response = await fetch("http://127.0.0.1:5000/delete-account", {
             method: "DELETE",
             body: formData,
             headers: {

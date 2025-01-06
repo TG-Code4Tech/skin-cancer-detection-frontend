@@ -11,6 +11,8 @@ import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Spinner from "@/components/Spinner/Spinner";
+import { validateContactData } from "@/services/validationService";
+import { sendMessage } from "@/services/contactService";
 
 const Contact = () => {
     const [notification, setNotification] = useState<GlobalNotification | null>(null);
@@ -30,69 +32,37 @@ const Contact = () => {
         setIsLoading(false);
     }, []);
 
-    const validateForm = () => {
-        const inputErrors: any = {};
-
-        if (!firstName.trim()) {
-            inputErrors.firstName = "Geben Sie bitte Ihren Vornamen an.";
-        }
-
-        if (!lastName.trim()) {
-            inputErrors.lastName = "Geben Sie bitte Ihren Nachnamen an.";
-        }
-
-        if (!email.trim()) {
-            inputErrors.email = "Geben Sie bitte Ihre E-Mail-Adresse an.";
-        }
-
-        if (!matter.trim()) {
-            inputErrors.matter = "Schildern Sie bitte Ihr Anliegen.";
-        }
-
-        setErrors(inputErrors);
-        const isValid = Object.keys(inputErrors).length === 0;
-        return isValid;
-    };
-
     const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (validateForm()) {
-            const formData = new FormData();
-            formData.append("first_name", firstName);
-            formData.append("last_name", lastName);
-            formData.append("email", email);
-            formData.append("matter", matter);
+        const { isValid, inputErrors } = validateContactData(firstName, lastName, email, matter);
+        setErrors(inputErrors);
 
-            try {
-                const response = await fetch("http://127.0.0.1:5000/contact-us", {
-                    method: "POST",
-                    body: formData,
+        if (isValid) {
+            const { success, errorData, error } = await sendMessage(firstName, lastName, email, matter);
+
+            if (success) {
+                setNotification({
+                    type: "toast",
+                    variant: "success",
+                    message: "Ihre Nachricht wurde erfolgreich übermittelt",
+                });
+            } else {
+                setNotification({
+                    type: "toast",
+                    variant: "error",
+                    message: error || "Ihre Nachricht konnte nicht versendet werden. Bitte versuchen Sie es erneut.",
                 });
 
-                if (response.ok) {
-                    setNotification({
-                        type: "toast",
-                        variant: "success",
-                        message: "Nachricht erfolgreich übermittelt.",
-                    });
-                } else {
-                    setNotification({
-                        type: "toast",
-                        variant: "error",
-                        message: "Ihre Nachricht konnte nicht versendet werden. Bitte versuchen Sie es erneut.",
-                    });
-
-                    const errorData = await response.json();
+                if (errorData) {
                     setErrors((prevErrors) => ({
                         ...prevErrors,
                         [errorData.check]: errorData.error,
                     }));
                 }
-                setTimeout(() => setNotification(null), 5000);
-            } catch (error) {
-                console.error("Send request error:", error);
             }
+
+            setTimeout(() => setNotification(null), 5000);
         } else {
             setNotification({
                 type: "toast",
