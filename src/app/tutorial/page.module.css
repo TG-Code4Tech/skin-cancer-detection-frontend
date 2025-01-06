@@ -9,12 +9,12 @@
 
 .article {
     padding: 4rem 0;
-    background-color: white;
+    background-color: var(--background-color);
     width: 100%;
 }
 
 .article:nth-of-type(even) {
-    background-color: var(--brand-100);
+    background-color: var(--background-color-level-2);
 }
 
 .section {

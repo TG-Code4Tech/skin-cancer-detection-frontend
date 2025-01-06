@@ -12,7 +12,6 @@ import { isAuthenticated } from "@/utils/authentication";
 import HorizontalBarChart from "@/components/HorizontalBarChart/HorizontalBarChart";
 import { getCookie } from "@/utils/cookie";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import Spinner from "@/components/Spinner/Spinner";
 
 const Dashboard = () => {
@@ -40,10 +39,6 @@ const Dashboard = () => {
     ];
 
     const maximum = benignDiagnoses >= malignantDiagnoses ? ++benignDiagnoses : ++malignantDiagnoses;
-
-    useEffect(() => {
-        loadTheme();
-    }, []);
 
     const getAnalyses = async () => {
         if (!isAuthenticated()) {

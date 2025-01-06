@@ -35,7 +35,7 @@
 }
 
 .footerLink {
-    color: var(--text-color-inverted) !important;
+    color: var(--footer-color) !important;
 }
 
 @media screen and (min-width: 768px) {

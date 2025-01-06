@@ -118,8 +118,7 @@
     fill: var(--text-color);
 }
 
-.areaNotification.success svg,
-.inlineNotification.success svg {
+.areaNotification.success svg {
     fill: var(--notification-area-color-success);
 }
 
@@ -130,6 +129,10 @@
 
 .areaNotification.warning svg {
     fill: var(--notification-area-color-warning);
+}
+
+.inlineNotification.success svg {
+    fill: var(--text-color-success);
 }
 
 .inlineNotification.warning svg {

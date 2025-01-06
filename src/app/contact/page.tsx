@@ -10,7 +10,6 @@ import Text from "@/components/Text/Text";
 import Notification from "@/components/Notification/Notification";
 import { GlobalNotification } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme } from "@/utils/theme";
 import Spinner from "@/components/Spinner/Spinner";
 
 const Contact = () => {
@@ -28,7 +27,6 @@ const Contact = () => {
     ];
 
     useEffect(() => {
-        loadTheme();
         setIsLoading(false);
     }, []);
 
@@ -53,9 +51,6 @@ const Contact = () => {
 
         setErrors(inputErrors);
         const isValid = Object.keys(inputErrors).length === 0;
-        console.log(isValid);
-        console.log(errors);
-
         return isValid;
     };
 
@@ -94,6 +89,7 @@ const Contact = () => {
                         [errorData.check]: errorData.error,
                     }));
                 }
+                setTimeout(() => setNotification(null), 5000);
             } catch (error) {
                 console.error("Send request error:", error);
             }
@@ -103,6 +99,7 @@ const Contact = () => {
                 variant: "error",
                 message: "Ihre Nachricht konnte nicht versendet werden. Bitte versuchen Sie es erneut.",
             });
+            setTimeout(() => setNotification(null), 5000);
         }
     };
 

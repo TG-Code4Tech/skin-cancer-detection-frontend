@@ -16,7 +16,7 @@ import Icon from "@/components/Icon/Icon";
 import Modal from "@/components/Modal/Modal";
 import { GlobalNotification, Theme } from "@/types/globalTypes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { loadTheme, setTheme } from "@/utils/theme";
+import { setTheme } from "@/utils/theme";
 import PasswordPolicies from "@/components/PasswordPolicies/PasswordPolicies";
 import { getNotificationFromUrl } from "@/services/notificationService";
 import { removeUrlSearchParams } from "@/services/urlService";
@@ -31,7 +31,6 @@ import {
     updateTheme,
     updateUsername,
 } from "@/services/userService";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Spinner from "@/components/Spinner/Spinner";
 
 const Profile = () => {
@@ -71,10 +70,6 @@ const Profile = () => {
     ];
 
     useEffect(() => {
-        loadTheme();
-    }, []);
-
-    useEffect(() => {
         const notification = getNotificationFromUrl(searchParams);
 
         if (notification) {
@@ -94,7 +89,6 @@ const Profile = () => {
             if (result.theme) {
                 setSelectedTheme(result.theme);
                 setTheme(result.theme);
-                loadTheme();
             }
         } else if (result.error === "UNAUTHORIZED") {
             router.push("/login?expired=true");
@@ -164,6 +158,10 @@ const Profile = () => {
             handleUpdateResponse(result, fallbackMessage);
 
             await getUserData();
+            setCurrentPassword("");
+            setNewPassword("");
+            setNewPasswordConfirmation("");
+            setIsPasswordModalOpen(false);
         }
     };
 
@@ -203,6 +201,7 @@ const Profile = () => {
             setEmail(result.email);
             setUsername(result.username);
             setSelectedTheme(result.theme);
+            setTheme(result.theme);
         }
     };
 
@@ -563,6 +562,96 @@ const Profile = () => {
                                             required
                                         />
 
+                                        {errors.newPassword && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.newPassword}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordLength && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordLength}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordUppercaseLetter && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordUppercaseLetter}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordLowercaseLetter && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordLowercaseLetter}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordNumber && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordNumber}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordSpecialCharacters && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordSpecialCharacters}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.passwordInvalidSpecialCharacters && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.passwordInvalidSpecialCharacters}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.matchingPasswords && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.matchingPasswords}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
+                                        {errors.backend_password && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.backend_password}
+                                                size="small"
+                                                describedById="password"
+                                            />
+                                        )}
+
                                         <PasswordPolicies password={newPassword} errors={errors} />
                                     </div>
 
@@ -578,6 +667,26 @@ const Profile = () => {
                                             onChange={(event) => setNewPasswordConfirmation(event.target.value)}
                                             required
                                         />
+
+                                        {errors.newPasswordConfirmation && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.newPasswordConfirmation}
+                                                size="small"
+                                                describedById="password-confirmation"
+                                            />
+                                        )}
+
+                                        {errors.backend_password_confirmation && (
+                                            <Notification
+                                                type="inline"
+                                                variant="error"
+                                                message={errors.backend_password_confirmation}
+                                                size="small"
+                                                describedById="password-confirmation"
+                                            />
+                                        )}
 
                                         <PasswordPolicies
                                             password={newPassword}
@@ -623,3 +732,5 @@ const Profile = () => {
         </>
     );
 };
+
+export default Profile;
